@@ -124,12 +124,6 @@ All library data, wishlist entries, and settings are stored locally in a `sudata
 
 ---
 
-## Uninstalling
-
-Run `Uninstall NinoGames.bat` (or `Uninstall NinoGames.ps1`) included in the app folder to remove the application. You can optionally delete your downloaded games at the same time.
-
----
-
 ## License
 
 This software is provided for educational and personal use only. It may facilitate access to content sourced from third-party providers. Users are solely responsible for ensuring they comply with all applicable laws and respect the rights of content owners. Do not use this software for unauthorized distribution or commercial purposes.
