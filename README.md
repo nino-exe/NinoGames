@@ -60,7 +60,7 @@ Download aria2 from [github.com/aria2/aria2/releases](https://github.com/aria2/a
 
 ```bash
 # Clone the repo
-git clone https://github.com/your-username/NinoGames.git
+git clone https://github.com/summitrp/NinoGames.git
 cd NinoGames
 
 # Install dependencies
