@@ -60,7 +60,7 @@ Download aria2 from [github.com/aria2/aria2/releases](https://github.com/aria2/a
 
 ```bash
 # Clone the repo
-git clone https://github.com/summitrp/NinoGames.git
+git clone https://github.com/nino-exe/NinoGames.git
 cd NinoGames
 
 # Install dependencies
@@ -135,7 +135,7 @@ This software is provided for educational and personal use only. It may facilita
 
 Use the provided installer to install NinoGames on your Windows PC:
 
-https://github.com/summitrp/NinoGames/releases/download/latest-install/NinoGames-release-x64.exe
+https://github.com/nino-exe/NinoGames/releases/download/latest-install/NinoGames-release-x64.exe
 
 ---
 
