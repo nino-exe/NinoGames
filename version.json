@@ -1,5 +1,5 @@
 {
-  "version": "1.0.7",
-  "notes": "DiscordRPC and Fixed Update Support.",
-  "url": "https://github.com/nino-exe/NinoGames/releases/download/v1.0.7/NinoGames-update.zip"
+  "version": "1.0.8",
+  "notes": "Significantly Improved UI, Added Install Redist button in Settings and onboarding",
+  "url": "https://github.com/nino-exe/NinoGames/releases/download/v1.0.8/NinoGames-update.zip"
 }
