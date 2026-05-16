@@ -1,5 +1,7 @@
 {
   "version": "1.0.9",
-  "notes": "Significantly Improved UI, Added Install Redist button in Settings and onboarding",
+  "notes": "Added STGDB
+Revamped Library UI and Game Details View for already installed games.
+Added Exclude NinoGames from Windows Defender",
   "url": "https://github.com/nino-exe/NinoGames/releases/download/v1.0.9/NinoGames-update.zip"
 }
