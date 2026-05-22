@@ -1,5 +1,5 @@
 {
-  "version": "1.1.2",
+  "version": "1.1.1",
   "notes": "Added Gradient options to appearance options. Replaced the banner with a game carousel. Asks for administrator privileges before extracting. Fixed contrast in light and dark themes. Fixed starting new instance each app start.",
-  "url": "https://github.com/nino-exe/NinoGames/releases/download/v1.1.2/NinoGames-update.zip"
+  "url": "https://github.com/nino-exe/NinoGames/releases/download/v1.1.1NinoGames-update.zip"
 }
