@@ -6,7 +6,7 @@
 > **A unified desktop client for browsing, downloading, and managing PC games.**
 > 
 <br/>
-NinoGames is a free, open-source PC game downloader built with Electron. It lets you search, download, and manage free PC games from multiple sources — all from a clean, dark-themed desktop app.
+NinoGames is a free, open-source PC game downloader built with Electron. It lets you search, download, and manage free PC games from multiple sources — all from a clean desktop app.
 
 ---
 ## Features
