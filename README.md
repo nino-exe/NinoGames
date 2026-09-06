@@ -123,6 +123,12 @@ will prompt again.
 
 ---
 
+## Changelog
+
+See [CHANGELOG.md](CHANGELOG.md) for what changed in each release.
+
+---
+
 ## Licence
 
 No licence has been chosen yet, so default copyright applies: the code is
