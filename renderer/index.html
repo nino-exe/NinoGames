@@ -1,0 +1,1699 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta http-equiv="Content-Security-Policy"
+        content="default-src 'self'; script-src 'self' 'unsafe-inline'; img-src 'self' file: data: blob: https:; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; frame-src https://www.youtube.com https://www.youtube-nocookie.com http://localhost:*; connect-src 'self' https://www.steamgriddb.com;"/>
+  <title>NinoGames</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="styles.css"/>
+  <link rel="stylesheet" href="styles_mp_append.css"/>
+  <link rel="stylesheet" href="styles_party_append.css"/>
+</head>
+<body>
+<div id="titlebar">
+  <div id="tb-icon">
+    <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
+      <rect x="0" y="0" width="6" height="6" rx="1" fill="#60CDFF"/>
+      <rect x="8" y="0" width="6" height="6" rx="1" fill="#60CDFF" opacity=".65"/>
+      <rect x="0" y="8" width="6" height="6" rx="1" fill="#60CDFF" opacity=".65"/>
+      <rect x="8" y="8" width="6" height="6" rx="1" fill="#60CDFF" opacity=".3"/>
+    </svg>
+  </div>
+  <span id="tb-title">NinoGames</span>
+  <div id="tb-drag"></div>
+  <div id="tb-controls">
+    <button id="btn-min" title="Minimize"><svg width="10" height="1" viewBox="0 0 10 1"><rect width="10" height="1" fill="currentColor"/></svg></button>
+    <button id="btn-max" title="Maximize">
+      <svg id="icon-max" width="10" height="10" viewBox="0 0 10 10"><rect x=".5" y=".5" width="9" height="9" stroke="currentColor" stroke-width="1" fill="none"/></svg>
+      <svg id="icon-restore" width="10" height="10" viewBox="0 0 10 10" style="display:none">
+        <rect x="2.5" y=".5" width="7" height="7" stroke="currentColor" stroke-width="1" fill="none"/>
+        <rect x=".5" y="2.5" width="7" height="7" fill="var(--bg-titlebar)" stroke="currentColor" stroke-width="1"/>
+      </svg>
+    </button>
+    <button id="btn-close" title="Close">
+      <svg width="10" height="10" viewBox="0 0 10 10">
+        <line x1="0" y1="0" x2="10" y2="10" stroke="currentColor" stroke-width="1.2"/>
+        <line x1="10" y1="0" x2="0" y2="10" stroke="currentColor" stroke-width="1.2"/>
+      </svg>
+    </button>
+  </div>
+</div>
+<div id="body">
+  <nav id="sidebar">
+    <div id="sb-top">
+      <button class="sb-btn active" data-view="home" title="Home">
+        <svg width="18" height="18" viewBox="0 0 18 18" fill="none"><path d="M1 8L9 1l8 7v8a1 1 0 01-1 1H11v-5H7v5H2a1 1 0 01-1-1V8z" stroke="currentColor" stroke-width="1.4" fill="none" stroke-linejoin="round"/></svg>
+        <span>Home</span>
+      </button>
+      <button class="sb-btn" data-view="library" title="Library">
+        <div class="sb-btn-icon-wrap">
+          <svg width="18" height="18" viewBox="0 0 18 18" fill="none"><rect x="1" y="3" width="5" height="12" rx="1" stroke="currentColor" stroke-width="1.4"/><rect x="7" y="1" width="5" height="14" rx="1" stroke="currentColor" stroke-width="1.4"/><path d="M13 5.5l3.5 9.5-4-1.5" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          <span id="dl-badge" class="dl-nav-badge hidden"></span>
+        </div>
+        <span>Library</span>
+      </button>
+      <button class="sb-btn" data-view="multiplayer" title="Multiplayer">
+        <svg width="18" height="18" viewBox="0 0 18 18" fill="none"><circle cx="6" cy="8" r="2.6" stroke="currentColor" stroke-width="1.4"/><circle cx="12" cy="8" r="2.6" stroke="currentColor" stroke-width="1.4"/><path d="M1.5 15c0-2.2 2-3.6 4.5-3.6s4.5 1.4 4.5 3.6M7.5 15c0-2.2 2-3.6 4.5-3.6s4.5 1.4 4.5 3.6" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/></svg>
+        <span>Multiplayer</span>
+      </button>
+      <button class="sb-btn" data-view="wishlist" title="Wishlist">
+        <svg width="18" height="18" viewBox="0 0 18 18" fill="none"><path d="M9 1.5l2.06 4.18 4.61.67-3.34 3.25.79 4.59L9 11.92l-4.12 2.17.79-4.59L2.33 6.35l4.61-.67L9 1.5z" stroke="currentColor" stroke-width="1.3" stroke-linejoin="round" fill="none"/></svg>
+        <span>Wishlist</span>
+      </button>
+    </div>
+    <div id="sb-bottom">
+      <button class="sb-btn" data-view="settings" title="Settings">
+        <svg width="18" height="18" viewBox="0 0 18 18" fill="none"><circle cx="9" cy="9" r="2.5" stroke="currentColor" stroke-width="1.4"/><path d="M9 1v2M9 15v2M1 9h2M15 9h2M3.22 3.22l1.42 1.42M13.36 13.36l1.42 1.42M3.22 14.78l1.42-1.42M13.36 4.64l1.42-1.42" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/></svg>
+        <span>Settings</span>
+      </button>
+    </div>
+  </nav>
+  <div id="page-area">
+
+    <!-- HOME -->
+    <div id="view-home" class="page">
+      <div id="searchbar-wrap">
+        <div id="searchbar">
+          <div id="search-icon"><svg width="15" height="15" viewBox="0 0 15 15" fill="none"><circle cx="6" cy="6" r="4.5" stroke="currentColor" stroke-width="1.4"/><line x1="9.5" y1="9.5" x2="13" y2="13" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/></svg></div>
+          <input id="search-input" type="text" placeholder="Search for a game…" autocomplete="off" spellcheck="false"/>
+          <button id="search-btn">Search</button>
+        </div>
+      </div>
+      <div id="home-content">
+        <div id="st-welcome" class="state">
+          <div id="discovery-layout">
+            <!-- Featured Games Carousel -->
+            <div id="nino-hero" style="padding:0;min-height:160px;background:none;border:none;">
+              <div id="hero-carousel">
+                <div id="hero-carousel-track"></div>
+                <button id="hero-prev" class="hero-arrow" aria-label="Previous">
+                  <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M10 3L5 8l5 5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                </button>
+                <button id="hero-next" class="hero-arrow hero-arrow-right" aria-label="Next">
+                  <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M6 3l5 5-5 5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                </button>
+                <div id="hero-dots"></div>
+                <div id="hero-carousel-skeleton">
+                  <div class="hero-skel-bg"></div>
+                  <div class="hero-skel-content">
+                    <div class="hero-skel-bar" style="width:60%;height:22px;margin-bottom:10px"></div>
+                    <div class="hero-skel-bar" style="width:35%;height:12px"></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- All SteamRIP Games -->
+            <div class="home-section-header">
+              <div class="home-section-title">
+                <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M7 1l1.6 3.3 3.6.5-2.6 2.5.6 3.6L7 9.2l-3.2 1.7.6-3.6L1.8 4.8l3.6-.5L7 1z" fill="#66c0f4"/></svg>
+                All Games
+              </div>
+              <div id="home-source-switch" class="home-source-switch" role="group" aria-label="Game source">
+                <button class="home-source-btn" data-source="ankergames">AnkerGames</button>
+                <button class="home-source-btn" data-source="steamrip">SteamRIP</button>
+              </div>
+            </div>
+            <div id="home-game-grid" class="home-flat-grid">
+              <!-- skeletons shown while loading -->
+              <div class="skel-wide-card" style="--i:0"></div><div class="skel-wide-card" style="--i:1"></div>
+              <div class="skel-wide-card" style="--i:2"></div><div class="skel-wide-card" style="--i:3"></div>
+              <div class="skel-wide-card" style="--i:4"></div><div class="skel-wide-card" style="--i:5"></div>
+              <div class="skel-wide-card" style="--i:6"></div><div class="skel-wide-card" style="--i:7"></div>
+              <div class="skel-wide-card" style="--i:8"></div><div class="skel-wide-card" style="--i:9"></div>
+              <div class="skel-wide-card" style="--i:10"></div><div class="skel-wide-card" style="--i:11"></div>
+            </div>
+
+          </div>
+        </div>
+
+        <div id="st-loading" class="state hidden">
+          <div class="skeleton-grid">
+            <div class="skel-card" style="--i:0"></div><div class="skel-card" style="--i:1"></div>
+            <div class="skel-card" style="--i:2"></div><div class="skel-card" style="--i:3"></div>
+            <div class="skel-card" style="--i:4"></div><div class="skel-card" style="--i:5"></div>
+            <div class="skel-card" style="--i:6"></div><div class="skel-card" style="--i:7"></div>
+          </div>
+        </div>
+        <div id="st-empty" class="state hidden">
+          <div class="state-inner"><div class="state-icon" style="opacity:.35"><svg width="48" height="48" viewBox="0 0 48 48" fill="none"><circle cx="24" cy="24" r="20" stroke="currentColor" stroke-width="1.8"/><line x1="15" y1="33" x2="33" y2="15" stroke="currentColor" stroke-width="1.8"/></svg></div><p id="empty-msg">No games found.</p></div>
+        </div>
+        <div id="st-error" class="state hidden">
+          <div class="state-inner"><div class="state-icon"><svg width="48" height="48" viewBox="0 0 48 48" fill="none"><path d="M24 4L46 44H2L24 4Z" stroke="#FF6B6B" stroke-width="1.8" fill="none" stroke-linejoin="round"/><line x1="24" y1="19" x2="24" y2="30" stroke="#FF6B6B" stroke-width="1.8" stroke-linecap="round"/><circle cx="24" cy="36" r="1.5" fill="#FF6B6B"/></svg></div><p id="error-msg" style="color:#FF6B6B">An error occurred.</p></div>
+        </div>
+        <div id="st-results" class="state hidden">
+          <div id="results-meta"><span id="results-label"></span></div>
+          <div id="game-grid"></div>
+          <div id="pagination">
+            <button id="load-more-btn" class="hidden"><svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M6 1v10M1 6h10" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/></svg> Load More</button>
+            <span id="load-more-spin" class="hidden"><span class="spinner"></span> Loading…</span>
+            <span id="all-loaded" class="hidden">All results loaded</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- LIBRARY -->
+    <div id="view-library" class="page hidden">
+      <div id="lib-header">
+        <div id="lib-header-top">
+          <h1>Library</h1><span id="lib-count"></span><span id="lib-money-saved" class="hidden" title="Click to refresh prices" style="cursor:pointer">Saved: <span id="lib-money-saved-value">…</span></span><span id="lib-size" class="hidden" title="Total size of your games folder — click to recalculate" style="cursor:pointer">Size: <span id="lib-size-value">…</span></span>
+          <div style="flex:1"></div>
+          <div id="lib-menu-wrap">
+            <button id="lib-menu-btn" title="More options">
+              <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><circle cx="7" cy="2.5" r="1.2" fill="currentColor"/><circle cx="7" cy="7" r="1.2" fill="currentColor"/><circle cx="7" cy="11.5" r="1.2" fill="currentColor"/></svg>
+            </button>
+            <div id="lib-menu-dropdown">
+              <button id="lib-show-hidden-btn" class="lib-menu-item" title="Show hidden games">
+                <svg width="13" height="13" viewBox="0 0 12 12" fill="none"><path d="M1 6s2-4 5-4 5 4 5 4-2 4-5 4-5-4-5-4z" stroke="currentColor" stroke-width="1.2" fill="none"/><circle cx="6" cy="6" r="1.5" stroke="currentColor" stroke-width="1.2"/><line x1="2" y1="2" x2="10" y2="10" stroke="currentColor" stroke-width="1.1" stroke-linecap="round"/></svg>
+                Show Hidden
+              </button>
+              <button id="lib-scan-btn" class="lib-menu-item" title="Scan games folder for manually added games">
+                <svg width="13" height="13" viewBox="0 0 12 12" fill="none"><path d="M11 6A5 5 0 1 1 8.5 1.8" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/><path d="M8 1h3v3" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                Scan Folder
+              </button>
+              <button id="lib-clear-failed-btn" class="lib-menu-item lib-menu-item-danger" title="Remove all failed downloads" style="display:none">
+                <svg width="13" height="13" viewBox="0 0 10 10" fill="none"><line x1="1" y1="1" x2="9" y2="9" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/><line x1="9" y1="1" x2="1" y2="9" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+                Clear Failed
+              </button>
+            </div>
+          </div>
+          <div id="lib-layout-toggle" title="Change layout">
+            <button class="lib-layout-btn active" data-layout="cards" title="Card view">
+              <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><rect x="1" y="1" width="5" height="5" rx="1" stroke="currentColor" stroke-width="1.2"/><rect x="8" y="1" width="5" height="5" rx="1" stroke="currentColor" stroke-width="1.2"/><rect x="1" y="8" width="5" height="5" rx="1" stroke="currentColor" stroke-width="1.2"/><rect x="8" y="8" width="5" height="5" rx="1" stroke="currentColor" stroke-width="1.2"/></svg>
+            </button>
+            <button class="lib-layout-btn" data-layout="list" title="List view">
+              <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><rect x="1" y="2" width="12" height="2.5" rx="1" stroke="currentColor" stroke-width="1.2"/><rect x="1" y="5.75" width="12" height="2.5" rx="1" stroke="currentColor" stroke-width="1.2"/><rect x="1" y="9.5" width="12" height="2.5" rx="1" stroke="currentColor" stroke-width="1.2"/></svg>
+            </button>
+            <button class="lib-layout-btn" data-layout="compact" title="Compact view">
+              <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><line x1="1" y1="2.5" x2="13" y2="2.5" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/><line x1="1" y1="5.5" x2="13" y2="5.5" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/><line x1="1" y1="8.5" x2="13" y2="8.5" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/><line x1="1" y1="11.5" x2="13" y2="11.5" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/></svg>
+            </button>
+          </div>
+        </div>
+        <div id="lib-header-bottom">
+          <div id="lib-tabs">
+            <button class="lib-tab active" data-tab="downloading">Downloading</button>
+            <button class="lib-tab" data-tab="installed">Installed</button>
+          </div>
+          <div id="lib-filter-row">
+            <select id="lib-sort-select" class="lib-filter-select" title="Sort library">
+              <option value="title">Name A–Z</option>
+              <option value="title-desc">Name Z–A</option>
+              <option value="last-played">Last Played</option>
+              <option value="playtime">Most Played</option>
+              <option value="added">Recently Added</option>
+            </select>
+            <input id="lib-search-input" class="lib-filter-input" type="text" placeholder="Filter…" autocomplete="off" spellcheck="false"/>
+          </div>
+        </div>
+      </div>
+      <div id="lib-content">
+        <div id="lib-empty" class="state-inner hidden">
+          <div class="state-icon" style="opacity:.3"><svg width="48" height="48" viewBox="0 0 18 18" fill="none"><rect x="1" y="3" width="5" height="12" rx="1" stroke="currentColor" stroke-width="1.2"/><rect x="7" y="1" width="5" height="14" rx="1" stroke="currentColor" stroke-width="1.2"/><path d="M13 5.5l3.5 9.5-4-1.5" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+          <p id="lib-empty-msg">Nothing here yet.</p>
+        </div>
+        <div id="lib-grid"></div>
+
+        <!-- Steam-style sidebar+detail — only visible when compact mode is active -->
+        <div id="lib-steam-pane" style="display:none;flex:1;min-height:0;overflow:hidden;">
+          <div id="lib-steam-sidebar">
+            <div id="lib-steam-list"></div>
+          </div>
+          <div id="lib-steam-detail">
+            <div id="lib-steam-empty">
+              <svg width="52" height="52" viewBox="0 0 52 52" fill="none" opacity=".15"><rect x="5" y="9" width="15" height="34" rx="2" stroke="currentColor" stroke-width="1.5"/><rect x="22" y="3" width="15" height="40" rx="2" stroke="currentColor" stroke-width="1.5"/><path d="M40 15l10 26-11-4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              <p>Select a game</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- MULTIPLAYER -->
+    <div id="view-multiplayer" class="page hidden">
+      <div id="mp-header">
+        <h1>Multiplayer</h1><span id="mp-count"></span>
+        <input id="mp-search-input" class="lib-filter-input" type="text" placeholder="Search mods…" autocomplete="off" spellcheck="false"/>
+        <div id="mp-header-spacer"></div>
+        <div id="party-pill" class="hidden">
+          <span id="party-pill-dot"></span>
+          <span id="party-pill-text"></span>
+        </div>
+        <div id="party-install-row" class="hidden">
+          <span id="party-install-label">Multiplayer parties need EasyTier (~15MB, one-time)</span>
+          <button id="party-install-btn" class="party-topbtn">Enable Multiplayer</button>
+        </div>
+        <button id="party-join-btn" class="party-topbtn party-topbtn-ghost">Join Party</button>
+        <button id="party-new-btn" class="party-topbtn">
+          <svg width="13" height="13" viewBox="0 0 13 13" fill="none"><path d="M6.5 1.5v10M1.5 6.5h10" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
+          New Party
+        </button>
+      </div>
+      <div id="mp-content">
+        <div id="mp-empty" class="state-inner hidden">
+          <div class="state-icon" style="opacity:.3"><svg width="48" height="48" viewBox="0 0 18 18" fill="none"><circle cx="6" cy="8" r="2.6" stroke="currentColor" stroke-width="1.2"/><circle cx="12" cy="8" r="2.6" stroke="currentColor" stroke-width="1.2"/><path d="M1.5 15c0-2.2 2-3.6 4.5-3.6s4.5 1.4 4.5 3.6M7.5 15c0-2.2 2-3.6 4.5-3.6s4.5 1.4 4.5 3.6" stroke="currentColor" stroke-width="1.1" stroke-linecap="round"/></svg></div>
+          <p>No supported multiplayer mods found.</p>
+        </div>
+        <div id="mp-grid"></div>
+      </div>
+    </div>
+
+    <!-- PARTY -->
+    <div id="view-party" class="page hidden">
+      <div id="party-page-topbar">
+        <button class="party-page-back" id="party-page-back-btn" title="Back to Multiplayer">
+          <svg width="15" height="15" viewBox="0 0 16 16" fill="none"><path d="M10 3L5 8l5 5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          Back
+        </button>
+        <h1 id="party-page-title">Party</h1>
+      </div>
+
+      <div class="party-page-body">
+
+        <!-- Join with code -->
+        <div id="party-section-join" class="party-page-card party-page-card-narrow hidden">
+          <div class="party-page-icon">
+            <svg width="30" height="30" viewBox="0 0 18 18" fill="none"><circle cx="6" cy="8" r="2.6" stroke="currentColor" stroke-width="1.3"/><circle cx="12" cy="8" r="2.6" stroke="currentColor" stroke-width="1.3"/><path d="M1.5 15c0-2.2 2-3.6 4.5-3.6s4.5 1.4 4.5 3.6M7.5 15c0-2.2 2-3.6 4.5-3.6s4.5 1.4 4.5 3.6" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/></svg>
+          </div>
+          <h2 class="party-page-heading">Join a Party</h2>
+          <p class="party-page-sub">Paste the party code your friend shared with you.</p>
+          <input id="party-join-code-input" class="party-page-input" type="text" placeholder="a1b2c3d4-e5f6a7b8c9d0" spellcheck="false" autocomplete="off"/>
+          <div id="party-join-error" class="party-error hidden"></div>
+          <button class="party-page-btn-primary" id="party-join-confirm-btn">Join Party</button>
+        </div>
+
+        <!-- Connecting -->
+        <div id="party-panel-connecting" class="party-connecting hidden">
+          <div class="party-spinner"></div>
+          <span>Connecting to EasyTier…</span>
+          <span class="party-connecting-label">This may take a few seconds</span>
+        </div>
+
+        <!-- Connected / hosting panel -->
+        <div id="party-panel-body" class="party-page-card hidden">
+
+          <!-- ── Section: Party · players ─────────────────────── -->
+          <section id="party-section-party" class="party-section" aria-label="Party members">
+            <div class="party-section-head">
+              <h2 class="party-section-title">Party</h2>
+              <span class="party-section-count" id="party-player-count"></span>
+              <div id="party-role-badge"></div>
+            </div>
+
+            <div id="party-code-row" class="hidden">
+              <div class="party-share-label">Party code — share with friends</div>
+              <div class="party-code-box">
+                <code id="party-code-text"></code>
+                <button id="party-code-copy" class="party-code-copy-btn" title="Copy to clipboard">
+                  <svg width="12" height="12" viewBox="0 0 13 13" fill="none"><rect x="4.5" y="4.5" width="7" height="7" rx="1" stroke="currentColor" stroke-width="1.2"/><path d="M2.5 8.5h-1a1 1 0 01-1-1v-6a1 1 0 011-1h6a1 1 0 011 1v1" stroke="currentColor" stroke-width="1.2"/></svg>
+                  Copy
+                </button>
+              </div>
+            </div>
+
+            <div id="party-members" class="party-members"></div>
+            <div id="party-members-empty" class="party-members-empty hidden">Waiting for players to join…</div>
+            <div id="party-ip-row"></div>
+          </section>
+
+          <!-- ── Section: Game ─────────────────────────────────── -->
+          <section id="party-section-game" class="party-section" aria-label="Game">
+            <div class="party-section-head">
+              <h2 class="party-section-title">Game</h2>
+            </div>
+
+            <label class="party-field-label">Select game</label>
+            <div id="party-game-select" class="party-select" tabindex="0" role="listbox" aria-label="Select game">
+              <div class="party-select-face">
+                <span class="party-select-text">Select a game…</span>
+                <svg class="party-select-arrow" width="10" height="6" viewBox="0 0 10 6" fill="none"><path d="M1 1l4 4 4-4" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              </div>
+              <div class="party-select-dropdown">
+                <div class="party-select-list" id="party-game-list"></div>
+              </div>
+            </div>
+
+            <div id="party-game-warning" class="party-error hidden"></div>
+          </section>
+
+          <!-- ── Section: Game Options (host only) ─────────────── -->
+          <section id="party-section-options" class="party-section hidden" aria-label="Game options">
+            <div class="party-section-head">
+              <h2 class="party-section-title">Game Options</h2>
+            </div>
+
+            <div id="party-devmap-settings">
+              <div class="party-limits-row">
+                <div class="party-limit-field">
+                  <label class="party-field-label" for="party-timelimit-input">Time limit <span class="party-field-hint">(min, 0 = off)</span></label>
+                  <input id="party-timelimit-input" class="party-page-input party-limit-input" type="number" min="0" max="60" step="1" value="0"/>
+                </div>
+                <div class="party-limit-field">
+                  <label class="party-field-label" for="party-scorelimit-input">Score limit <span class="party-field-hint">(0 = off)</span></label>
+                  <input id="party-scorelimit-input" class="party-page-input party-limit-input" type="number" min="0" max="1000" step="10" value="250"/>
+                </div>
+              </div>
+
+              <label class="party-field-label">Map</label>
+              <div class="party-map-scroll">
+                <div id="party-map-grid" class="party-map-grid" role="listbox" aria-label="Select map"></div>
+              </div>
+            </div>
+
+            <!-- Host settings, built from the mod's party.serverFields -->
+            <div id="party-server-settings" class="hidden">
+              <div class="party-gtac-form">
+                <div id="party-server-fields" class="party-limits-row"></div>
+                <p class="party-gtac-hint">Start Game runs the server on the party LAN and launches your game.</p>
+              </div>
+            </div>
+
+            <!-- GTA Connected host: server.xml editor GUI -->
+            <div id="party-gtac-settings" class="hidden">
+              <div class="party-gtac-form">
+                <div class="party-limits-row">
+                  <div class="party-limit-field">
+                    <label class="party-field-label" for="gtac-maxplayers">Max players</label>
+                    <input id="gtac-maxplayers" class="party-page-input party-limit-input" type="number" min="1" max="64" step="1" value="16"/>
+                  </div>
+                </div>
+                <p class="party-gtac-hint">Start Game launches a Free Roam server on the party LAN. It downloads itself the first time.</p>
+              </div>
+            </div>
+          </section>
+
+          <div class="party-page-actions">
+            <button class="party-page-btn-ghost" id="party-leave-btn">Leave Party</button>
+            <button class="party-page-btn-primary" id="party-start-btn" disabled>Start Game</button>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- WISHLIST -->
+    <div id="view-wishlist" class="page hidden">
+      <div id="wish-header"><h1>Wishlist</h1><span id="wish-count"></span></div>
+      <div id="wish-content">
+        <div id="wish-empty" class="state-inner hidden">
+          <div class="state-icon" style="opacity:.3"><svg width="48" height="48" viewBox="0 0 48 48" fill="none"><path d="M24 40s-18-11-18-24A12 12 0 0124 8a12 12 0 0118 8c0 13-18 24-18 24z" stroke="currentColor" stroke-width="1.8" fill="none" stroke-linejoin="round"/></svg></div>
+          <p>Your wishlist is empty.<br><span style="font-size:12px;opacity:.5">Heart a game on its detail page to add it.</span></p>
+        </div>
+        <div id="wish-grid"></div>
+      </div>
+    </div>
+
+    <!-- SETTINGS -->
+<!-- ══════════════════════════════════════════════════════════════
+     SETTINGS PAGE  —  replace the entire <div id="view-settings">
+     block in renderer/index.html (lines 327–490)
+     All original IDs are preserved so renderer.js works unchanged.
+═══════════════════════════════════════════════════════════════ -->
+    <div id="view-settings" class="page hidden">
+
+      <!-- Top bar -->
+      <div id="settings-header">
+        <h1>Settings</h1>
+      </div>
+
+      <!-- Two-column shell: sidebar nav + content panels -->
+      <div id="settings-shell">
+
+        <!-- ── Sidebar nav ─────────────────────────────────────── -->
+        <nav id="settings-nav">
+          <button class="snav-btn active" data-tab="general">
+            <svg width="15" height="15" viewBox="0 0 15 15" fill="none">
+              <circle cx="7.5" cy="5" r="2.5" stroke="currentColor" stroke-width="1.4"/>
+              <path d="M2 13c0-3 2.5-5 5.5-5s5.5 2 5.5 5" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/>
+            </svg>
+            General
+          </button>
+          <button class="snav-btn" data-tab="downloads">
+            <svg width="15" height="15" viewBox="0 0 15 15" fill="none">
+              <path d="M7.5 2v8M4.5 7.5l3 3 3-3" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/>
+              <path d="M2 12h11" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/>
+            </svg>
+            Downloads
+          </button>
+          <button class="snav-btn" data-tab="appearance">
+            <svg width="15" height="15" viewBox="0 0 15 15" fill="none">
+              <circle cx="7.5" cy="7.5" r="5.5" stroke="currentColor" stroke-width="1.4"/>
+              <circle cx="5.2" cy="5.8" r="1" fill="currentColor"/>
+              <circle cx="9.8" cy="5.8" r="1" fill="currentColor"/>
+              <circle cx="7.5" cy="9.5" r="1" fill="currentColor"/>
+              <circle cx="3.5" cy="8.5" r=".9" fill="currentColor"/>
+              <circle cx="11.5" cy="8.5" r=".9" fill="currentColor"/>
+            </svg>
+            Appearance
+          </button>
+          <button class="snav-btn" data-tab="advanced">
+            <svg width="15" height="15" viewBox="0 0 15 15" fill="none">
+              <circle cx="7.5" cy="7.5" r="2" stroke="currentColor" stroke-width="1.4"/>
+              <path d="M7.5 1v1.5M7.5 12.5V14M1 7.5h1.5M12.5 7.5H14M3 3l1.1 1.1M10.9 10.9L12 12M12 3l-1.1 1.1M4.1 10.9L3 12" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/>
+            </svg>
+            Advanced
+          </button>
+          <button class="snav-btn" data-tab="about">
+            <svg width="15" height="15" viewBox="0 0 15 15" fill="none">
+              <circle cx="7.5" cy="7.5" r="6" stroke="currentColor" stroke-width="1.4"/>
+              <path d="M7.5 6.5v5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+              <circle cx="7.5" cy="4.5" r=".8" fill="currentColor"/>
+            </svg>
+            About
+          </button>
+        </nav>
+
+        <!-- ── Content panels ─────────────────────────────────── -->
+        <div id="settings-panels">
+
+          <!-- ─── GENERAL ─────────────────────────────────────── -->
+          <div class="settings-tab active" id="stab-general">
+
+            <!-- Install Location -->
+            <div class="settings-group">
+              <div class="sg-header">
+                <span class="sg-title">Install Location</span>
+              </div>
+              <div class="sg-body">
+                <div class="sg-row">
+                  <div class="sg-row-info">
+                    <div class="sg-label">Games Folder</div>
+                    <div class="sg-desc" id="install-path-display">Default location</div>
+                  </div>
+                  <button id="btn-pick-folder" class="settings-btn">Browse…</button>
+                </div>
+                <div class="sg-sub-action">
+                  <button id="btn-reset-path" class="settings-link">Reset to default</button>
+                </div>
+              </div>
+            </div>
+
+            <!-- Appearance -->
+            <div class="settings-group">
+              <div class="sg-header">
+                <span class="sg-title">Appearance</span>
+              </div>
+              <div class="sg-body">
+                <div class="sg-toggle-row">
+                  <div class="sg-toggle-info">
+                    <div class="sg-label">Light Mode</div>
+                    <div class="sg-desc">Switch between dark and light theme</div>
+                  </div>
+                  <label class="toggle-switch" title="Toggle light/dark mode">
+                    <input type="checkbox" id="theme-toggle-input"/>
+                    <span class="toggle-track"></span>
+                  </label>
+                </div>
+              </div>
+            </div>
+
+            <div class="settings-group" id="game-tracking-section">
+              <div class="sg-header">
+                <span class="sg-title">Game Tracking</span>
+              </div>
+              <div class="sg-body">
+                <div class="sg-toggle-row">
+                  <div class="sg-toggle-info">
+                    <div class="sg-label">Enable Game Tracking</div>
+                    <div class="sg-desc">Track playtime. The launcher must stay open while playing — closing it will terminate the game.</div>
+                  </div>
+                  <label class="toggle-switch" title="Enable game tracking">
+                    <input type="checkbox" id="game-tracking-toggle-input"/>
+                    <span class="toggle-track"></span>
+                  </label>
+                </div>
+                <div id="game-tracking-stats-wrap" style="display:none;margin-top:14px;">
+                  <div class="sg-desc" style="margin-bottom:10px;">Total playtime across all games.</div>
+                  <div id="game-tracking-all-stats"></div>
+                </div>
+              </div>
+            </div>
+
+          </div><!-- /stab-general -->
+
+
+          <!-- ─── DOWNLOADS ────────────────────────────────────── -->
+          <div class="settings-tab" id="stab-downloads">
+
+            <!-- Download Source -->
+            <div class="settings-group">
+              <div class="sg-header">
+                <span class="sg-title">Download Source</span>
+              </div>
+              <div class="sg-body">
+                <div class="sg-desc" style="margin-bottom:14px;">Choose where to search and download games from.</div>
+                <div class="source-picker">
+                  <button class="source-radio" data-source="steamrip">
+                    <div class="source-radio-name">SteamRIP</div>
+                    <div class="source-radio-desc">Repacked · Gofile</div>
+                  </button>
+                  <button class="source-radio active" data-source="ankergames">
+                    <div class="source-radio-name">AnkerGames</div>
+                    <div class="source-radio-desc">Fast · Direct download</div>
+                  </button>
+                </div>
+              </div>
+            </div>
+
+            <!-- Downloader -->
+            <div class="settings-group">
+              <div class="sg-header">
+                <span class="sg-title">Downloader</span>
+              </div>
+              <div class="sg-body">
+                <div class="sg-toggle-row">
+                  <div class="sg-toggle-info">
+                    <div class="sg-label">Enable Aria2</div>
+                    <div class="sg-desc">Faster downloads with multi-connection &amp; auto-resume. Requires aria2c in <code>resources/aria2/</code>.</div>
+                  </div>
+                  <label class="toggle-switch" title="Enable aria2c downloader">
+                    <input type="checkbox" id="aria2-toggle-input" checked/>
+                    <span class="toggle-track"></span>
+                  </label>
+                </div>
+              </div>
+            </div>
+
+            <!-- Extractor -->
+            <div class="settings-group">
+              <div class="sg-header">
+                <span class="sg-title">Extractor</span>
+              </div>
+              <div class="sg-body">
+                <div class="sg-toggle-row">
+                  <div class="sg-toggle-info">
+                    <div class="sg-label">Use 7-Zip for Extraction</div>
+                    <div class="sg-desc">Faster &amp; more reliable ZIP extraction. Requires 7za.exe in <code>resources/7zip/</code>.</div>
+                  </div>
+                  <label class="toggle-switch" title="Enable 7-Zip extractor">
+                    <input type="checkbox" id="sevenzip-toggle-input" checked/>
+                    <span class="toggle-track"></span>
+                  </label>
+                </div>
+              </div>
+            </div>
+
+          </div><!-- /stab-downloads -->
+
+
+          <!-- ─── APPEARANCE ────────────────────────────────────── -->
+          <div class="settings-tab" id="stab-appearance">
+
+            <!-- Base Themes -->
+            <div class="settings-group">
+              <div class="sg-header"><span class="sg-title">Base</span></div>
+              <div class="sg-body">
+                <div class="swatch-grid" id="theme-grid-base">
+
+                  <button class="theme-swatch" data-theme="dark">
+                    <span class="swatch-fill" style="background:linear-gradient(135deg,#1c1c1e 0%,#0c0c0d 100%)">
+                      <span class="swatch-dot" style="background:#60CDFF"></span>
+                    </span>
+                    <span class="swatch-check"><svg width="10" height="10" viewBox="0 0 9 9" fill="none"><path d="M1.5 4.5l2 2 4-4" stroke="#fff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+                    <span class="swatch-label">Dark</span>
+                  </button>
+
+                  <button class="theme-swatch" data-theme="light">
+                    <span class="swatch-fill" style="background:linear-gradient(135deg,#ffffff 0%,#e5e7eb 100%)">
+                      <span class="swatch-dot" style="background:#0078D4"></span>
+                    </span>
+                    <span class="swatch-check"><svg width="10" height="10" viewBox="0 0 9 9" fill="none"><path d="M1.5 4.5l2 2 4-4" stroke="#fff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+                    <span class="swatch-label">Light</span>
+                  </button>
+
+                </div>
+              </div>
+            </div>
+
+            <!-- Dark Themes -->
+            <div class="settings-group">
+              <div class="sg-header"><span class="sg-title">Dark</span></div>
+              <div class="sg-body">
+                <div class="swatch-grid" id="theme-grid-gradient">
+
+                  <button class="theme-swatch" data-theme="carbon">
+                    <span class="swatch-fill" style="background:linear-gradient(135deg,#2A2B30 0%,#131416 100%)">
+                      <span class="swatch-dot" style="background:#5EA8F5"></span>
+                    </span>
+                    <span class="swatch-check"><svg width="10" height="10" viewBox="0 0 9 9" fill="none"><path d="M1.5 4.5l2 2 4-4" stroke="#fff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+                    <span class="swatch-label">Carbon</span>
+                  </button>
+
+                  <button class="theme-swatch" data-theme="aurora">
+                    <span class="swatch-fill" style="background:linear-gradient(135deg,#292E42 0%,#1A1B26 100%)">
+                      <span class="swatch-dot" style="background:#7AA2F7"></span>
+                    </span>
+                    <span class="swatch-check"><svg width="10" height="10" viewBox="0 0 9 9" fill="none"><path d="M1.5 4.5l2 2 4-4" stroke="#fff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+                    <span class="swatch-label">Tokyo Night</span>
+                  </button>
+
+                  <button class="theme-swatch" data-theme="galaxy">
+                    <span class="swatch-fill" style="background:linear-gradient(135deg,#313244 0%,#1E1E2E 100%)">
+                      <span class="swatch-dot" style="background:#CBA6F7"></span>
+                    </span>
+                    <span class="swatch-check"><svg width="10" height="10" viewBox="0 0 9 9" fill="none"><path d="M1.5 4.5l2 2 4-4" stroke="#fff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+                    <span class="swatch-label">Catppuccin</span>
+                  </button>
+
+                </div>
+              </div>
+            </div>
+
+            <!-- Light Gradient Themes -->
+            <div class="settings-group">
+              <div class="sg-header"><span class="sg-title">Light Gradients</span></div>
+              <div class="sg-body">
+                <div class="swatch-grid" id="theme-grid-light">
+
+                  <button class="theme-swatch" data-theme="light-rose">
+                    <span class="swatch-fill" style="background:linear-gradient(135deg,#fbcfe8 0%,#ffffff 100%)">
+                      <span class="swatch-dot" style="background:#ec4899"></span>
+                    </span>
+                    <span class="swatch-check"><svg width="10" height="10" viewBox="0 0 9 9" fill="none"><path d="M1.5 4.5l2 2 4-4" stroke="#fff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+                    <span class="swatch-label">Rose</span>
+                  </button>
+
+                  <button class="theme-swatch" data-theme="light-sky">
+                    <span class="swatch-fill" style="background:linear-gradient(135deg,#bae6fd 0%,#ffffff 100%)">
+                      <span class="swatch-dot" style="background:#0284c7"></span>
+                    </span>
+                    <span class="swatch-check"><svg width="10" height="10" viewBox="0 0 9 9" fill="none"><path d="M1.5 4.5l2 2 4-4" stroke="#fff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+                    <span class="swatch-label">Sky</span>
+                  </button>
+
+                  <button class="theme-swatch" data-theme="light-mint">
+                    <span class="swatch-fill" style="background:linear-gradient(135deg,#a7f3d0 0%,#ffffff 100%)">
+                      <span class="swatch-dot" style="background:#059669"></span>
+                    </span>
+                    <span class="swatch-check"><svg width="10" height="10" viewBox="0 0 9 9" fill="none"><path d="M1.5 4.5l2 2 4-4" stroke="#fff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+                    <span class="swatch-label">Mint</span>
+                  </button>
+
+                  <button class="theme-swatch" data-theme="light-lavender">
+                    <span class="swatch-fill" style="background:linear-gradient(135deg,#ddd6fe 0%,#ffffff 100%)">
+                      <span class="swatch-dot" style="background:#7c3aed"></span>
+                    </span>
+                    <span class="swatch-check"><svg width="10" height="10" viewBox="0 0 9 9" fill="none"><path d="M1.5 4.5l2 2 4-4" stroke="#fff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+                    <span class="swatch-label">Lavender</span>
+                  </button>
+
+                  <button class="theme-swatch" data-theme="light-peach">
+                    <span class="swatch-fill" style="background:linear-gradient(135deg,#fed7aa 0%,#ffffff 100%)">
+                      <span class="swatch-dot" style="background:#ea580c"></span>
+                    </span>
+                    <span class="swatch-check"><svg width="10" height="10" viewBox="0 0 9 9" fill="none"><path d="M1.5 4.5l2 2 4-4" stroke="#fff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+                    <span class="swatch-label">Peach</span>
+                  </button>
+
+                  <button class="theme-swatch" data-theme="light-nordic">
+                    <span class="swatch-fill" style="background:linear-gradient(135deg,#cbd5e1 0%,#ffffff 100%)">
+                      <span class="swatch-dot" style="background:#334155"></span>
+                    </span>
+                    <span class="swatch-check"><svg width="10" height="10" viewBox="0 0 9 9" fill="none"><path d="M1.5 4.5l2 2 4-4" stroke="#fff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+                    <span class="swatch-label">Nordic</span>
+                  </button>
+
+                </div>
+              </div>
+            </div>
+
+          </div><!-- /stab-appearance -->
+
+
+          <!-- ─── ADVANCED ─────────────────────────────────────── -->
+          <div class="settings-tab" id="stab-advanced">
+
+            <!-- Redistributables -->
+            <div class="settings-group" id="redist-section">
+              <div class="sg-header">
+                <span class="sg-title">Common Redistributables</span>
+              </div>
+              <div class="sg-body">
+                <div class="sg-desc" style="margin-bottom:14px;">
+                  Install common runtime libraries required by many games — Visual C++ Redistributables (2005–2015+), .NET Desktop Runtime 6 &amp; 8, XNA Framework, and Java Runtime Environment. Fixes most missing DLL errors.
+                </div>
+                <div style="display:flex;align-items:center;gap:12px;flex-wrap:wrap;">
+                  <button class="settings-btn" id="redist-install-btn">Install Redistributables</button>
+                  <span id="redist-status-text" style="font-size:12px;color:var(--text-dim);"></span>
+                </div>
+                <div id="redist-progress-wrap" style="display:none;margin-top:14px;">
+                  <div style="display:flex;justify-content:space-between;margin-bottom:6px;">
+                    <span id="redist-progress-label" style="font-size:12px;color:var(--text-dim);">Installing…</span>
+                    <span id="redist-progress-pct" style="font-size:12px;color:var(--accent);font-weight:600;">0%</span>
+                  </div>
+                  <div style="width:100%;height:6px;border-radius:99px;background:rgba(255,255,255,.08);overflow:hidden;">
+                    <div id="redist-progress-bar" style="height:100%;width:0%;border-radius:99px;background:linear-gradient(90deg,#60CDFF,#a78bfa);transition:width .3s ease;box-shadow:0 0 8px rgba(96,205,255,.4);"></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Antivirus Exclusion -->
+            <div class="settings-group" id="defender-exclusion-section">
+              <div class="sg-header">
+                <span class="sg-title">Antivirus Exclusion</span>
+              </div>
+              <div class="sg-body">
+                <div class="sg-desc" style="margin-bottom:14px;">
+                  Add the NinoGames folder to Windows Defender's exclusion list. This prevents antivirus from flagging or quarantining game files during download and installation. A UAC prompt will appear to grant the required permissions.
+                </div>
+                <div style="display:flex;align-items:center;gap:12px;flex-wrap:wrap;">
+                  <button class="settings-btn" id="defender-exclusion-btn">Add Exclusion</button>
+                  <span id="defender-exclusion-status" style="font-size:12px;color:var(--text-dim);"></span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Game Launch Settings -->
+            <div class="settings-group" id="launch-settings-section">
+              <div class="sg-header">
+                <span class="sg-title">Game Launch Settings</span>
+              </div>
+              <div class="sg-body">
+                <div class="sg-desc" style="margin-bottom:14px;">Change the executable or launch arguments for an installed game. Useful if you pressed "Don't ask again" by mistake.</div>
+                <div style="display:flex;flex-direction:column;gap:10px;">
+                  <select class="settings-select" id="launch-game-select">
+                    <option value="">Select a game…</option>
+                  </select>
+                  <div id="launch-config-editor" style="display:none;width:100%;">
+                    <div class="launch-config-row">
+                      <label class="launch-config-label">Executable</label>
+                      <div class="launch-config-exe-row">
+                        <input class="exe-picker-args-input" id="launch-config-exe" type="text" readonly placeholder="No executable set" style="flex:1;" />
+                        <button class="exe-picker-btn-browse" id="launch-config-browse">Browse…</button>
+                      </div>
+                    </div>
+                    <div class="launch-config-row" style="margin-top:10px;">
+                      <label class="launch-config-label">Launch arguments</label>
+                      <input class="exe-picker-args-input" id="launch-config-args" type="text" placeholder="-windowed -dx11" spellcheck="false" style="width:100%;" />
+                    </div>
+                    <div class="launch-config-row" style="margin-top:10px;display:flex;align-items:center;gap:8px;">
+                      <label class="exe-picker-dontask" style="flex:1;">
+                        <input type="checkbox" id="launch-config-skip" />
+                        <span>Don't ask again (skip picker on launch)</span>
+                      </label>
+                      <button class="exe-picker-btn-launch" id="launch-config-save">Save</button>
+                    </div>
+                    <div id="launch-config-status" style="font-size:11px;margin-top:6px;color:#4ade80;display:none;"></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+          </div><!-- /stab-advanced -->
+
+
+          <!-- ─── ABOUT ─────────────────────────────────────────── -->
+          <div class="settings-tab" id="stab-about">
+
+            <!-- Updates -->
+            <div class="settings-group" id="update-section">
+              <div class="sg-header">
+                <span class="sg-title">Updates</span>
+              </div>
+              <div class="sg-body">
+                <div class="sg-row">
+                  <div class="sg-row-info">
+                    <div class="sg-label">NinoGames <span id="current-version-label" style="opacity:.45;font-size:11px;font-weight:400;">v1.0.0</span></div>
+                    <div class="sg-desc" id="update-status-text">You're on the latest version.</div>
+                  </div>
+                  <button id="btn-check-update" class="settings-btn">Check for Updates</button>
+                </div>
+                <div id="update-available-banner" class="hidden"></div>
+                <div id="update-progress-wrap" class="hidden">
+                  <div id="update-progress-bar-track"><div id="update-progress-bar-fill"></div></div>
+                  <div id="update-progress-labels">
+                    <span id="update-progress-pct">0%</span>
+                    <span id="update-did-you-know"></span>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Credits -->
+            <div class="settings-group" id="credits-section">
+              <div class="sg-header">
+                <span class="sg-title">Credits</span>
+              </div>
+              <div class="sg-body">
+                <div id="credits-card">
+                  <img id="credits-pfp" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQglQsXE11pxUJj5kOFRzWZV0a2k35V7_Lwow&s" alt="nino"/>
+                  <div id="credits-info">
+                    <div id="credits-name">nino</div>
+                    <div id="credits-role">Developer & Designer of NinoGames</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Uninstall — kept last & visually separated -->
+            <div class="settings-group sg-danger" id="uninstall-app-section">
+              <div class="sg-header">
+                <span class="sg-title" style="color:var(--red);">Danger Zone</span>
+              </div>
+              <div class="sg-body">
+                <div class="sg-desc" style="margin-bottom:14px;">Remove NinoGames from your computer. This will delete the application folder (<code>C:\Program Files\NinoGames</code>).</div>
+                <div class="sg-toggle-row" style="margin-bottom:14px;">
+                  <div class="sg-toggle-info">
+                    <div class="sg-label">Also delete my games</div>
+                    <div class="sg-desc">Permanently deletes your downloaded games folder (<code style="font-size:10px;">%USERPROFILE%\NinoGames</code>).</div>
+                  </div>
+                  <label class="toggle-switch" title="Also delete games folder">
+                    <input type="checkbox" id="uninstall-delete-games-toggle"/>
+                    <span class="toggle-track"></span>
+                  </label>
+                </div>
+                <button id="btn-uninstall-app" class="settings-btn settings-btn-danger">Uninstall NinoGames…</button>
+              </div>
+            </div>
+
+          </div><!-- /stab-about -->
+
+        </div><!-- /settings-panels -->
+      </div><!-- /settings-shell -->
+    </div><!-- /view-settings -->
+    <!-- DETAIL -->
+    <div id="view-detail" class="page hidden">
+      <div id="detail-banner">
+        <div id="detail-banner-bg"></div>
+        <!-- SteamGridDB hero banner (replaces blurred bg when available) -->
+        <img id="detail-sgdb-banner" src="" alt="" style="display:none;position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:0;"/>
+        <div id="detail-banner-content">
+          <button id="detail-back"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M10 3L5 8l5 5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg> Back</button>
+          <div id="detail-hero">
+            <div id="detail-cover-wrap">
+              <img id="detail-cover" src="" alt=""/>
+              <!-- SteamGridDB logo (replaces cover art when available) -->
+              <img id="detail-sgdb-logo" src="" alt="" style="display:none;max-width:100%;max-height:120px;width:auto;height:auto;object-fit:contain;padding:4px;box-sizing:border-box;"/>
+              <div id="detail-cover-placeholder"><svg width="32" height="32" viewBox="0 0 32 32" fill="none" opacity=".3"><rect x="4" y="4" width="10" height="10" rx="1" fill="currentColor"/><rect x="18" y="4" width="10" height="10" rx="1" fill="currentColor" opacity=".6"/><rect x="4" y="18" width="10" height="10" rx="1" fill="currentColor" opacity=".6"/><rect x="18" y="18" width="10" height="10" rx="1" fill="currentColor" opacity=".3"/></svg></div>
+            </div>
+            <div id="detail-info">
+              <!-- In SGDB mode: title/meta move to detail-bottom-meta strip; in fallback mode they stay here -->
+              <div id="detail-title-row">
+                <h1 id="detail-title">Loading…</h1>
+              </div>
+              <div id="detail-version"></div>
+              <div id="detail-meta"><span id="detail-size" class="meta-chip"><svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M6 1v7M3 5l3 3 3-3M1 9v1a1 1 0 001 1h8a1 1 0 001-1V9" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg><span>—</span></span><span id="detail-playtime" class="meta-chip" style="display:none"><svg width="12" height="12" viewBox="0 0 12 12" fill="none"><circle cx="6" cy="6" r="5" stroke="currentColor" stroke-width="1.2"/><path d="M6 3.5V6l2 1.5" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg><span>0h played</span></span></div>
+            </div>
+            <!-- Wish button always visible regardless of SGDB mode -->
+            <button id="detail-wish" title="Add to wishlist" class="wish-btn" style="align-self:flex-end;margin-bottom:4px;flex-shrink:0;">
+              <svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path id="heart-path" d="M10 2l2.47 5.01 5.53.8-4 3.9.94 5.51L10 14.51l-4.94 2.71.94-5.51-4-3.9 5.53-.8L10 2z" stroke="currentColor" stroke-width="1.3" stroke-linejoin="round" fill="none"/></svg>
+            </button>
+          </div>
+        </div>
+      </div>
+      <!-- Bottom meta strip shown only in SGDB mode -->
+      <div id="detail-bottom-meta" style="display:none;">
+        <div id="detail-bottom-meta-inner">
+          <span id="detail-bottom-title"></span>
+          <span id="detail-bottom-size-wrap"></span>
+        </div>
+      </div>
+      <!-- Scrollable body — desc, screenshots, sysreq -->
+      <div id="detail-scroll-body">
+      <div id="detail-top-row">
+        <div id="detail-screenshots" class="hidden"></div>
+        <div id="detail-sysreq" class="hidden">
+          <div class="detail-section-title">System Requirements</div>
+          <div id="detail-sysreq-content"></div>
+        </div>
+      </div>
+      <div id="detail-desc-section">
+        <div class="detail-section-title">Description</div>
+        <div id="detail-desc"></div>
+      </div>
+      </div><!-- /detail-scroll-body -->
+      <div id="detail-actions">
+        <div id="action-loading" class="hidden"><span class="spinner"></span> Loading game info…</div>
+        <div id="action-error" class="hidden"><span style="color:#FF6B6B">Could not load game page.</span><button id="action-error-retry" class="action-btn-secondary">Retry</button></div>
+        <div id="action-download" class="hidden">
+          <button id="dl-btn" class="dl-button"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M8 1v9M4 7l4 4 4-4M1 13h14" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg> Install</button>
+          <button id="detail-trailer-btn" class="detail-trailer-btn hidden">
+            <svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>
+            Watch Trailer
+          </button>
+        </div>
+        <div id="action-preparing" class="hidden">
+          <div class="dl-status-row"><span class="spinner"></span><span id="dl-status-msg">Preparing…</span><button id="dl-cancel-btn" class="action-btn-secondary">Cancel</button></div>
+        </div>
+        <div id="action-progress" class="hidden">
+          <div class="dl-progress-label">
+            <span id="dl-progress-title"></span>
+            <span id="dl-eta-badge" class="dl-eta"></span>
+            <span id="dl-progress-pct">0%</span>
+          </div>
+          <div id="dl-bar-track"><div id="dl-bar-fill"></div></div>
+          <div class="dl-progress-sub">
+            <span id="dl-progress-bytes"></span>
+            <span id="dl-speed-badge"></span>
+            <div class="dl-progress-actions">
+              <button id="dl-pause-btn" class="action-btn-secondary">Pause</button>
+              <button id="dl-cancel-btn2" class="action-btn-secondary">Cancel</button>
+            </div>
+          </div>
+        </div>
+        <div id="action-extracting" class="hidden">
+          <div class="dl-status-row"><span class="spinner"></span><span id="dl-extract-msg">Extracting…</span></div>
+          <div id="dl-bar-track2"><div id="dl-bar-fill2" style="width:100%;animation:pulse 1.5s infinite;"></div></div>
+        </div>
+        <div id="action-done" class="hidden">
+          <div class="dl-done-row">
+            <svg width="18" height="18" viewBox="0 0 18 18" fill="none"><circle cx="9" cy="9" r="8" stroke="#4ADE80" stroke-width="1.4"/><path d="M5.5 9l2.5 2.5L12.5 6" stroke="#4ADE80" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            <span style="color:#4ADE80;font-weight:500">Installed</span>
+            <button id="launch-btn" class="dl-button" style="padding:8px 18px;font-size:13px;"><svg width="12" height="12" viewBox="0 0 12 12" fill="none" style="margin-right:5px;vertical-align:middle"><polygon points="3,1.5 10.5,6 3,10.5" fill="currentColor"/></svg>Launch</button>
+            <button id="open-folder-btn" class="action-btn-secondary">Open Folder</button>
+            <button id="add-steam-btn" class="action-btn-secondary">Add to Steam</button>
+            <button id="add-shortcut-btn" class="action-btn-secondary">Desktop Shortcut</button>
+            <button id="detail-trailer-btn-done" class="detail-trailer-btn hidden">
+              <svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>
+              Watch Trailer
+            </button>
+          </div>
+        </div>
+        <div id="action-failed" class="hidden">
+          <div class="dl-done-row">
+            <svg width="18" height="18" viewBox="0 0 18 18" fill="none"><circle cx="9" cy="9" r="8" stroke="#FF6B6B" stroke-width="1.4"/><line x1="6" y1="6" x2="12" y2="12" stroke="#FF6B6B" stroke-width="1.4" stroke-linecap="round"/><line x1="12" y1="6" x2="6" y2="12" stroke="#FF6B6B" stroke-width="1.4" stroke-linecap="round"/></svg>
+            <span style="color:#FF6B6B;font-weight:500">Download failed</span>
+            <button id="dl-retry-btn" class="action-btn-secondary">Retry</button>
+          </div>
+        </div>
+        <div id="action-no-link" class="hidden">
+          <span style="color:var(--text-dim);font-size:13px">No download link found on this page.</span>
+          <button id="open-page-btn" class="action-btn-secondary">Open in Browser</button>
+        </div>
+        <div id="action-already-installed" class="hidden">
+          <div class="dl-done-row">
+            <svg width="18" height="18" viewBox="0 0 18 18" fill="none"><circle cx="9" cy="9" r="8" stroke="#4ADE80" stroke-width="1.4"/><path d="M5.5 9l2.5 2.5L12.5 6" stroke="#4ADE80" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            <span style="color:#4ADE80;font-weight:500">Installed</span>
+            <button id="launch-btn2" class="dl-button" style="padding:8px 18px;font-size:13px;"><svg width="12" height="12" viewBox="0 0 12 12" fill="none" style="margin-right:5px;vertical-align:middle"><polygon points="3,1.5 10.5,6 3,10.5" fill="currentColor"/></svg>Launch</button>
+            <button id="open-folder-btn2" class="action-btn-secondary">Open Folder</button>
+            <button id="add-steam-btn2" class="action-btn-secondary">Add to Steam</button>
+            <button id="add-shortcut-btn2" class="action-btn-secondary">Desktop Shortcut</button>
+            <button id="uninstall-btn" class="action-btn-danger">Uninstall</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── Installed Game Detail Page ───────────────────────────── -->
+    <div id="view-installed-detail" class="page hidden">
+  <div id="igd-banner">
+    <div id="igd-banner-bg"></div>
+    <div id="igd-banner-overlay"></div>
+    <!-- SteamGridDB hero banner (replaces blurred bg when available) -->
+    <img id="igd-sgdb-banner" src="" alt="" style="display:none;position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:0;"/>
+    <img id="igd-sgdb-logo" src="" alt="" style="display:none;"/>
+    <div id="igd-banner-content">
+      <button id="igd-back" class="igd-back-btn">
+        <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M10 3L5 8l5 5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        Back
+      </button>
+      <div id="igd-hero">
+        <div id="igd-cover-wrap">
+          <img id="igd-cover" src="" alt=""/>
+          <div id="igd-cover-placeholder">
+            <svg width="32" height="32" viewBox="0 0 32 32" fill="none" opacity=".3"><rect x="4" y="4" width="10" height="10" rx="1" fill="currentColor"/><rect x="18" y="4" width="10" height="10" rx="1" fill="currentColor" opacity=".6"/><rect x="4" y="18" width="10" height="10" rx="1" fill="currentColor" opacity=".6"/><rect x="18" y="18" width="10" height="10" rx="1" fill="currentColor" opacity=".3"/></svg>
+          </div>
+          <div id="igd-installed-badge">
+            <svg width="11" height="11" viewBox="0 0 11 11" fill="none"><polyline points="1.5,5.5 4,8.5 9.5,2.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            Installed
+          </div>
+        </div>
+        <div id="igd-info">
+          <h1 id="igd-title">Game Title</h1>
+          <div id="igd-version"></div>
+          <div id="igd-stats-row">
+            <div class="igd-stat" id="igd-stat-playtime">
+              <svg width="13" height="13" viewBox="0 0 13 13" fill="none"><circle cx="6.5" cy="6.5" r="5.5" stroke="currentColor" stroke-width="1.2"/><path d="M6.5 3.5V6.5l2 1.5" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              <span id="igd-playtime-val">0h played</span>
+            </div>
+            <div class="igd-stat-sep"></div>
+            <div class="igd-stat" id="igd-stat-lastplayed">
+              <svg width="13" height="13" viewBox="0 0 13 13" fill="none"><rect x="2" y="3" width="9" height="8" rx="1" stroke="currentColor" stroke-width="1.2"/><path d="M2 6h9M5 1v2M8 1v2" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/></svg>
+              <span id="igd-lastplayed-val">Never played</span>
+            </div>
+            <div class="igd-stat-sep" id="igd-size-sep"></div>
+            <div class="igd-stat" id="igd-stat-size" style="display:none">
+              <svg width="13" height="13" viewBox="0 0 13 13" fill="none"><rect x="2" y="2" width="9" height="9" rx="1" stroke="currentColor" stroke-width="1.2"/><path d="M4.5 6.5h4M6.5 4.5v4" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/></svg>
+              <span id="igd-size-val">—</span>
+            </div>
+          </div>
+          <div id="igd-primary-actions">
+            <button id="igd-launch-btn" class="igd-btn-launch">
+              <svg width="13" height="13" viewBox="0 0 13 13" fill="none"><polygon points="2.5,1.5 11,6.5 2.5,11.5" fill="currentColor"/></svg>
+              Play
+            </button>
+            <button id="igd-trailer-btn" class="igd-btn-trailer hidden">
+              <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><polygon points="3,1.5 10.5,6 3,10.5" fill="currentColor"/></svg>
+              Trailer
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SGDB subheader: shown only when SGDB mode is active -->
+  <div id="igd-subheader" style="display:none;">
+    <div id="igd-subheader-left">
+      <div id="igd-title-row">
+        <span id="igd-title-sub"></span>
+        <span id="igd-version-sub"></span>
+        <div id="igd-installed-badge-sgdb" style="display:none;">
+          <svg width="11" height="11" viewBox="0 0 11 11" fill="none"><polyline points="1.5,5.5 4,8.5 9.5,2.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          Installed
+        </div>
+      </div>
+      <div id="igd-stats-row-sgdb">
+        <div class="igd-stat">
+          <svg width="13" height="13" viewBox="0 0 13 13" fill="none"><circle cx="6.5" cy="6.5" r="5.5" stroke="currentColor" stroke-width="1.2"/><path d="M6.5 3.5V6.5l2 1.5" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          <span id="igd-playtime-val-sgdb">0h played</span>
+        </div>
+        <div class="igd-stat-sep"></div>
+        <div class="igd-stat">
+          <svg width="13" height="13" viewBox="0 0 13 13" fill="none"><rect x="2" y="3" width="9" height="8" rx="1" stroke="currentColor" stroke-width="1.2"/><path d="M2 6h9M5 1v2M8 1v2" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/></svg>
+          <span id="igd-lastplayed-val-sgdb">Never played</span>
+        </div>
+      </div>
+    </div>
+    <div id="igd-primary-actions-sgdb">
+      <button id="igd-launch-btn-sgdb" class="igd-btn-launch">
+        <svg width="13" height="13" viewBox="0 0 13 13" fill="none"><polygon points="2.5,1.5 11,6.5 2.5,11.5" fill="currentColor"/></svg>
+        Play
+      </button>
+      <button id="igd-trailer-btn-sgdb" class="igd-btn-trailer hidden">
+        <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><polygon points="3,1.5 10.5,6 3,10.5" fill="currentColor"/></svg>
+        Trailer
+      </button>
+    </div>
+  </div>
+
+  <div id="igd-body">
+    <div id="igd-left-col">
+      <!-- Screenshots + System Requirements side by side -->
+      <div id="igd-media-row">
+        <div id="igd-screenshots" class="hidden"></div>
+        <div id="igd-sysreq" class="igd-section hidden">
+          <div class="igd-section-label">System Requirements</div>
+          <div id="igd-sysreq-content"></div>
+        </div>
+      </div>
+      <!-- Description below -->
+      <div id="igd-desc-section" class="igd-section hidden">
+        <div class="igd-section-label">About</div>
+        <div id="igd-desc"></div>
+      </div>
+    </div>
+
+    <div id="igd-right-col">
+      <!-- Launch Config -->
+      <div class="igd-panel">
+        <div class="igd-panel-header">
+          <svg width="13" height="13" viewBox="0 0 13 13" fill="none"><circle cx="6.5" cy="6.5" r="5" stroke="currentColor" stroke-width="1.2"/><path d="M4.5 6.5l1.5 1.5 2.5-2.5" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          Launch Config
+        </div>
+        <div class="igd-panel-body">
+          <div class="igd-field">
+            <label class="igd-label">Executable</label>
+            <div class="igd-exe-row">
+              <input type="text" id="igd-exe-input" class="igd-input" placeholder="Auto-detect" readonly/>
+              <button id="igd-exe-browse" class="igd-btn-sm">Browse</button>
+            </div>
+          </div>
+          <div class="igd-field">
+            <label class="igd-label">Launch Arguments</label>
+            <input type="text" id="igd-args-input" class="igd-input" placeholder="e.g. -windowed -dx11"/>
+          </div>
+          <div class="igd-field-row">
+            <label class="igd-label" for="igd-skip-picker">Skip exe picker on launch</label>
+            <label class="igd-toggle">
+              <input type="checkbox" id="igd-skip-picker"/>
+              <span class="igd-toggle-track"><span class="igd-toggle-thumb"></span></span>
+            </label>
+          </div>
+          <button id="igd-save-config-btn" class="igd-btn-save">
+            <svg width="11" height="11" viewBox="0 0 11 11" fill="none"><path d="M1.5 9.5h8v-4l-2-2h-6v6z" stroke="currentColor" stroke-width="1.2" stroke-linejoin="round"/><path d="M3.5 1.5v2.5h4V1.5" stroke="currentColor" stroke-width="1.2" stroke-linejoin="round"/><path d="M4 9.5V7h3v2.5" stroke="currentColor" stroke-width="1.2" stroke-linejoin="round"/></svg>
+            Save Config
+          </button>
+          <div id="igd-save-msg" class="igd-save-msg hidden">Saved!</div>
+        </div>
+      </div>
+
+      <!-- Manage Panel -->
+      <div class="igd-panel">
+        <div class="igd-panel-header">
+          <svg width="13" height="13" viewBox="0 0 13 13" fill="none"><circle cx="6.5" cy="6.5" r="2" stroke="currentColor" stroke-width="1.2"/><path d="M6.5 1v1.5M6.5 10.5V12M12 6.5h-1.5M2.5 6.5H1M10.1 2.9l-1.1 1.1M4 9L2.9 10.1M10.1 10.1L9 9M4 4 2.9 2.9" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/></svg>
+          Manage
+        </div>
+        <div class="igd-panel-body igd-manage-grid">
+          <button id="igd-open-folder-btn" class="igd-manage-btn">
+            <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M1.5 3.5h11v8a1 1 0 01-1 1h-9a1 1 0 01-1-1v-8z" stroke="currentColor" stroke-width="1.2"/><path d="M1.5 3.5l1.5-2h4l1.5 2" stroke="currentColor" stroke-width="1.2" stroke-linejoin="round"/></svg>
+            Open Folder
+          </button>
+          <button id="igd-add-steam-btn" class="igd-manage-btn">
+            <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><circle cx="7" cy="7" r="5.5" stroke="currentColor" stroke-width="1.2"/><path d="M4.5 7.5l1.5 1.5 4-4" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            Add to Steam
+          </button>
+          <button id="igd-shortcut-btn" class="igd-manage-btn">
+            <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><rect x="2" y="2" width="10" height="10" rx="2" stroke="currentColor" stroke-width="1.2"/><path d="M5 7h4M7 5v4" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/></svg>
+            Desktop Shortcut
+          </button>
+          <button id="igd-verify-btn" class="igd-manage-btn">
+            <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><circle cx="6" cy="6" r="4" stroke="currentColor" stroke-width="1.2"/><line x1="9" y1="9" x2="12.5" y2="12.5" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/></svg>
+            Verify Files
+          </button>
+          <button id="igd-hide-btn" class="igd-manage-btn" data-hidden="false">
+            <svg id="igd-hide-icon" width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M1 7s2.5-4 6-4 6 4 6 4-2.5 4-6 4-6-4-6-4z" stroke="currentColor" stroke-width="1.2"/><circle cx="7" cy="7" r="1.8" stroke="currentColor" stroke-width="1.2"/><line x1="2" y1="2" x2="12" y2="12" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/></svg>
+            <span id="igd-hide-label">Hide from Library</span>
+          </button>
+          <button id="igd-uninstall-btn" class="igd-manage-btn danger">
+            <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M2.5 4.5h9l-1 7h-7l-1-7z" stroke="currentColor" stroke-width="1.2" stroke-linejoin="round"/><path d="M5 4.5V3a.5.5 0 01.5-.5h3a.5.5 0 01.5.5v1.5" stroke="currentColor" stroke-width="1.2"/><line x1="1.5" y1="4.5" x2="12.5" y2="4.5" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/></svg>
+            Uninstall
+          </button>
+        </div>
+        <!-- Verify result -->
+        <div id="igd-verify-result" class="igd-verify-result hidden"></div>
+      </div>
+
+      <!-- Install Info -->
+      <div class="igd-panel" id="igd-info-panel">
+        <div class="igd-panel-header">
+          <svg width="13" height="13" viewBox="0 0 13 13" fill="none"><circle cx="6.5" cy="6.5" r="5" stroke="currentColor" stroke-width="1.2"/><line x1="6.5" y1="5.5" x2="6.5" y2="9.5" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/><circle cx="6.5" cy="3.5" r=".7" fill="currentColor"/></svg>
+          Install Info
+        </div>
+        <div class="igd-panel-body">
+          <div class="igd-info-row">
+            <span class="igd-info-key">Location</span>
+            <span class="igd-info-val" id="igd-installdir-val">—</span>
+          </div>
+          <div class="igd-info-row">
+            <span class="igd-info-key">Size on Disk</span>
+            <span class="igd-info-val" id="igd-disksize-val">—</span>
+          </div>
+          <div class="igd-info-row" id="igd-addedAt-row" style="display:none">
+            <span class="igd-info-key">Added</span>
+            <span class="igd-info-val" id="igd-addedAt-val">—</span>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+</div>
+</div>
+</div><!-- /page-area -->
+</div><!-- /body -->
+
+<div id="statusbar"><span id="status-text">Ready</span></div>
+
+<!-- ── Trailer Modal ──────────────────────────────────────────── -->
+<div id="trailer-overlay" class="dialog-overlay hidden" role="dialog" aria-modal="true" aria-label="Game Trailer">
+  <div id="trailer-modal">
+    <button id="trailer-close" aria-label="Close trailer">
+      <svg width="18" height="18" viewBox="0 0 18 18" fill="none"><line x1="3" y1="3" x2="15" y2="15" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/><line x1="15" y1="3" x2="3" y2="15" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
+    </button>
+    <div id="trailer-frame-wrap">
+      <iframe id="trailer-iframe" class="trailer-iframe" frameborder="0"
+        allow="autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share"
+        allowfullscreen loading="lazy" src=""></iframe>
+    </div>
+    <div id="trailer-title-bar"></div>
+  </div>
+</div>
+
+<!-- ── DevTools Panel (Ctrl+Shift+D) ─────────────────────────── -->
+<!-- Fix unrecognised game dialog — at body level so it works from any page -->
+
+<!-- ── Game Tracking: close guard ────────────────────────────── -->
+<div id="close-guard-overlay" class="dialog-overlay hidden">
+  <div class="dialog-box" style="width:380px">
+    <div style="display:flex;align-items:center;gap:10px;margin-bottom:14px">
+      <svg width="22" height="22" viewBox="0 0 22 22" fill="none" style="flex-shrink:0">
+        <circle cx="11" cy="11" r="9.5" stroke="#f59e0b" stroke-width="1.5"/>
+        <line x1="11" y1="6" x2="11" y2="12.5" stroke="#f59e0b" stroke-width="1.5" stroke-linecap="round"/>
+        <circle cx="11" cy="15.5" r="1" fill="#f59e0b"/>
+      </svg>
+      <div class="dialog-title" style="margin:0;color:#f59e0b">Game Still Running</div>
+    </div>
+    <div style="font-size:13px;color:var(--text-secondary,#a6adc8);line-height:1.6;margin-bottom:18px">
+      <strong id="close-guard-game-name" style="color:var(--text-primary,#cdd6f4)"></strong> is still running.<br>
+      Closing NinoGames will terminate the game and save your playtime.
+    </div>
+    <div class="dialog-actions">
+      <button id="close-guard-cancel" class="action-btn-secondary">Keep Playing</button>
+      <button id="close-guard-confirm" style="padding:8px 18px;font-size:13px;background:rgba(239,68,68,.2);color:#f87171;border:1px solid rgba(239,68,68,.4);border-radius:var(--radius-sm,6px);cursor:pointer;font-family:var(--font)">Close &amp; Terminate</button>
+    </div>
+  </div>
+</div>
+
+<!-- ── Game Tracking: now-playing bar ────────────────────────── -->
+<div id="now-playing-bar" style="display:none;position:fixed;bottom:28px;left:0;right:0;z-index:800;pointer-events:none;">
+  <div style="display:flex;align-items:center;gap:8px;max-width:340px;margin:0 auto;background:var(--surface-2,#1e1e2e);border:1px solid rgba(74,222,128,.3);border-radius:10px;padding:8px 14px;pointer-events:auto;box-shadow:0 4px 20px rgba(0,0,0,.4)">
+    <span style="width:8px;height:8px;border-radius:50%;background:#4ade80;flex-shrink:0;animation:pulse 1.5s infinite"></span>
+    <span style="font-size:12px;color:#4ade80;font-weight:600">Now Playing</span>
+    <span id="now-playing-title" style="font-size:12px;color:var(--text-primary,#cdd6f4);flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap"></span>
+    <span id="now-playing-timer" style="font-size:11px;color:var(--text-dim,#6c7086);font-variant-numeric:tabular-nums;flex-shrink:0">0:00</span>
+  </div>
+</div>
+
+<div id="fix-game-dialog" class="dialog-overlay hidden">
+  <div class="dialog-box">
+    <div class="dialog-title">Fix Unrecognised Game</div>
+    <div class="dialog-field">
+      <label>Detected Folder Name</label>
+      <input type="text" id="fix-folder-name" readonly/>
+    </div>
+    <div class="dialog-field">
+      <label>Search for correct game</label>
+      <div style="display:flex;gap:8px">
+        <input type="text" id="fix-search-input" placeholder="Search game title…" autocomplete="off"/>
+        <button id="fix-search-btn" class="settings-btn">Search</button>
+      </div>
+    </div>
+    <div id="fix-search-results" class="fix-results-list"></div>
+    <div class="dialog-actions">
+      <button id="fix-cancel-btn" class="action-btn-secondary">Cancel</button>
+    </div>
+  </div>
+</div>
+
+<div id="devtools-overlay" class="devtools-hidden">
+  <div id="devtools-panel">
+    <div id="devtools-header">
+      <div id="devtools-title">
+        <svg width="16" height="16" viewBox="0 0 16 16" fill="none" style="margin-right:6px;flex-shrink:0">
+          <rect x="1" y="1" width="14" height="14" rx="2" stroke="#7C8CF8" stroke-width="1.4"/>
+          <path d="M4 5.5l2.5 2.5L4 10.5" stroke="#7C8CF8" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/>
+          <line x1="9" y1="10.5" x2="13" y2="10.5" stroke="#7C8CF8" stroke-width="1.4" stroke-linecap="round"/>
+        </svg>
+        DevTools
+        <span id="devtools-shortcut-hint">Ctrl+Shift+D</span>
+      </div>
+      <div style="display:flex;gap:6px;align-items:center">
+        <button id="devtools-refresh-btn" class="devtools-btn-icon" title="Refresh info">
+          <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M12.5 7A5.5 5.5 0 1 1 9.3 2.1" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/><path d="M9 1v3.5H12.5" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </button>
+        <button id="devtools-native-btn" class="devtools-btn-icon" title="Open Electron DevTools (Ctrl+Shift+I)">
+          <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><rect x="1" y="2" width="12" height="10" rx="1.5" stroke="currentColor" stroke-width="1.3"/><path d="M4 5l2.5 2L4 9" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/><line x1="8" y1="9" x2="11" y2="9" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/></svg>
+        </button>
+        <button id="devtools-close-btn" class="devtools-btn-icon" title="Close (Ctrl+Shift+D)">
+          <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><line x1="3" y1="3" x2="11" y2="11" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/><line x1="11" y1="3" x2="3" y2="11" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+        </button>
+      </div>
+    </div>
+
+    <!-- Tabs -->
+    <div id="devtools-tabs">
+      <button class="devtools-tab active" data-tab="info">Info</button>
+      <button class="devtools-tab" data-tab="preview">Scraper Preview</button>
+      <button class="devtools-tab" data-tab="downloads">Downloads</button>
+    </div>
+
+    <!-- Tab: Info -->
+    <div id="devtools-tab-info" class="devtools-tab-content active">
+      <div class="devtools-section">
+        <div class="devtools-section-title">aria2c Status</div>
+        <div id="devtools-aria2-status" class="devtools-status-row">
+          <span class="devtools-dot devtools-dot-loading"></span>
+          <span id="devtools-aria2-label">Checking…</span>
+        </div>
+        <div id="devtools-aria2-path" class="devtools-mono devtools-muted"></div>
+      </div>
+      <div class="devtools-section">
+        <div class="devtools-section-title">7-Zip Status</div>
+        <div id="devtools-7zip-status" class="devtools-status-row">
+          <span class="devtools-dot devtools-dot-loading"></span>
+          <span id="devtools-7zip-label">Checking…</span>
+        </div>
+        <div id="devtools-7zip-path" class="devtools-mono devtools-muted"></div>
+      </div>
+      <div class="devtools-section">
+        <div class="devtools-section-title">Runtime</div>
+        <div id="devtools-runtime" class="devtools-kv-grid"></div>
+      </div>
+      <div class="devtools-section">
+        <div class="devtools-section-title">Settings</div>
+        <div id="devtools-settings-kv" class="devtools-kv-grid"></div>
+      </div>
+      <div class="devtools-section" id="devtools-discord-section">
+        <div class="devtools-section-title">Discord RPC</div>
+        <div style="margin-bottom:8px;color:var(--text-dim);font-size:11px;line-height:1.5">
+          Paste a Discord Application Client ID to enable Rich Presence.<br>
+          Saved to <code style="font-size:10px;opacity:.7">discord-rpc.json</code> (gitignored). Restart to apply changes.
+        </div>
+        <div id="devtools-discord-status" class="devtools-status-row" style="margin-bottom:8px">
+          <span class="devtools-dot devtools-dot-loading" id="devtools-discord-dot"></span>
+          <span id="devtools-discord-label">Checking…</span>
+        </div>
+        <div style="display:flex;gap:6px;align-items:center">
+          <input id="devtools-discord-clientid" type="text" placeholder="Client ID (18–19 digits)"
+            style="flex:1;background:var(--surface-3,#181825);border:1px solid var(--border,#313244);border-radius:5px;color:var(--text-primary,#cdd6f4);font-size:12px;font-family:monospace;padding:5px 8px;outline:none"/>
+          <button id="devtools-discord-save-btn" class="devtools-btn-sm">Save</button>
+          <button id="devtools-discord-clear-btn" class="devtools-btn-sm" style="background:transparent;border:1px solid var(--border,#313244);color:var(--text-dim)">Clear</button>
+        </div>
+        <div id="devtools-discord-save-status" style="font-size:11px;color:var(--text-dim);margin-top:5px;min-height:14px"></div>
+      </div>
+      <div class="devtools-section">
+        <div class="devtools-section-title">App Reset</div>
+        <div style="margin-bottom:8px;color:var(--text-dim);font-size:11px;line-height:1.5">Clears Electron cache, cookies, and storage data, then restarts the app. Your library and settings are not affected.</div>
+        <button id="devtools-clear-cache-btn" class="devtools-btn-sm" style="background:#c0392b;color:#fff;border:none;padding:5px 12px;border-radius:4px;cursor:pointer;font-size:12px;font-weight:500">Clear Cache &amp; Restart</button>
+        <span id="devtools-clear-cache-status" style="font-size:11px;color:var(--text-dim);margin-left:8px"></span>
+      </div>
+    </div>
+
+    <!-- Tab: Scraper Preview -->
+    <div id="devtools-tab-preview" class="devtools-tab-content">
+      <div class="devtools-section" style="flex:1;display:flex;flex-direction:column;min-height:0">
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:8px">
+          <div class="devtools-section-title" style="margin-bottom:0">Live Scraper Window</div>
+          <button id="devtools-capture-btn" class="devtools-btn-sm">Capture</button>
+        </div>
+        <div id="devtools-preview-url" class="devtools-mono devtools-muted" style="margin-bottom:8px;word-break:break-all;font-size:10px">(no active scraper)</div>
+        <div id="devtools-preview-wrap" style="flex:1;min-height:0;border-radius:6px;overflow:hidden;background:#0a0a0a;display:flex;align-items:center;justify-content:center;">
+          <div id="devtools-preview-placeholder" style="color:#444;font-size:12px;text-align:center;padding:20px">
+            Start a download to see the<br>scraper window here
+          </div>
+          <img id="devtools-preview-img" style="display:none;width:100%;height:100%;object-fit:contain;" alt="Scraper preview"/>
+        </div>
+        <div id="devtools-preview-ts" class="devtools-muted" style="font-size:10px;margin-top:4px;text-align:right"></div>
+      </div>
+    </div>
+
+    <!-- Tab: Downloads -->
+    <div id="devtools-tab-downloads" class="devtools-tab-content">
+      <div class="devtools-section" style="flex:1;min-height:0;overflow-y:auto">
+        <div class="devtools-section-title">Active Downloads</div>
+        <div id="devtools-downloads-list">
+          <div class="devtools-muted" style="font-size:12px">(none)</div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+  <!-- EXE PICKER MODAL -->
+  <!-- ANTIVIRUS EXCLUSION PROMPT -->
+  <div id="defender-overlay" class="exe-picker-overlay hidden" role="dialog" aria-modal="true" aria-labelledby="defender-title">
+    <div class="exe-picker-modal" style="max-width:420px;" id="defender-modal-inner">
+
+      <!-- Panel A: Main question -->
+      <div id="defender-panel-main">
+        <div class="exe-picker-header" style="border-bottom:none;padding-bottom:0;">
+          <h3 id="defender-title" style="font-size:14px;font-weight:600;">Antivirus Exclusion</h3>
+          <button class="exe-picker-close" id="defender-close" title="Cancel">
+            <svg width="10" height="10" viewBox="0 0 10 10" fill="none"><line x1="1" y1="1" x2="9" y2="9" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/><line x1="9" y1="1" x2="1" y2="9" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+          </button>
+        </div>
+        <div style="display:flex;flex-direction:column;align-items:center;padding:12px 20px 0;">
+          <svg width="44" height="44" viewBox="0 0 44 44" fill="none" style="margin-bottom:14px;flex-shrink:0">
+            <path d="M22 4L38 10v12c0 10-7.5 17.5-16 20C13.5 39.5 6 32 6 22V10L22 4Z" stroke="var(--accent,#89b4fa)" stroke-width="1.8" stroke-linejoin="round" fill="rgba(137,180,250,0.08)"/>
+            <path d="M15 22l5 5 9-9" stroke="#2ed573" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+          <p style="text-align:center;font-size:13px;font-weight:600;margin:0 0 8px;line-height:1.4;">Exclude the NinoGames folder from antivirus?</p>
+          <p style="text-align:center;font-size:12px;opacity:0.65;margin:0 0 18px;line-height:1.5;">
+            Windows Defender may flag game files as false positives. Adding an exclusion prevents interruptions during download and installation.
+          </p>
+        </div>
+        <div class="exe-picker-footer" style="padding-top:0;">
+          <div class="exe-picker-actions" style="width:100%;justify-content:center;gap:10px;">
+            <button class="exe-picker-btn-browse" id="defender-no" style="flex:1;">No</button>
+            <button class="exe-picker-btn-launch" id="defender-yes" style="flex:1;">Yes, Add Exclusion</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Panel B: "Are you sure?" shown when user clicks No -->
+      <div id="defender-panel-confirm" class="hidden">
+        <div class="exe-picker-header" style="border-bottom:none;padding-bottom:0;">
+          <h3 style="font-size:14px;font-weight:600;">Are you sure?</h3>
+        </div>
+        <div style="padding:8px 20px 4px;">
+          <p style="font-size:12px;opacity:0.7;line-height:1.6;margin:0 0 16px;">
+            Without an exclusion, Windows Defender may quarantine downloaded game files or interrupt installations. You can still add an exclusion later in <strong>Settings</strong>.
+          </p>
+        </div>
+        <div class="exe-picker-footer" style="padding-top:0;">
+          <div class="exe-picker-actions" style="width:100%;justify-content:center;gap:10px;">
+            <button class="exe-picker-btn-browse" id="defender-confirm-skip" style="flex:1;">Skip anyway</button>
+            <button class="exe-picker-btn-launch" id="defender-confirm-back" style="flex:1;">Go back</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Panel C: Adding exclusion / result -->
+      <div id="defender-panel-adding" class="hidden">
+        <div class="exe-picker-header" style="border-bottom:none;padding-bottom:0;">
+          <h3 style="font-size:14px;font-weight:600;">Adding Exclusion…</h3>
+        </div>
+        <div style="display:flex;flex-direction:column;align-items:center;padding:20px 20px 24px;">
+          <div id="defender-adding-spinner" style="font-size:12px;opacity:0.7;">Please wait…</div>
+          <div id="defender-adding-result" class="hidden" style="text-align:center;font-size:13px;font-weight:600;"></div>
+        </div>
+        <div class="exe-picker-footer" style="padding-top:0;" id="defender-adding-footer">
+          <div class="exe-picker-actions" style="justify-content:center;">
+            <button class="exe-picker-btn-launch" id="defender-adding-continue">Continue</button>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <div id="exe-picker-overlay" class="exe-picker-overlay hidden" role="dialog" aria-modal="true" aria-labelledby="exe-picker-title">
+    <div class="exe-picker-modal">
+      <div class="exe-picker-header">
+        <span class="exe-picker-icon">
+          <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><rect x="1" y="2" width="12" height="10" rx="1.5" stroke="currentColor" stroke-width="1.3"/><path d="M4 7h6M7 4v6" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/></svg>
+        </span>
+        <h3 id="exe-picker-title">Choose Executable</h3>
+        <button class="exe-picker-close" id="exe-picker-close" title="Cancel">
+          <svg width="10" height="10" viewBox="0 0 10 10" fill="none"><line x1="1" y1="1" x2="9" y2="9" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/><line x1="9" y1="1" x2="1" y2="9" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+        </button>
+      </div>
+      <p class="exe-picker-sub" id="exe-picker-sub">Select which executable to launch for this game.</p>
+      <div class="exe-picker-list" id="exe-picker-list"></div>
+      <div class="exe-picker-args-row" id="exe-picker-args-row">
+        <label class="exe-picker-args-label" for="exe-picker-args">Launch arguments <span style="opacity:.45">(optional)</span></label>
+        <input class="exe-picker-args-input" id="exe-picker-args" type="text" placeholder="-windowed -dx11" spellcheck="false" />
+      </div>
+      <div class="exe-picker-footer">
+        <label class="exe-picker-dontask" id="exe-picker-dontask-row">
+          <input type="checkbox" id="exe-picker-dontask" />
+          <span>Don't ask again for this game</span>
+        </label>
+        <div class="exe-picker-actions">
+          <button class="exe-picker-btn-browse" id="exe-picker-browse" style="">Browse…</button>
+          <button class="exe-picker-btn-launch" id="exe-picker-launch" disabled>Launch</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+<script>
+// ── Library header 3-dot menu ────────────────────────────────
+(function() {
+  function initLibMenu() {
+    const btn = document.getElementById('lib-menu-btn');
+    const dropdown = document.getElementById('lib-menu-dropdown');
+    if (!btn || !dropdown) return;
+    btn.addEventListener('click', function(e) {
+      e.stopPropagation();
+      const open = dropdown.classList.toggle('open');
+      btn.classList.toggle('open', open);
+    });
+    document.addEventListener('click', function(e) {
+      if (!dropdown.contains(e.target) && e.target !== btn) {
+        dropdown.classList.remove('open');
+        btn.classList.remove('open');
+      }
+    });
+    // Close after a menu item is clicked (with small delay so action fires first)
+    dropdown.addEventListener('click', function(e) {
+      const item = e.target.closest('.lib-menu-item');
+      if (item) {
+        setTimeout(function() {
+          dropdown.classList.remove('open');
+          btn.classList.remove('open');
+        }, 150);
+      }
+    });
+  }
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', initLibMenu);
+  else initLibMenu();
+})();
+</script>
+<!-- ══════════════════════════════════════════════════════════════
+     ONBOARDING OVERLAY
+     ══════════════════════════════════════════════════════════════ -->
+<div id="onboarding-overlay" class="hidden">
+  <div id="onboarding-card">
+
+    <!-- Progress dots -->
+    <div id="ob-dots">
+      <span class="ob-dot active" data-step="0"></span>
+      <span class="ob-dot" data-step="1"></span>
+      <span class="ob-dot" data-step="2"></span>
+      <span class="ob-dot" data-step="3"></span>
+      <span class="ob-dot" data-step="4"></span>
+      <span class="ob-dot" data-step="5"></span>
+    </div>
+
+    <!-- ── Step 0: Welcome ─────────────────────────────────── -->
+    <div class="ob-step active" id="ob-step-0">
+      <div class="ob-icon"><svg width="44" height="44" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"><path d="M6 11h4M8 9v4M15 12h.01M18 12h.01"/><rect x="2" y="6" width="20" height="12" rx="2"/></svg></div>
+      <h2 class="ob-title">Welcome to NinoGames</h2>
+      <p class="ob-body">Let's get you set up in just a few steps so everything works the way you want it.</p>
+      <div class="ob-actions">
+        <button class="ob-btn-primary" id="ob-welcome-next">Get Started</button>
+      </div>
+    </div>
+
+    <!-- ── Step 1: Install Path ────────────────────────────── -->
+    <div class="ob-step" id="ob-step-1">
+      <div class="ob-icon"><svg width="44" height="44" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"><path d="M4 20h16a2 2 0 0 0 2-2V8a2 2 0 0 0-2-2h-7.93a2 2 0 0 1-1.66-.9l-.82-1.2A2 2 0 0 0 7.93 3H4a2 2 0 0 0-2 2v13c0 1.1.9 2 2 2z"/></svg></div>
+      <h2 class="ob-title">Where should games be installed?</h2>
+      <p class="ob-body">Choose a folder where downloaded games will be stored. You can change this later in Settings.</p>
+      <div class="ob-path-row">
+        <div id="ob-path-display" class="ob-path-text">Default — ~/NinoGames</div>
+        <button class="ob-btn-secondary" id="ob-pick-folder">Browse…</button>
+      </div>
+      <button class="ob-btn-ghost" id="ob-reset-path">Reset to default</button>
+      <div class="ob-actions ob-actions-split">
+        <button class="ob-btn-ghost" id="ob-back-1">Back</button>
+        <button class="ob-btn-primary" id="ob-next-1">Next</button>
+      </div>
+    </div>
+
+    <!-- ── Step 2: Source ──────────────────────────────────── -->
+    <div class="ob-step" id="ob-step-2">
+      <div class="ob-icon"><svg width="44" height="44" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg></div>
+      <h2 class="ob-title">Pick your game source</h2>
+      <p class="ob-body">Choose which site to browse and download games from by default.</p>
+      <div class="ob-source-list">
+        <label class="ob-source-card active" data-src="ankergames">
+          <input type="radio" name="ob-source" value="ankergames" checked hidden/>
+          <span class="ob-source-name">AnkerGames</span>
+          <span class="ob-source-desc">Fast direct downloads, large library</span>
+          <span class="ob-source-check"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg></span>
+        </label>
+        <label class="ob-source-card" data-src="steamrip">
+          <input type="radio" name="ob-source" value="steamrip" hidden/>
+          <span class="ob-source-name">SteamRIP</span>
+          <span class="ob-source-desc">Repacked games via Gofile</span>
+          <span class="ob-source-check"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg></span>
+        </label>
+      </div>
+      <div class="ob-actions ob-actions-split">
+        <button class="ob-btn-ghost" id="ob-back-2">Back</button>
+        <button class="ob-btn-primary" id="ob-next-2">Next</button>
+      </div>
+    </div>
+
+    <!-- ── Step 3: Theme ───────────────────────────────────── -->
+    <div class="ob-step" id="ob-step-3">
+      <div class="ob-icon"><svg width="44" height="44" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"><circle cx="13.5" cy="6.5" r=".5" fill="currentColor"/><circle cx="17.5" cy="10.5" r=".5" fill="currentColor"/><circle cx="8.5" cy="7.5" r=".5" fill="currentColor"/><circle cx="6.5" cy="12.5" r=".5" fill="currentColor"/><path d="M12 2C6.5 2 2 6.5 2 12s4.5 10 10 10c.926 0 1.648-.746 1.648-1.688 0-.437-.18-.835-.437-1.125-.29-.289-.438-.652-.438-1.125a1.64 1.64 0 0 1 1.668-1.668h1.996c3.051 0 5.555-2.503 5.555-5.554C21.965 6.012 17.461 2 12 2z"/></svg></div>
+      <h2 class="ob-title">Pick a look</h2>
+      <p class="ob-body">Choose a theme. You can switch anytime in Settings → Appearance.</p>
+      <div class="ob-theme-grid">
+        <button class="ob-theme-btn active" data-theme="dark">
+          <span class="ob-theme-swatch otc-dark"></span>
+          <span>Dark</span>
+        </button>
+        <button class="ob-theme-btn" data-theme="light">
+          <span class="ob-theme-swatch otc-light"></span>
+          <span>Light</span>
+        </button>
+        <button class="ob-theme-btn" data-theme="aurora">
+          <span class="ob-theme-swatch otc-aurora"></span>
+          <span>Tokyo Night</span>
+        </button>
+        <button class="ob-theme-btn" data-theme="galaxy">
+          <span class="ob-theme-swatch otc-galaxy"></span>
+          <span>Catppuccin</span>
+        </button>
+      </div>
+      <div class="ob-actions ob-actions-split">
+        <button class="ob-btn-ghost" id="ob-back-3">Back</button>
+        <button class="ob-btn-primary" id="ob-next-3">Next</button>
+      </div>
+    </div>
+
+    <!-- ── Step 4: Downloads ───────────────────────────────── -->
+    <div class="ob-step" id="ob-step-4">
+      <div class="ob-icon"><svg width="44" height="44" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg></div>
+      <h2 class="ob-title">Download settings</h2>
+      <p class="ob-body">Configure how games are downloaded and extracted. Both are recommended.</p>
+      <div class="ob-toggle-list">
+        <div class="ob-toggle-row">
+          <div class="ob-toggle-info">
+            <div class="ob-toggle-label">Aria2 Downloader</div>
+            <div class="ob-toggle-desc">Multi-connection downloads with auto-resume. Needs <code>aria2c</code> in <code>resources/aria2/</code>.</div>
+          </div>
+          <label class="toggle-switch">
+            <input type="checkbox" id="ob-aria2-toggle" checked/>
+            <span class="toggle-track"><span class="toggle-thumb"></span></span>
+          </label>
+        </div>
+        <div class="ob-toggle-row">
+          <div class="ob-toggle-info">
+            <div class="ob-toggle-label">7-Zip Extractor</div>
+            <div class="ob-toggle-desc">Faster extraction for large archives. Needs <code>7za.exe</code> in <code>resources/7zip/</code>.</div>
+          </div>
+          <label class="toggle-switch">
+            <input type="checkbox" id="ob-sevenzip-toggle" checked/>
+            <span class="toggle-track"><span class="toggle-thumb"></span></span>
+          </label>
+        </div>
+      </div>
+      <div class="ob-actions ob-actions-split">
+        <button class="ob-btn-ghost" id="ob-back-4">Back</button>
+        <button class="ob-btn-primary" id="ob-next-4">Next</button>
+      </div>
+    </div>
+
+    <!-- ── Step 5: Redistributables ───────────────────────── -->
+    <div class="ob-step" id="ob-step-5">
+      <div class="ob-icon"><svg width="44" height="44" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/></svg></div>
+      <h2 class="ob-title">Install Redistributables</h2>
+      <p class="ob-body">Many games need Visual C++ runtimes, .NET, DirectX, and more. Install them all now via <code>winget</code> — or skip and do it later in Settings.</p>
+
+      <div id="ob-redist-idle">
+        <button class="ob-btn-redist" id="ob-install-redist-btn">
+          <svg width="16" height="16" viewBox="0 0 15 15" fill="none"><path d="M7.5 2v8M4.5 7.5l3 3 3-3" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><path d="M2 12h11" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+          Install Redistributables
+        </button>
+      </div>
+
+      <div id="ob-redist-running" class="hidden">
+        <div class="ob-redist-pkg" id="ob-redist-pkg-label">Starting…</div>
+        <div class="ob-redist-bar-wrap">
+          <div class="ob-redist-bar" id="ob-redist-bar"></div>
+        </div>
+        <div class="ob-redist-pct" id="ob-redist-pct">0%</div>
+      </div>
+
+      <div id="ob-redist-done" class="hidden">
+        <div class="ob-redist-done-msg"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" style="vertical-align:middle;display:inline-block"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg> Redistributables installed successfully!</div>
+      </div>
+
+      <div class="ob-actions ob-actions-split">
+        <button class="ob-btn-ghost" id="ob-back-5">Back</button>
+        <button class="ob-btn-primary" id="ob-finish">Finish Setup</button>
+      </div>
+      <button class="ob-skip-link" id="ob-skip-redist">Skip this step</button>
+    </div>
+
+  </div><!-- /onboarding-card -->
+</div><!-- /onboarding-overlay -->
+
+
+<script src="renderer.js"></script>
+<script src="party_renderer.js"></script>
+</body>
+</html>

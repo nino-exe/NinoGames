@@ -1,0 +1,587 @@
+
+/* ── Party (EasyTier multiplayer) ─────────────────────────────── */
+#mp-header { align-items:center !important; }
+#mp-header-spacer { flex:1; }
+
+/* ── Top-bar buttons ── */
+.party-topbtn {
+  display:inline-flex; align-items:center; gap:6px;
+  padding:7px 14px; font-size:12.5px; font-weight:600;
+  border-radius:8px; cursor:pointer; border:none;
+  font-family:var(--font);
+  background:linear-gradient(135deg, #0ea5e9 0%, #60CDFF 100%);
+  color:#000;
+  transition:opacity .15s, transform .15s, box-shadow .15s;
+  box-shadow:0 2px 10px rgba(14,165,233,.3);
+}
+.party-topbtn:hover { transform:translateY(-1px); opacity:.92; box-shadow:0 4px 16px rgba(14,165,233,.4); }
+.party-topbtn:active { transform:translateY(0); }
+.party-topbtn-ghost {
+  background:rgba(255,255,255,.05);
+  color:var(--text-secondary,#a6adc8);
+  border:1px solid rgba(255,255,255,.09);
+  box-shadow:none;
+}
+.party-topbtn-ghost:hover { background:rgba(255,255,255,.09); transform:translateY(-1px); box-shadow:none; }
+
+/* ── Live pill ── */
+#party-pill {
+  display:inline-flex; align-items:center; gap:7px;
+  padding:5px 12px 5px 9px; border-radius:999px;
+  background:rgba(166,227,161,.08);
+  border:1px solid rgba(166,227,161,.2);
+  font-size:12px; font-weight:600; color:#a6e3a1;
+  cursor:pointer;
+  transition:background .15s, border-color .15s;
+}
+#party-pill:hover { background:rgba(166,227,161,.14); border-color:rgba(166,227,161,.35); }
+#party-pill-dot {
+  width:7px; height:7px; border-radius:50%; background:#a6e3a1;
+  box-shadow:0 0 6px rgba(166,227,161,.8);
+  animation: partyPulse 1.8s ease-in-out infinite;
+}
+@keyframes partyPulse { 0%,100% { opacity:1; transform:scale(1); } 50% { opacity:.3; transform:scale(.7); } }
+
+/* ── Install nudge row ── */
+#party-install-row {
+  display:flex; align-items:center; gap:10px;
+  background:rgba(96,205,255,.05);
+  border:1px solid rgba(96,205,255,.12);
+  border-radius:8px;
+  padding:6px 10px 6px 12px;
+}
+#party-install-label {
+  font-size:11.5px; color:var(--text-dim,#6c7086); flex:1;
+}
+
+/* ── Error box ── */
+.party-error {
+  display:flex; align-items:flex-start; gap:8px;
+  font-size:12px; color:#f38ba8;
+  background:rgba(243,139,168,.06);
+  border:1px solid rgba(243,139,168,.2);
+  border-radius:8px;
+  padding:10px 12px; margin-bottom:14px; line-height:1.55;
+}
+.party-error::before {
+  content:'!';
+  flex-shrink:0; width:16px; height:16px;
+  border-radius:50%; background:rgba(243,139,168,.18);
+  color:#f38ba8; font-size:10px; font-weight:800;
+  display:flex; align-items:center; justify-content:center;
+  margin-top:1px;
+}
+
+/* ── Connecting state ── */
+.party-connecting {
+  display:flex; flex-direction:column; align-items:center; gap:14px;
+  padding:36px 10px;
+  font-size:13px; color:var(--text-secondary,#a6adc8);
+}
+.party-spinner {
+  width:28px; height:28px; border-radius:50%;
+  border:2.5px solid rgba(255,255,255,.08);
+  border-top-color:#60CDFF;
+  animation: partySpin .75s linear infinite;
+}
+.party-connecting-label {
+  font-size:12px; color:var(--text-dim,#6c7086);
+}
+@keyframes partySpin { to { transform:rotate(360deg); } }
+
+/* ── Panel internals ── */
+#party-panel-body { display:flex; flex-direction:column; gap:0; }
+
+/* Role badge */
+#party-role-badge {
+  display:inline-flex; align-items:center; gap:6px;
+  font-size:10px; font-weight:700; text-transform:uppercase; letter-spacing:.8px;
+  padding:4px 9px; border-radius:5px; margin-bottom:18px; align-self:flex-start;
+  background:rgba(96,205,255,.1); border:1px solid rgba(96,205,255,.22);
+  color:#60CDFF;
+}
+#party-role-badge::before {
+  content:'';
+  width:5px; height:5px; border-radius:50%;
+  background:#60CDFF;
+  box-shadow:0 0 5px rgba(96,205,255,.9);
+}
+
+/* Share code section */
+.party-share-label {
+  font-size:10.5px; font-weight:600; text-transform:uppercase; letter-spacing:.6px;
+  color:var(--text-dim,#6c7086); margin-bottom:7px;
+}
+.party-code-box {
+  display:flex; align-items:center; gap:0;
+  background:rgba(255,255,255,.03);
+  border:1px solid rgba(255,255,255,.09);
+  border-radius:9px; overflow:hidden; margin-bottom:18px;
+}
+.party-code-box code {
+  flex:1; font-family:'Consolas','Fira Code',monospace; font-size:13.5px;
+  color:var(--text-primary,#cdd6f4); letter-spacing:.5px; user-select:all;
+  word-break:break-all; padding:10px 14px;
+}
+.party-code-copy-btn {
+  flex-shrink:0;
+  background:rgba(255,255,255,.04); border:none; border-left:1px solid rgba(255,255,255,.09);
+  color:var(--text-dim,#6c7086);
+  padding:0 12px; cursor:pointer; height:100%;
+  display:flex; align-items:center; justify-content:center; gap:5px;
+  font-size:11px; font-family:var(--font); font-weight:500;
+  transition:color .15s, background .15s;
+  min-height:40px;
+}
+.party-code-copy-btn:hover { color:#60CDFF; background:rgba(96,205,255,.08); }
+.party-code-copy-btn.copied { color:#a6e3a1; }
+
+/* Backward compat alias (party_renderer.js uses #party-code-copy) */
+#party-code-copy { all:unset; }
+
+/* Game picker */
+.party-field-label {
+  font-size:10.5px; font-weight:600; text-transform:uppercase; letter-spacing:.6px;
+  color:var(--text-dim,#6c7086); margin-bottom:7px; display:block;
+}
+
+/* Custom select */
+.party-select {
+  position:relative; width:100%; box-sizing:border-box;
+  margin-bottom:14px; outline:none;
+}
+.party-select-face {
+  display:flex; align-items:center; justify-content:space-between; gap:8px;
+  padding:8px 10px 8px 12px;
+  background:rgba(255,255,255,.04); border:1px solid rgba(255,255,255,.09);
+  border-radius:8px; cursor:pointer;
+  font-size:13px; color:var(--text-primary,#cdd6f4);
+  font-family:var(--font); user-select:none;
+  transition:border-color .15s, background .15s;
+}
+.party-select:focus .party-select-face,
+.party-select.open .party-select-face {
+  border-color:rgba(96,205,255,.4); background:rgba(96,205,255,.04);
+}
+.party-select-text { flex:1; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+.party-select-text.placeholder { color:var(--text-dim,#6c7086); }
+.party-select-arrow {
+  flex-shrink:0; color:var(--text-dim,#6c7086);
+  transition:transform .2s ease;
+}
+.party-select.open .party-select-arrow { transform:rotate(180deg); }
+
+.party-select-dropdown {
+  display:none;
+  position:absolute; top:calc(100% + 5px); left:0; right:0; z-index:200;
+  background:var(--bg-card,#1e1e2e);
+  border:1px solid rgba(255,255,255,.1);
+  border-radius:9px;
+  box-shadow:0 12px 36px rgba(0,0,0,.5), 0 0 0 1px rgba(255,255,255,.04);
+  overflow:hidden;
+  animation:partyDropIn .15s ease;
+}
+@keyframes partyDropIn {
+  from { opacity:0; transform:translateY(-6px); }
+  to   { opacity:1; transform:translateY(0); }
+}
+.party-select.open .party-select-dropdown { display:block; }
+.party-select-list { max-height:180px; overflow-y:auto; padding:4px; }
+.party-select-list::-webkit-scrollbar { width:4px; }
+.party-select-list::-webkit-scrollbar-track { background:transparent; }
+.party-select-list::-webkit-scrollbar-thumb { background:rgba(255,255,255,.1); border-radius:4px; }
+
+.party-select-opt {
+  display:flex; align-items:center; gap:8px;
+  padding:7px 10px; border-radius:6px; cursor:pointer;
+  font-size:13px; color:var(--text-primary,#cdd6f4);
+  font-family:var(--font); transition:background .1s;
+  user-select:none;
+}
+.party-select-opt:hover { background:rgba(255,255,255,.06); }
+.party-select-opt.selected { background:rgba(96,205,255,.08); color:#60CDFF; }
+.party-select-opt.disabled {
+  color:var(--text-dim,#6c7086); cursor:not-allowed; opacity:.55;
+}
+.party-select-opt.disabled:hover { background:transparent; }
+.party-select-opt-check {
+  flex-shrink:0; width:14px; display:flex; align-items:center; justify-content:center;
+  color:#60CDFF; opacity:0;
+}
+.party-select-opt.selected .party-select-opt-check { opacity:1; }
+.party-select-opt-label { flex:1; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+.party-select-opt-badge {
+  flex-shrink:0; font-size:10px; font-weight:600; letter-spacing:.3px;
+  padding:2px 6px; border-radius:4px;
+  background:rgba(74,222,128,.12); color:#4ade80;
+  border:1px solid rgba(74,222,128,.2);
+}
+.party-select-opt.disabled .party-select-opt-badge {
+  background:rgba(255,255,255,.05); color:var(--text-dim,#6c7086);
+  border-color:rgba(255,255,255,.07);
+}
+
+/* Connection info block */
+#party-ip-row {
+  font-size:12px; color:var(--text-secondary,#a6adc8); line-height:1.6;
+  background:rgba(255,255,255,.025);
+  border:1px solid rgba(255,255,255,.06);
+  border-radius:8px; padding:10px 12px; margin-bottom:14px;
+}
+#party-ip-row strong { color:var(--text-primary,#cdd6f4); font-weight:600; }
+
+/* ── GTA Connected host: server.xml editor ────────────────────── */
+#party-gtac-settings { flex:1; min-height:0; display:flex; flex-direction:column; }
+#party-gtac-settings .party-gtac-form {
+  flex:1; min-height:0; overflow-y:auto; padding:2px; margin-bottom:18px;
+}
+#party-gtac-settings .party-gtac-form::-webkit-scrollbar { width:5px; }
+#party-gtac-settings .party-gtac-form::-webkit-scrollbar-track { background:transparent; }
+#party-gtac-settings .party-gtac-form::-webkit-scrollbar-thumb { background:rgba(255,255,255,.1); border-radius:4px; }
+#party-gtac-settings .party-limits-row { margin-bottom:10px; }
+#party-gtac-settings .party-limit-input { margin-bottom:0; }
+
+.party-check {
+  display:flex; align-items:center; gap:6px;
+  font-size:12.5px; color:var(--text-secondary,#a6adc8);
+  cursor:pointer; user-select:none;
+}
+.party-check input { accent-color:#60CDFF; cursor:pointer; }
+.party-gtac-hint {
+  font-size:11px; color:var(--text-dim,#6c7086); line-height:1.6;
+  margin:2px 0 0; padding-top:10px; border-top:1px solid rgba(255,255,255,.06);
+}
+.party-gtac-hint code {
+  font-family:'Consolas','Fira Code',monospace; font-size:10.5px;
+  color:#60CDFF; background:rgba(96,205,255,.08);
+  padding:1px 5px; border-radius:4px;
+}
+
+/* ═══════════════════════════════════════════════════════
+   Party — fullscreen page (uses the app's own .page system,
+   not a modal/dialog) ── matches the look of Library/Multiplayer
+═══════════════════════════════════════════════════════ */
+
+#party-page-topbar {
+  display:flex; align-items:center; gap:14px;
+  padding:22px 26px; flex-shrink:0;
+  border-bottom:1px solid rgba(255,255,255,.06);
+}
+#party-page-topbar h1 {
+  font-size:20px; font-weight:700; margin:0;
+  color:var(--text-primary,#cdd6f4);
+}
+
+.party-page-back {
+  display:inline-flex; align-items:center; gap:6px;
+  background:rgba(255,255,255,.04);
+  border:1px solid rgba(255,255,255,.08);
+  color:var(--text-secondary,#a6adc8);
+  font-size:12.5px; font-weight:600; font-family:var(--font);
+  padding:7px 13px 7px 10px; border-radius:8px; cursor:pointer;
+  transition:background .15s, color .15s;
+}
+.party-page-back:hover { background:rgba(255,255,255,.08); color:var(--text-primary,#cdd6f4); }
+
+.party-page-body {
+  flex:1; min-height:0; overflow-y:auto;
+  display:flex; align-items:center; justify-content:center;
+  padding:40px 24px;
+}
+
+.party-page-card {
+  width:100%; max-width:480px;
+  display:flex; flex-direction:column;
+  animation:partyCardIn .25s cubic-bezier(.2,.8,.2,1);
+}
+.party-page-card-narrow { max-width:400px; align-items:center; text-align:center; }
+
+@keyframes partyCardIn {
+  from { opacity:0; transform:translateY(10px); }
+  to   { opacity:1; transform:translateY(0); }
+}
+
+.party-page-icon {
+  width:60px; height:60px; border-radius:16px;
+  background:rgba(96,205,255,.08); border:1px solid rgba(96,205,255,.18);
+  display:flex; align-items:center; justify-content:center;
+  color:#60CDFF; margin-bottom:18px;
+}
+
+.party-page-heading {
+  font-size:17px; font-weight:700; margin:0 0 6px;
+  color:var(--text-primary,#cdd6f4);
+}
+
+.party-page-sub {
+  font-size:13.5px; color:var(--text-secondary,#a6adc8);
+  line-height:1.6; margin:0 0 22px;
+}
+
+.party-page-input {
+  width:100%; box-sizing:border-box;
+  background:rgba(255,255,255,.04);
+  border:1px solid rgba(255,255,255,.09);
+  border-radius:10px; color:var(--text-primary,#cdd6f4);
+  font-family:'Consolas','Fira Code',monospace;
+  font-size:14px; letter-spacing:.4px;
+  padding:13px 16px; margin-bottom:16px;
+  text-align:center;
+  transition:border-color .15s, background .15s;
+}
+.party-page-input:focus {
+  outline:none; border-color:rgba(96,205,255,.45);
+  background:rgba(96,205,255,.05);
+}
+
+.party-page-btn-primary {
+  width:100%;
+  background:linear-gradient(135deg, #0ea5e9 0%, #60CDFF 100%);
+  color:#000; border:none; border-radius:10px;
+  padding:13px 20px; font-size:14px; font-weight:700;
+  font-family:var(--font); cursor:pointer;
+  box-shadow:0 4px 18px rgba(14,165,233,.3);
+  transition:opacity .15s, transform .15s, box-shadow .15s;
+}
+.party-page-btn-primary:hover:not(:disabled) {
+  opacity:.92; transform:translateY(-1px);
+  box-shadow:0 6px 22px rgba(14,165,233,.4);
+}
+.party-page-btn-primary:disabled { opacity:.35; cursor:not-allowed; transform:none; box-shadow:none; }
+
+.party-page-btn-ghost {
+  background:transparent; border:1px solid rgba(255,255,255,.1);
+  color:var(--text-dim,#6c7086); border-radius:10px;
+  padding:13px 20px; font-size:13.5px; font-weight:600;
+  font-family:var(--font); cursor:pointer;
+  transition:background .15s, color .15s;
+}
+.party-page-btn-ghost:hover { background:rgba(255,255,255,.06); color:var(--text-secondary,#a6adc8); }
+
+.party-page-actions {
+  display:flex; align-items:center; gap:12px;
+  margin-top:26px;
+}
+.party-page-actions .party-page-btn-primary { flex:1.4; }
+.party-page-actions .party-page-btn-ghost { flex:1; }
+
+/* Connecting state sits inside the same centered card column */
+#party-panel-connecting.party-connecting { padding:20px 10px; }
+
+/* ── Host devmap settings: timelimit/scorelimit + map picker ──── */
+#party-devmap-settings { margin-bottom:4px; }
+
+.party-field-hint { text-transform:none; font-weight:500; letter-spacing:0; color:var(--text-dim,#6c7086); }
+
+.party-limits-row {
+  display:flex; gap:12px; margin-bottom:2px;
+}
+.party-limit-field { flex:1; min-width:0; }
+.party-limit-input {
+  padding:9px 12px; margin-bottom:16px; text-align:left;
+  font-family:var(--font); font-size:13.5px; letter-spacing:0;
+}
+/* Hide native spinner clutter, keep it clean like the rest of the UI */
+.party-limit-input::-webkit-inner-spin-button,
+.party-limit-input::-webkit-outer-spin-button { opacity:.5; }
+
+/* ── Party page: fit-on-one-screen dashboard, no page scroll ── */
+.party-page-body {
+  padding:18px 24px;
+  overflow:hidden;
+}
+
+#party-panel-body {
+  width:100%; height:100%; max-width:980px;
+  min-height:0;
+  display:grid;
+  grid-template-columns:minmax(0, 360px) minmax(0, 1fr);
+  grid-template-rows:auto minmax(0, 1fr) auto;
+  grid-template-areas:
+    "party game"
+    "party options"
+    "actions actions";
+  gap:14px;
+}
+#party-section-party   { grid-area:party;   min-height:0; display:flex; flex-direction:column; }
+#party-section-party .party-members { flex:1; }
+#party-section-game    { grid-area:game;    min-height:0; }
+#party-section-options { grid-area:options; min-height:0; display:flex; flex-direction:column; }
+#party-section-options #party-devmap-settings { display:flex; flex-direction:column; flex:1; min-height:0; }
+#party-panel-body .party-page-actions { grid-area:actions; margin-top:0; }
+.party-section {
+  background:rgba(255,255,255,.025);
+  border:1px solid rgba(255,255,255,.07);
+  border-radius:12px;
+  padding:14px 16px;
+}
+.party-section-head {
+  display:flex; align-items:center; gap:8px;
+  margin-bottom:12px;
+}
+.party-section-title {
+  font-size:11.5px; font-weight:700; text-transform:uppercase;
+  letter-spacing:.7px; color:var(--text-secondary,#a6adc8);
+  margin:0;
+}
+.party-section-count {
+  font-size:11px; font-weight:600; color:var(--text-dim,#6c7086);
+}
+.party-section-head #party-role-badge {
+  margin:0 0 0 auto;
+}
+.party-section .party-select { margin-bottom:0; }
+.party-section .party-code-box { margin-bottom:12px; }
+
+/* Player list */
+.party-members {
+  display:flex; flex-direction:column; gap:6px;
+  margin-bottom:6px;
+  overflow-y:auto; min-height:0;
+  padding-right:2px;
+}
+.party-member {
+  display:flex; align-items:center; gap:10px;
+  padding:7px 10px; border-radius:9px;
+  background:rgba(255,255,255,.03);
+  border:1px solid rgba(255,255,255,.05);
+  transition:border-color .15s, background .15s;
+}
+.party-member.self {
+  background:rgba(96,205,255,.06);
+  border-color:rgba(96,205,255,.14);
+}
+.party-member-avatar {
+  width:30px; height:30px; border-radius:50%; flex-shrink:0;
+  background:linear-gradient(135deg, #0ea5e9 0%, #60CDFF 100%);
+  color:#000; font-weight:800; font-size:13px;
+  display:flex; align-items:center; justify-content:center;
+  text-transform:uppercase;
+}
+.party-member-main { flex:1; min-width:0; }
+.party-member-name {
+  font-size:12.5px; font-weight:600; color:var(--text-primary,#cdd6f4);
+  display:flex; align-items:center; gap:6px;
+  overflow:hidden; text-overflow:ellipsis; white-space:nowrap;
+}
+.party-member-ip {
+  font-size:10.5px; color:var(--text-dim,#6c7086);
+  font-family:'Consolas','Fira Code',monospace;
+}
+.party-member-badge {
+  flex-shrink:0;
+  font-size:9px; font-weight:700; letter-spacing:.4px;
+  text-transform:uppercase; padding:1.5px 6px; border-radius:4px;
+}
+.party-member-badge.host {
+  background:rgba(166,227,161,.14); color:#a6e3a1;
+  border:1px solid rgba(166,227,161,.2);
+}
+.party-member-badge.me {
+  background:rgba(96,205,255,.14); color:#60CDFF;
+  border:1px solid rgba(96,205,255,.2);
+}
+.party-member-ping {
+  flex-shrink:0; font-size:10px; color:var(--text-dim,#6c7086);
+  font-family:'Consolas','Fira Code',monospace;
+}
+.party-members-empty {
+  font-size:12px; color:var(--text-dim,#6c7086);
+  padding:6px 2px 10px;
+}
+#party-ip-row { margin-bottom:0; }
+
+/* Game options keep limits on one line and the map grid scrolling
+   *inside* the options card (the page itself never scrolls) */
+#party-section-options .party-map-scroll {
+  flex:1;
+  min-height:0;
+  overflow-y:auto;
+  margin-bottom:18px;
+  padding:2px;
+}
+#party-section-options .party-map-scroll::-webkit-scrollbar { width:5px; }
+#party-section-options .party-map-scroll::-webkit-scrollbar-track { background:transparent; }
+#party-section-options .party-map-scroll::-webkit-scrollbar-thumb { background:rgba(255,255,255,.1); border-radius:4px; }
+#party-section-options .party-limits-row { margin-bottom:2px; }
+
+.party-map-grid {
+  display:grid;
+  grid-template-columns:repeat(auto-fill, minmax(108px, 1fr));
+  gap:9px;
+}
+
+.party-map-card {
+  position:relative;
+  border-radius:9px;
+  overflow:hidden;
+  cursor:pointer;
+  aspect-ratio:16/10;
+  border:1.5px solid rgba(255,255,255,.08);
+  transition:border-color .15s, transform .12s, box-shadow .15s;
+  background:#111;
+}
+.party-map-card:hover { transform:translateY(-1px); border-color:rgba(255,255,255,.2); }
+.party-map-card.selected {
+  border-color:#60CDFF;
+  box-shadow:0 0 0 3px rgba(96,205,255,.18), 0 4px 14px rgba(14,165,233,.25);
+}
+
+.party-map-thumb {
+  position:absolute; inset:0;
+  display:flex; align-items:flex-end;
+}
+/* Generated stylized previews per map theme — no external assets needed */
+.party-map-thumb::before {
+  content:''; position:absolute; inset:0;
+}
+.party-map-thumb::after {
+  content:''; position:absolute; inset:0;
+  background:
+    linear-gradient(180deg, rgba(0,0,0,0) 40%, rgba(0,0,0,.75) 100%),
+    repeating-linear-gradient(115deg, rgba(255,255,255,.05) 0px, rgba(255,255,255,.05) 1px, transparent 1px, transparent 14px);
+}
+
+.party-map-theme-desert .party-map-thumb::before        { background:linear-gradient(160deg,#7a5a34,#c9a15a 55%,#e8c98a); }
+.party-map-theme-snow .party-map-thumb::before           { background:linear-gradient(160deg,#37475a,#8fa9c2 55%,#e7f1fb); }
+.party-map-theme-forest .party-map-thumb::before         { background:linear-gradient(160deg,#1f3324,#3f6b45 55%,#7fa876); }
+.party-map-theme-urban-warm .party-map-thumb::before     { background:linear-gradient(160deg,#4a2c22,#966044 55%,#d0a479); }
+.party-map-theme-urban-night .party-map-thumb::before    { background:linear-gradient(160deg,#0d1226,#243463 55%,#5568a8); }
+.party-map-theme-desert-urban .party-map-thumb::before   { background:linear-gradient(160deg,#5a4326,#b08a4e 55%,#dfc78f); }
+.party-map-theme-industrial .party-map-thumb::before     { background:linear-gradient(160deg,#2a2c30,#5c6066 55%,#8f949c); }
+.party-map-theme-urban .party-map-thumb::before          { background:linear-gradient(160deg,#26303d,#526379 55%,#8ea0b3); }
+
+/* Real loading-screen image previews (bundled thumbnails) */
+.party-map-thumb img.party-map-img {
+  position:absolute; inset:0; width:100%; height:100%;
+  object-fit:cover; object-position:center;
+  transition:transform .25s ease;
+}
+.party-map-card:hover .party-map-thumb img.party-map-img { transform:scale(1.06); }
+.party-map-card:active .party-map-thumb img.party-map-img { transform:scale(1.02); }
+.party-map-card.has-img .party-map-thumb::before { display:none; }
+.party-map-card.has-img .party-map-thumb::after {
+  background:linear-gradient(180deg, rgba(0,0,0,0) 35%, rgba(0,0,0,.78) 100%);
+}
+.party-map-card.has-img .party-map-label {
+  font-size:11px; letter-spacing:.2px;
+  padding:16px 8px 7px;
+  background:linear-gradient(180deg, transparent, rgba(0,0,0,.35));
+}
+
+.party-map-label {
+  position:relative; z-index:1;
+  padding:6px 8px 7px;
+  font-size:11.5px; font-weight:700;
+  color:#fff; text-shadow:0 1px 3px rgba(0,0,0,.6);
+  width:100%;
+}
+.party-map-check {
+  position:absolute; top:6px; right:6px; z-index:1;
+  width:17px; height:17px; border-radius:50%;
+  background:#60CDFF; color:#000;
+  display:flex; align-items:center; justify-content:center;
+  opacity:0; transform:scale(.6);
+  transition:opacity .12s, transform .12s;
+}
+.party-map-card.selected .party-map-check { opacity:1; transform:scale(1); }

@@ -1,0 +1,932 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>NinoGames — Big Picture</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Rajdhani:wght@400;500;600;700&family=Inter:wght@300;400;500;600&display=swap');
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --bg:        #0c0d10;
+    --surface:   #13151a;
+    --card:      #1a1d24;
+    --card-hover:#21252f;
+    --border:    rgba(255,255,255,0.06);
+    --accent:    #4fc3f7;
+    --accent2:   #7c4dff;
+    --green:     #69f0ae;
+    --text:      #f0f2f5;
+    --text-dim:  rgba(240,242,245,0.5);
+    --text-faint:rgba(240,242,245,0.25);
+    --focus:     #4fc3f7;
+    --radius:    14px;
+    --nav-w:     220px;
+  }
+
+  html, body { width: 100%; height: 100%; overflow: hidden; background: var(--bg); }
+
+  body {
+    font-family: 'Inter', sans-serif;
+    color: var(--text);
+    display: flex;
+    flex-direction: column;
+    user-select: none;
+  }
+
+  /* ── Ambient background ────────────────────────────────────── */
+  #ambient {
+    position: fixed; inset: 0; z-index: 0; pointer-events: none;
+    background: radial-gradient(ellipse 80% 60% at 20% 50%, rgba(79,195,247,0.06) 0%, transparent 60%),
+                radial-gradient(ellipse 60% 80% at 80% 20%, rgba(124,77,255,0.05) 0%, transparent 60%);
+    transition: background 1s ease;
+  }
+  #ambient-img {
+    position: fixed; inset: 0; z-index: 0; pointer-events: none;
+    background-size: cover; background-position: center;
+    opacity: 0; transition: opacity 1.2s ease;
+    filter: blur(60px) saturate(0.4) brightness(0.25);
+  }
+
+  /* ── Top bar ───────────────────────────────────────────────── */
+  #topbar {
+    position: relative; z-index: 10;
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 18px 32px 0;
+    flex-shrink: 0;
+  }
+  #bp-logo {
+    font-family: 'Rajdhani', sans-serif;
+    font-size: 22px; font-weight: 700; letter-spacing: 0.08em;
+    color: var(--text);
+    display: flex; align-items: center; gap: 10px;
+  }
+  #bp-logo svg { opacity: 0.9; }
+  #clock {
+    font-family: 'Rajdhani', sans-serif;
+    font-size: 28px; font-weight: 600; letter-spacing: 0.04em;
+    color: var(--text); opacity: 0.7;
+  }
+
+  /* ── Main layout ───────────────────────────────────────────── */
+  #main {
+    position: relative; z-index: 1;
+    display: flex; flex: 1; overflow: hidden;
+    padding: 0;
+  }
+
+  /* ── Side nav ──────────────────────────────────────────────── */
+  #sidenav {
+    width: var(--nav-w);
+    flex-shrink: 0;
+    display: flex; flex-direction: column;
+    padding: 28px 0 28px 24px;
+    gap: 4px;
+  }
+  .nav-item {
+    display: flex; align-items: center; gap: 14px;
+    padding: 13px 18px;
+    border-radius: 12px 0 0 12px;
+    cursor: pointer;
+    transition: background 0.18s, color 0.18s, transform 0.18s;
+    font-size: 15px; font-weight: 500;
+    color: var(--text-dim);
+    border: 1px solid transparent;
+    border-right: none;
+    position: relative;
+    outline: none;
+  }
+  .nav-item svg { flex-shrink: 0; opacity: 0.6; transition: opacity 0.18s; }
+  .nav-item:hover, .nav-item.focused {
+    background: var(--card);
+    color: var(--text);
+    border-color: var(--border);
+    transform: translateX(4px);
+  }
+  .nav-item:hover svg, .nav-item.focused svg { opacity: 1; }
+  .nav-item.active {
+    background: linear-gradient(135deg, rgba(79,195,247,0.15), rgba(124,77,255,0.1));
+    color: var(--accent);
+    border-color: rgba(79,195,247,0.2);
+    font-weight: 600;
+  }
+  .nav-item.active svg { opacity: 1; }
+  .nav-item.focused { outline: 2px solid var(--focus); outline-offset: -2px; }
+  .nav-badge {
+    margin-left: auto;
+    background: var(--accent2);
+    color: #fff; font-size: 10px; font-weight: 700;
+    padding: 2px 7px; border-radius: 20px;
+    min-width: 20px; text-align: center;
+  }
+
+  /* ── Content area ──────────────────────────────────────────── */
+  #content {
+    flex: 1; overflow: hidden;
+    display: flex; flex-direction: column;
+    padding: 20px 32px 24px 20px;
+  }
+
+  .bp-section { display: none; flex-direction: column; height: 100%; }
+  .bp-section.active { display: flex; }
+
+  /* ── Section header ────────────────────────────────────────── */
+  .section-head {
+    display: flex; align-items: baseline; gap: 16px;
+    margin-bottom: 22px; flex-shrink: 0;
+  }
+  .section-title {
+    font-family: 'Rajdhani', sans-serif;
+    font-size: 32px; font-weight: 700; letter-spacing: 0.04em;
+    line-height: 1;
+  }
+  .section-count {
+    font-size: 13px; color: var(--text-dim); font-weight: 500;
+  }
+
+  /* ── Grid ──────────────────────────────────────────────────── */
+  .bp-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+    gap: 16px;
+    overflow-y: auto; overflow-x: hidden;
+    flex: 1;
+    padding-right: 4px;
+    padding-bottom: 20px;
+  }
+  .bp-grid::-webkit-scrollbar { width: 4px; }
+  .bp-grid::-webkit-scrollbar-track { background: transparent; }
+  .bp-grid::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.1); border-radius: 2px; }
+
+  /* ── Game card ─────────────────────────────────────────────── */
+  .bp-card {
+    border-radius: var(--radius);
+    overflow: hidden;
+    cursor: pointer;
+    position: relative;
+    background: var(--card);
+    border: 1.5px solid var(--border);
+    transition: transform 0.22s cubic-bezier(0.34,1.56,0.64,1),
+                border-color 0.2s, box-shadow 0.2s;
+    outline: none;
+    aspect-ratio: 3/4;
+  }
+  .bp-card:hover, .bp-card.focused {
+    transform: scale(1.05) translateY(-4px);
+    border-color: rgba(79,195,247,0.4);
+    box-shadow: 0 20px 60px rgba(0,0,0,0.6), 0 0 0 1px rgba(79,195,247,0.2);
+    z-index: 2;
+  }
+  .bp-card.focused {
+    border-color: var(--focus);
+    box-shadow: 0 0 0 3px rgba(79,195,247,0.35), 0 20px 60px rgba(0,0,0,0.6);
+  }
+  .bp-card img {
+    width: 100%; height: 100%;
+    object-fit: cover; display: block;
+    transition: filter 0.3s;
+  }
+  .bp-card:hover img, .bp-card.focused img { filter: brightness(1.05); }
+  .bp-card-placeholder {
+    width: 100%; height: 100%;
+    background: linear-gradient(135deg, #1e2130, #151820);
+    display: flex; align-items: center; justify-content: center;
+    font-family: 'Rajdhani', sans-serif;
+    font-size: 13px; font-weight: 600; letter-spacing: 0.05em;
+    color: var(--text-faint); text-align: center; padding: 12px;
+  }
+  .bp-card-overlay {
+    position: absolute; inset: 0;
+    background: linear-gradient(to top, rgba(0,0,0,0.85) 0%, transparent 50%);
+    opacity: 0; transition: opacity 0.2s;
+    display: flex; flex-direction: column; justify-content: flex-end;
+    padding: 12px;
+  }
+  .bp-card:hover .bp-card-overlay,
+  .bp-card.focused .bp-card-overlay { opacity: 1; }
+  .bp-card-title {
+    font-size: 12px; font-weight: 600; color: #fff;
+    line-height: 1.3;
+    text-shadow: 0 1px 4px rgba(0,0,0,0.8);
+  }
+  .bp-card-meta {
+    font-size: 10px; color: rgba(255,255,255,0.6);
+    margin-top: 3px;
+  }
+  .bp-card-badge {
+    position: absolute; top: 8px; right: 8px;
+    background: var(--green); color: #000;
+    font-size: 9px; font-weight: 800; letter-spacing: 0.06em;
+    padding: 3px 7px; border-radius: 20px;
+    text-transform: uppercase;
+  }
+
+  /* ── Hero / featured (installed section top) ───────────────── */
+  #hero-area {
+    flex-shrink: 0;
+    height: 240px;
+    border-radius: 18px;
+    overflow: hidden;
+    position: relative;
+    margin-bottom: 22px;
+    background: var(--card);
+    border: 1px solid var(--border);
+    display: none;
+  }
+  #hero-area.has-hero { display: block; }
+  #hero-bg {
+    position: absolute; inset: 0;
+    background-size: cover; background-position: center;
+    filter: blur(2px) brightness(0.5); transform: scale(1.05);
+  }
+  #hero-logo-img {
+    position: absolute; bottom: 28px; left: 32px;
+    max-height: 90px; max-width: 300px;
+    object-fit: contain; object-position: left;
+    filter: drop-shadow(0 4px 16px rgba(0,0,0,0.8));
+  }
+  #hero-info {
+    position: absolute; bottom: 28px; right: 28px;
+    display: flex; gap: 10px; align-items: center;
+  }
+  #hero-play-btn {
+    display: flex; align-items: center; gap: 8px;
+    background: var(--accent); color: #000;
+    font-family: 'Rajdhani', sans-serif;
+    font-size: 17px; font-weight: 700; letter-spacing: 0.06em;
+    padding: 11px 28px; border-radius: 10px; border: none;
+    cursor: pointer; transition: transform 0.15s, background 0.15s;
+    outline: none;
+  }
+  #hero-play-btn:hover, #hero-play-btn.focused {
+    transform: scale(1.04);
+    background: #81d4fa;
+  }
+  #hero-play-btn.focused { box-shadow: 0 0 0 3px rgba(79,195,247,0.5); }
+  #hero-playtime {
+    font-size: 13px; color: rgba(255,255,255,0.65);
+    font-weight: 500;
+  }
+
+  /* ── Search section ────────────────────────────────────────── */
+  #search-bar-wrap {
+    display: flex; align-items: center; gap: 12px;
+    background: var(--card); border: 1.5px solid var(--border);
+    border-radius: 12px; padding: 0 16px;
+    margin-bottom: 20px; flex-shrink: 0;
+    transition: border-color 0.2s;
+  }
+  #search-bar-wrap:focus-within { border-color: var(--accent); }
+  #search-bar-wrap.focused { border-color: var(--focus); box-shadow: 0 0 0 3px rgba(79,195,247,0.2); }
+  #bp-search {
+    flex: 1; background: none; border: none; outline: none;
+    color: var(--text); font-size: 16px; font-family: 'Inter', sans-serif;
+    padding: 14px 0;
+  }
+  #bp-search::placeholder { color: var(--text-faint); }
+  #search-spinner {
+    width: 18px; height: 18px; border-radius: 50%;
+    border: 2px solid rgba(79,195,247,0.2); border-top-color: var(--accent);
+    animation: spin 0.7s linear infinite; display: none;
+  }
+  @keyframes spin { to { transform: rotate(360deg); } }
+
+  /* ── Empty state ───────────────────────────────────────────── */
+  .bp-empty {
+    flex: 1; display: flex; flex-direction: column;
+    align-items: center; justify-content: center;
+    gap: 12px; color: var(--text-dim);
+  }
+  .bp-empty svg { opacity: 0.2; }
+  .bp-empty-title { font-family: 'Rajdhani', sans-serif; font-size: 22px; font-weight: 700; opacity: 0.5; }
+  .bp-empty-sub { font-size: 13px; opacity: 0.4; }
+
+  /* ── Controller hint bar ───────────────────────────────────── */
+  #hints {
+    position: fixed; bottom: 16px; left: 0; right: 0;
+    display: flex; justify-content: center; gap: 24px;
+    z-index: 20; pointer-events: none;
+    opacity: 0; transition: opacity 0.5s;
+  }
+  #hints.visible { opacity: 1; }
+  .hint {
+    display: flex; align-items: center; gap: 6px;
+    font-size: 12px; color: var(--text-dim);
+  }
+  .hint-btn {
+    width: 22px; height: 22px; border-radius: 50%;
+    background: rgba(255,255,255,0.12); border: 1px solid rgba(255,255,255,0.2);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 10px; font-weight: 700; color: var(--text);
+    font-family: 'Rajdhani', sans-serif;
+  }
+
+  /* ── Fullscreen launch overlay ─────────────────────────────── */
+  #launch-overlay {
+    position: fixed; inset: 0; z-index: 100;
+    background: #000; display: flex; flex-direction: column;
+    align-items: center; justify-content: center; gap: 20px;
+    opacity: 0; pointer-events: none;
+    transition: opacity 0.4s;
+  }
+  #launch-overlay.show { opacity: 1; pointer-events: all; }
+  #launch-overlay-title {
+    font-family: 'Rajdhani', sans-serif;
+    font-size: 36px; font-weight: 700; letter-spacing: 0.06em;
+  }
+  #launch-overlay-sub { font-size: 15px; color: var(--text-dim); }
+  .launch-dots { display: flex; gap: 8px; }
+  .launch-dot {
+    width: 8px; height: 8px; border-radius: 50%;
+    background: var(--accent); opacity: 0.3;
+    animation: ldot 1.2s ease-in-out infinite;
+  }
+  .launch-dot:nth-child(2) { animation-delay: 0.2s; }
+  .launch-dot:nth-child(3) { animation-delay: 0.4s; }
+  @keyframes ldot { 0%,80%,100%{opacity:0.3;transform:scale(1)} 40%{opacity:1;transform:scale(1.3)} }
+
+  /* ── Animations ────────────────────────────────────────────── */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(16px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+  .bp-card { animation: fadeUp 0.35s ease both; }
+  .bp-section.active .section-head { animation: fadeUp 0.3s ease both; }
+</style>
+</head>
+<body>
+
+<div id="ambient"></div>
+<div id="ambient-img"></div>
+
+<!-- Top bar -->
+<div id="topbar">
+  <div id="bp-logo">
+    <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+      <rect x="2" y="6" width="20" height="14" rx="2" stroke="#4fc3f7" stroke-width="1.8"/>
+      <path d="M8 6V4a4 4 0 0 1 8 0v2" stroke="#4fc3f7" stroke-width="1.8" stroke-linecap="round"/>
+      <circle cx="12" cy="13" r="2.5" fill="#4fc3f7" opacity="0.8"/>
+    </svg>
+    BIG PICTURE
+  </div>
+  <div id="clock"></div>
+</div>
+
+<!-- Main -->
+<div id="main">
+  <!-- Side nav -->
+  <nav id="sidenav">
+    <div class="nav-item active" data-section="library" tabindex="0">
+      <svg width="18" height="18" viewBox="0 0 18 18" fill="none">
+        <rect x="2" y="2" width="6" height="6" rx="1.5" fill="currentColor"/>
+        <rect x="10" y="2" width="6" height="6" rx="1.5" fill="currentColor" opacity=".5"/>
+        <rect x="2" y="10" width="6" height="6" rx="1.5" fill="currentColor" opacity=".5"/>
+        <rect x="10" y="10" width="6" height="6" rx="1.5" fill="currentColor" opacity=".3"/>
+      </svg>
+      Library
+      <span class="nav-badge" id="lib-badge" style="display:none"></span>
+    </div>
+    <div class="nav-item" data-section="wishlist" tabindex="0">
+      <svg width="18" height="18" viewBox="0 0 18 18" fill="none">
+        <path d="M9 15s-6-4.5-6-8a4 4 0 0 1 6-3.46A4 4 0 0 1 15 7c0 3.5-6 8-6 8z" stroke="currentColor" stroke-width="1.5" fill="none"/>
+      </svg>
+      Wishlist
+      <span class="nav-badge" id="wish-badge" style="display:none"></span>
+    </div>
+    <div class="nav-item" data-section="search" tabindex="0">
+      <svg width="18" height="18" viewBox="0 0 18 18" fill="none">
+        <circle cx="8" cy="8" r="5" stroke="currentColor" stroke-width="1.5"/>
+        <path d="M13 13l3 3" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+      </svg>
+      Search
+    </div>
+    <div class="nav-item" data-section="downloads" tabindex="0">
+      <svg width="18" height="18" viewBox="0 0 18 18" fill="none">
+        <path d="M9 3v9M5 8l4 4 4-4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+        <path d="M3 15h12" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+      </svg>
+      Downloads
+      <span class="nav-badge" id="dl-badge" style="display:none"></span>
+    </div>
+
+    <div style="flex:1"></div>
+
+    <div class="nav-item" data-action="close" tabindex="0" style="margin-top:8px; color: var(--text-faint);">
+      <svg width="18" height="18" viewBox="0 0 18 18" fill="none">
+        <path d="M4 9h8M8 5l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+        <path d="M12 3h2a1 1 0 0 1 1 1v10a1 1 0 0 1-1 1h-2" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+      </svg>
+      Exit
+    </div>
+  </nav>
+
+  <!-- Content -->
+  <div id="content">
+
+    <!-- Library -->
+    <div class="bp-section active" id="section-library">
+      <div id="hero-area">
+        <div id="hero-bg"></div>
+        <img id="hero-logo-img" src="" alt="" style="display:none"/>
+        <div id="hero-info">
+          <div id="hero-playtime"></div>
+          <button id="hero-play-btn" tabindex="0">
+            <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><polygon points="2,1 13,7 2,13" fill="currentColor"/></svg>
+            PLAY
+          </button>
+        </div>
+      </div>
+      <div class="section-head">
+        <span class="section-title">MY LIBRARY</span>
+        <span class="section-count" id="lib-count"></span>
+      </div>
+      <div class="bp-grid" id="lib-grid"></div>
+    </div>
+
+    <!-- Wishlist -->
+    <div class="bp-section" id="section-wishlist">
+      <div class="section-head">
+        <span class="section-title">WISHLIST</span>
+        <span class="section-count" id="wish-count-bp"></span>
+      </div>
+      <div class="bp-grid" id="wish-grid-bp"></div>
+    </div>
+
+    <!-- Search -->
+    <div class="bp-section" id="section-search">
+      <div class="section-head">
+        <span class="section-title">SEARCH</span>
+      </div>
+      <div id="search-bar-wrap">
+        <svg width="18" height="18" viewBox="0 0 18 18" fill="none" opacity=".4">
+          <circle cx="8" cy="8" r="5" stroke="white" stroke-width="1.5"/>
+          <path d="M13 13l3 3" stroke="white" stroke-width="1.5" stroke-linecap="round"/>
+        </svg>
+        <input id="bp-search" type="text" placeholder="Search games…" autocomplete="off" spellcheck="false"/>
+        <div id="search-spinner"></div>
+      </div>
+      <div class="bp-grid" id="search-grid"></div>
+    </div>
+
+    <!-- Downloads -->
+    <div class="bp-section" id="section-downloads">
+      <div class="section-head">
+        <span class="section-title">DOWNLOADS</span>
+        <span class="section-count" id="dl-count"></span>
+      </div>
+      <div id="dl-list" style="display:flex;flex-direction:column;gap:10px;overflow-y:auto;flex:1;"></div>
+    </div>
+
+  </div>
+</div>
+
+<!-- Controller hints -->
+<div id="hints">
+  <div class="hint"><div class="hint-btn">↑↓</div> Navigate</div>
+  <div class="hint"><div class="hint-btn">↵</div> Select</div>
+  <div class="hint"><div class="hint-btn">←→</div> Sections</div>
+  <div class="hint"><div class="hint-btn">B</div> Back</div>
+</div>
+
+<!-- Launch overlay -->
+<div id="launch-overlay">
+  <div id="launch-overlay-title">Launching…</div>
+  <div id="launch-overlay-sub">Preparing your game</div>
+  <div class="launch-dots">
+    <div class="launch-dot"></div>
+    <div class="launch-dot"></div>
+    <div class="launch-dot"></div>
+  </div>
+</div>
+
+<script>
+const api = window.electronAPI || window.api;
+
+// ── Clock ───────────────────────────────────────────────────────
+function updateClock() {
+  const now = new Date();
+  document.getElementById('clock').textContent =
+    now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+}
+updateClock(); setInterval(updateClock, 1000);
+
+// ── State ───────────────────────────────────────────────────────
+let currentSection = 'library';
+let library = [];
+let wishlist = [];
+let tracking = {};
+let heroGame = null;
+let searchTimer = null;
+let focusedEl = null;
+let gamepadPollId = null;
+let lastGamepad = { axes: [], buttons: [] };
+let gamepadDebounce = {};
+
+// ── Section switching ───────────────────────────────────────────
+const sections = ['library', 'wishlist', 'search', 'downloads'];
+
+function showSection(name) {
+  currentSection = name;
+  document.querySelectorAll('.bp-section').forEach(s => s.classList.remove('active'));
+  document.querySelectorAll('.nav-item[data-section]').forEach(n => n.classList.remove('active'));
+  const sec = document.getElementById('section-' + name);
+  if (sec) sec.classList.add('active');
+  const nav = document.querySelector(`.nav-item[data-section="${name}"]`);
+  if (nav) nav.classList.add('active');
+  // Focus first focusable in section
+  setTimeout(() => {
+    const first = sec?.querySelector('.bp-card, #bp-search, #hero-play-btn');
+    if (first) { setFocus(first); first.scrollIntoView({ block: 'nearest' }); }
+  }, 50);
+}
+
+// ── Focus management ────────────────────────────────────────────
+function setFocus(el) {
+  if (focusedEl) focusedEl.classList.remove('focused');
+  focusedEl = el;
+  if (el) { el.classList.add('focused'); el.focus(); }
+}
+
+// ── Ambient background ──────────────────────────────────────────
+function setAmbient(imgUrl) {
+  const ambImg = document.getElementById('ambient-img');
+  if (imgUrl) {
+    ambImg.style.backgroundImage = `url('${imgUrl}')`;
+    ambImg.style.opacity = '1';
+  } else {
+    ambImg.style.opacity = '0';
+  }
+}
+
+// ── Library ─────────────────────────────────────────────────────
+async function loadLibrary() {
+  try {
+    library  = (await window.api.getLibrary()).filter(g => g.status === 'installed');
+    tracking = await window.api.getTracking();
+  } catch(e) { library = []; tracking = {}; }
+
+  const grid = document.getElementById('lib-grid');
+  const count = document.getElementById('lib-count');
+  const badge = document.getElementById('lib-badge');
+  grid.innerHTML = '';
+
+  count.textContent = `${library.length} game${library.length !== 1 ? 's' : ''}`;
+  if (library.length) { badge.textContent = library.length; badge.style.display = ''; }
+  else badge.style.display = 'none';
+
+  if (!library.length) {
+    grid.innerHTML = `<div class="bp-empty" style="grid-column:1/-1">
+      <svg width="48" height="48" viewBox="0 0 48 48" fill="none"><rect x="6" y="6" width="16" height="16" rx="3" fill="white"/><rect x="26" y="6" width="16" height="16" rx="3" fill="white" opacity=".4"/><rect x="6" y="26" width="16" height="16" rx="3" fill="white" opacity=".4"/><rect x="26" y="26" width="16" height="16" rx="3" fill="white" opacity=".2"/></svg>
+      <div class="bp-empty-title">No games installed</div>
+      <div class="bp-empty-sub">Games you install will appear here</div>
+    </div>`;
+    return;
+  }
+
+  // Sort: most recently played first, then alphabetical
+  const sorted = [...library].sort((a, b) => {
+    const ta = tracking[a.id]?.lastSession || a.lastPlayed || 0;
+    const tb = tracking[b.id]?.lastSession || b.lastPlayed || 0;
+    if (tb !== ta) return tb - ta;
+    return (a.title || '').localeCompare(b.title || '');
+  });
+
+  sorted.forEach((game, i) => {
+    const card = makeCard(game, i, true);
+    grid.appendChild(card);
+  });
+
+  // Hero: first game
+  setHero(sorted[0]);
+}
+
+function setHero(game) {
+  if (!game) return;
+  heroGame = game;
+  const area = document.getElementById('hero-area');
+  const bg = document.getElementById('hero-bg');
+  const logoImg = document.getElementById('hero-logo-img');
+  const ptEl = document.getElementById('hero-playtime');
+
+  bg.style.backgroundImage = game.coverImage ? `url('${game.coverImage}')` : '';
+  area.classList.toggle('has-hero', !!game.coverImage);
+  logoImg.style.display = 'none';
+  setAmbient(game.coverImage || null);
+
+  const secs = tracking[game.id]?.totalSeconds;
+  ptEl.textContent = secs ? fmtPlaytime(secs) + ' played' : '';
+
+  // Try SGDB logo for hero
+  if (game.title) {
+    fetchSgdbLogo(game.title).then(logoUrl => {
+      if (logoUrl && heroGame?.id === game.id) {
+        logoImg.src = logoUrl; logoImg.style.display = 'block';
+      }
+    }).catch(() => {});
+  }
+
+  document.getElementById('hero-play-btn').onclick = () => launchGame(game.id, game.title);
+}
+
+async function fetchSgdbLogo(title) {
+  try {
+    const res = await fetch(`https://www.steamgriddb.com/api/v2/search/autocomplete/${encodeURIComponent(title)}`, {
+      headers: { Authorization: 'Bearer e229db51e7979cb580849aff9f594f79' }
+    });
+    const data = await res.json();
+    if (!data.data?.length) return null;
+    const id = data.data[0].id;
+    const lRes = await fetch(`https://www.steamgriddb.com/api/v2/logos/game/${id}`, {
+      headers: { Authorization: 'Bearer e229db51e7979cb580849aff9f594f79' }
+    });
+    const lData = await lRes.json();
+    return lData.data?.[0]?.url || null;
+  } catch { return null; }
+}
+
+function makeCard(game, i, showBadge) {
+  const card = document.createElement('div');
+  card.className = 'bp-card';
+  card.style.animationDelay = `${Math.min(i * 30, 400)}ms`;
+  card.tabIndex = 0;
+
+  const secs = tracking[game.id]?.totalSeconds;
+  const ptText = secs ? fmtPlaytime(secs) : '';
+
+  card.innerHTML = game.coverImage
+    ? `<img src="${esc(game.coverImage)}" alt="${esc(game.title)}" loading="lazy"/>`
+    : `<div class="bp-card-placeholder">${esc(game.title)}</div>`;
+
+  card.innerHTML += `
+    <div class="bp-card-overlay">
+      <div class="bp-card-title">${esc(game.title)}</div>
+      ${ptText ? `<div class="bp-card-meta">${ptText} played</div>` : ''}
+    </div>
+    ${showBadge ? '<div class="bp-card-badge">Installed</div>' : ''}
+  `;
+
+  card.addEventListener('click', () => {
+    if (showBadge) launchGame(game.id, game.title);
+    else if (game.gameUrl) window.api.openExternal(game.gameUrl);
+  });
+  card.addEventListener('mouseenter', () => {
+    if (showBadge) { setHero(game); }
+  });
+  card.addEventListener('focus', () => {
+    setFocus(card);
+    if (showBadge) setHero(game);
+  });
+  return card;
+}
+
+// ── Wishlist ─────────────────────────────────────────────────────
+async function loadWishlist() {
+  try { wishlist = await window.api.getWishlist(); } catch { wishlist = []; }
+  const grid = document.getElementById('wish-grid-bp');
+  const count = document.getElementById('wish-count-bp');
+  const badge = document.getElementById('wish-badge');
+  grid.innerHTML = '';
+
+  count.textContent = `${wishlist.length} game${wishlist.length !== 1 ? 's' : ''}`;
+  if (wishlist.length) { badge.textContent = wishlist.length; badge.style.display = ''; }
+  else badge.style.display = 'none';
+
+  if (!wishlist.length) {
+    grid.innerHTML = `<div class="bp-empty" style="grid-column:1/-1">
+      <svg width="48" height="48" viewBox="0 0 48 48" fill="none"><path d="M24 40S6 28 6 16a10 10 0 0 1 18-6 10 10 0 0 1 18 6c0 12-18 24-18 24z" fill="white" opacity=".2"/></svg>
+      <div class="bp-empty-title">Wishlist is empty</div>
+      <div class="bp-empty-sub">Games you wish for will appear here</div>
+    </div>`;
+    return;
+  }
+  wishlist.forEach((g, i) => grid.appendChild(makeCard(g, i, false)));
+}
+
+// ── Search ───────────────────────────────────────────────────────
+document.getElementById('bp-search').addEventListener('input', e => {
+  clearTimeout(searchTimer);
+  const q = e.target.value.trim();
+  if (!q) { document.getElementById('search-grid').innerHTML = ''; return; }
+  document.getElementById('search-spinner').style.display = 'block';
+  searchTimer = setTimeout(() => doSearch(q), 500);
+});
+
+async function doSearch(q) {
+  const grid = document.getElementById('search-grid');
+  grid.innerHTML = '';
+  try {
+    const result = await window.api.search(q, 1, 'ankergames');
+    document.getElementById('search-spinner').style.display = 'none';
+    if (!result?.games?.length) {
+      grid.innerHTML = `<div class="bp-empty" style="grid-column:1/-1">
+        <div class="bp-empty-title">No results</div>
+        <div class="bp-empty-sub">Try a different search term</div>
+      </div>`;
+      return;
+    }
+    result.games.forEach((g, i) => {
+      const card = makeCard({ id: g.id, title: g.title, coverImage: g.image, gameUrl: g.url }, i, false);
+      grid.appendChild(card);
+    });
+  } catch {
+    document.getElementById('search-spinner').style.display = 'none';
+  }
+}
+
+// ── Downloads ────────────────────────────────────────────────────
+async function loadDownloads() {
+  try {
+    const lib = await window.api.getLibrary();
+    const active = lib.filter(g => ['downloading','preparing','extracting','paused'].includes(g.status));
+    const list = document.getElementById('dl-list');
+    const count = document.getElementById('dl-count');
+    const badge = document.getElementById('dl-badge');
+    list.innerHTML = '';
+    count.textContent = active.length ? `${active.length} active` : 'No active downloads';
+    badge.style.display = active.length ? '' : 'none';
+    badge.textContent = active.length;
+
+    if (!active.length) {
+      list.innerHTML = `<div class="bp-empty">
+        <div class="bp-empty-title">No active downloads</div>
+      </div>`;
+      return;
+    }
+    active.forEach(g => {
+      const el = document.createElement('div');
+      el.style.cssText = `background:var(--card);border:1px solid var(--border);border-radius:12px;padding:16px 20px;display:flex;align-items:center;gap:16px;`;
+      const pct = g.percent || 0;
+      el.innerHTML = `
+        ${g.coverImage ? `<img src="${esc(g.coverImage)}" style="width:48px;height:64px;object-fit:cover;border-radius:6px;flex-shrink:0;" loading="lazy"/>` : ''}
+        <div style="flex:1;min-width:0;">
+          <div style="font-weight:600;font-size:15px;margin-bottom:6px;">${esc(g.title)}</div>
+          <div style="background:rgba(255,255,255,0.08);border-radius:4px;height:4px;overflow:hidden;">
+            <div style="height:100%;width:${pct}%;background:var(--accent);border-radius:4px;transition:width 0.5s;"></div>
+          </div>
+          <div style="margin-top:5px;font-size:12px;color:var(--text-dim);">${esc(g.statusMsg || g.status)} ${pct > 0 && pct < 100 ? '— ' + pct + '%' : ''}</div>
+        </div>
+      `;
+      list.appendChild(el);
+    });
+  } catch {}
+}
+
+// ── Launch ───────────────────────────────────────────────────────
+async function launchGame(id, title) {
+  const overlay = document.getElementById('launch-overlay');
+  document.getElementById('launch-overlay-title').textContent = `Launching ${title}`;
+  overlay.classList.add('show');
+  try {
+    await window.api.launchGameNow(id);
+    setTimeout(() => overlay.classList.remove('show'), 3000);
+  } catch(e) {
+    overlay.classList.remove('show');
+  }
+}
+
+// ── Helpers ──────────────────────────────────────────────────────
+function esc(s) {
+  return String(s || '').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+}
+function fmtPlaytime(secs) {
+  const h = Math.floor(secs / 3600);
+  const m = Math.floor((secs % 3600) / 60);
+  if (h >= 1) return `${h}h ${m}m`;
+  return `${m}m`;
+}
+
+// ── Nav click ────────────────────────────────────────────────────
+document.querySelectorAll('.nav-item[data-section]').forEach(btn => {
+  btn.addEventListener('click', () => showSection(btn.dataset.section));
+});
+document.querySelector('.nav-item[data-action="close"]').addEventListener('click', () => {
+  window.close();
+});
+
+// ── Keyboard navigation ──────────────────────────────────────────
+document.addEventListener('keydown', e => {
+  const key = e.key;
+
+  if (key === 'Escape') { window.close(); return; }
+
+  // Tab between sections with L/R or Q/E
+  if (key === 'q' || key === 'Q' || (key === 'ArrowLeft' && !['INPUT'].includes(document.activeElement?.tagName))) {
+    const idx = sections.indexOf(currentSection);
+    if (idx > 0) showSection(sections[idx - 1]);
+    return;
+  }
+  if (key === 'e' || key === 'E' || (key === 'ArrowRight' && !['INPUT'].includes(document.activeElement?.tagName))) {
+    const idx = sections.indexOf(currentSection);
+    if (idx < sections.length - 1) showSection(sections[idx + 1]);
+    return;
+  }
+
+  const sec = document.getElementById('section-' + currentSection);
+  const cards = [...(sec?.querySelectorAll('.bp-card, .nav-item') || [])];
+  if (!cards.length) return;
+
+  const cur = focusedEl;
+  let curIdx = cards.indexOf(cur);
+
+  if (key === 'ArrowDown' || key === 'ArrowUp') {
+    e.preventDefault();
+    // Figure out how many columns in grid
+    const grid = sec?.querySelector('.bp-grid');
+    let cols = 1;
+    if (grid) {
+      const style = window.getComputedStyle(grid);
+      cols = style.gridTemplateColumns.split(' ').length || 1;
+    }
+    const step = key === 'ArrowDown' ? cols : -cols;
+    const next = cards[Math.max(0, Math.min(cards.length - 1, curIdx + step))];
+    if (next) { setFocus(next); next.scrollIntoView({ block: 'nearest', behavior: 'smooth' }); }
+  }
+
+  if (key === 'Enter' || key === ' ') {
+    e.preventDefault();
+    if (cur) cur.click();
+  }
+});
+
+// ── Gamepad polling ──────────────────────────────────────────────
+function pollGamepad() {
+  const gamepads = navigator.getGamepads ? navigator.getGamepads() : [];
+  const gp = [...gamepads].find(g => g);
+  if (gp) {
+    handleGamepad(gp);
+    // Show hints when controller detected
+    document.getElementById('hints').classList.add('visible');
+  }
+  gamepadPollId = requestAnimationFrame(pollGamepad);
+}
+
+function gpBtn(gp, idx) { return gp.buttons[idx]?.pressed; }
+function gpPressed(gp, idx) {
+  const now = gp.buttons[idx]?.pressed;
+  const was = lastGamepad.buttons[idx];
+  lastGamepad.buttons[idx] = now;
+  return now && !was;
+}
+
+function handleGamepad(gp) {
+  // D-pad + left stick navigation
+  const sec = document.getElementById('section-' + currentSection);
+  const cards = [...(sec?.querySelectorAll('.bp-card') || [])];
+  const grid = sec?.querySelector('.bp-grid');
+  let cols = 1;
+  if (grid) {
+    const style = window.getComputedStyle(grid);
+    cols = style.gridTemplateColumns.split(' ').length || 1;
+  }
+
+  const up    = gpPressed(gp, 12) || (gp.axes[1] < -0.5 && !(lastGamepad.axes?.[1] < -0.5));
+  const down  = gpPressed(gp, 13) || (gp.axes[1] > 0.5  && !(lastGamepad.axes?.[1] > 0.5));
+  const left  = gpPressed(gp, 14) || (gp.axes[0] < -0.5 && !(lastGamepad.axes?.[0] < -0.5));
+  const right = gpPressed(gp, 15) || (gp.axes[0] > 0.5  && !(lastGamepad.axes?.[0] > 0.5));
+  const a     = gpPressed(gp, 0);
+  const b     = gpPressed(gp, 1);
+  const lb    = gpPressed(gp, 4);
+  const rb    = gpPressed(gp, 5);
+
+  // Store axes for next frame
+  lastGamepad.axes = [...gp.axes];
+
+  if (lb) { const i = sections.indexOf(currentSection); if (i > 0) showSection(sections[i-1]); }
+  if (rb) { const i = sections.indexOf(currentSection); if (i < sections.length-1) showSection(sections[i+1]); }
+
+  let cur = focusedEl;
+  let curIdx = cards.indexOf(cur);
+
+  if (up)    { const n = cards[Math.max(0, curIdx - cols)];  if (n) { setFocus(n); n.scrollIntoView({block:'nearest',behavior:'smooth'}); } }
+  if (down)  { const n = cards[Math.min(cards.length-1, curIdx + cols)]; if (n) { setFocus(n); n.scrollIntoView({block:'nearest',behavior:'smooth'}); } }
+  if (left)  { const n = cards[Math.max(0, curIdx - 1)];  if (n) { setFocus(n); n.scrollIntoView({block:'nearest',behavior:'smooth'}); } }
+  if (right) { const n = cards[Math.min(cards.length-1, curIdx + 1)]; if (n) { setFocus(n); n.scrollIntoView({block:'nearest',behavior:'smooth'}); } }
+  if (a && cur) cur.click();
+  if (b) window.close();
+}
+
+window.addEventListener('gamepadconnected', () => {
+  if (!gamepadPollId) pollGamepad();
+  document.getElementById('hints').classList.add('visible');
+});
+window.addEventListener('gamepaddisconnected', () => {
+  document.getElementById('hints').classList.remove('visible');
+});
+
+// ── Init ─────────────────────────────────────────────────────────
+async function init() {
+  await Promise.all([loadLibrary(), loadWishlist(), loadDownloads()]);
+  // Start polling if a gamepad is already connected
+  if ([...navigator.getGamepads()].some(g => g)) pollGamepad();
+  // Focus first card
+  setTimeout(() => {
+    const first = document.querySelector('#section-library .bp-card');
+    if (first) setFocus(first);
+  }, 200);
+}
+init();
+</script>
+</body>
+</html>

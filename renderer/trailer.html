@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Trailer</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html, body { width: 100%; height: 100%; background: #000; overflow: hidden; }
+    iframe {
+      width: 100%;
+      height: 100%;
+      border: none;
+      display: block;
+    }
+  </style>
+</head>
+<body>
+  <script>
+    const params = new URLSearchParams(location.search);
+    const v = params.get('v') || '';
+    const title = params.get('title') || 'Trailer';
+    document.title = title;
+    // Validate here as well as in main: this page is reachable over plain
+    // localhost HTTP, so it should not trust its own query string. A bad id
+    // could otherwise steer the iframe to an arbitrary path on the embed host.
+    if (!/^[A-Za-z0-9_-]{11}$/.test(v)) {
+      document.body.textContent = 'Invalid trailer link.';
+      document.body.style.cssText = 'color:#888;font:14px system-ui;display:grid;place-items:center';
+      throw new Error('invalid video id');
+    }
+    const iframe = document.createElement('iframe');
+    iframe.src = `https://www.youtube-nocookie.com/embed/${encodeURIComponent(v)}?autoplay=1&controls=1&rel=0&modestbranding=1`;
+    iframe.allow = 'autoplay; encrypted-media; fullscreen';
+    iframe.allowFullscreen = true;
+    document.body.appendChild(iframe);
+  </script>
+</body>
+</html>

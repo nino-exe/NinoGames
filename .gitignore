@@ -1,0 +1,38 @@
+# Dependencies
+node_modules/
+
+# Build output (1.4 GB of packaged installers — never commit)
+release/
+dist/
+out/
+
+# Bundled third-party binaries (aria2, 7-Zip, EasyTier, updater).
+# These are large and belong in a release artifact, not in git history.
+resources/aria2/
+resources/7zip/
+resources/easytier/
+resources/updater/
+
+# Local runtime state and anything with credentials in it
+discord-rpc.json
+*.local.json
+.env
+.env.*
+
+# Caches this app writes next to itself
+games-list-*.json
+page-covers.json
+sudata.json
+sudata.json.bak
+
+# Logs / crash dumps
+*.log
+crash_logs/
+logs/
+
+# OS / editor noise
+Thumbs.db
+desktop.ini
+.DS_Store
+.vscode/
+.idea/

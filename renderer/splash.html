@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta http-equiv="Content-Security-Policy"
+        content="default-src 'self'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com;"/>
+  <title>NinoGames</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;800&display=swap" rel="stylesheet"/>
+  <style>
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+    html, body {
+      width: 100%; height: 100%;
+      background: #111114;
+      font-family: 'Outfit', sans-serif;
+      -webkit-app-region: drag;
+      user-select: none;
+      overflow: hidden;
+    }
+
+    .bg {
+      position: absolute;
+      inset: 0;
+      background:
+        radial-gradient(ellipse 70% 60% at 50% 30%,
+          rgba(96, 205, 255, 0.07) 0%, transparent 70%),
+        radial-gradient(ellipse 40% 50% at 80% 80%,
+          rgba(124, 140, 248, 0.05) 0%, transparent 60%),
+        #111114;
+    }
+
+    .accent-bar {
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 2px;
+      background: linear-gradient(
+        90deg,
+        transparent 0%,
+        rgba(96,205,255,0.0) 15%,
+        rgba(96,205,255,0.75) 40%,
+        rgba(124,140,248,0.75) 60%,
+        rgba(96,205,255,0.0) 85%,
+        transparent 100%
+      );
+      animation: bar-glow 3s ease-in-out infinite alternate;
+    }
+    @keyframes bar-glow {
+      from { opacity: 0.6; }
+      to   { opacity: 1.0; }
+    }
+
+    .stage {
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100%;
+      animation: stage-in 0.5s cubic-bezier(0.22, 1, 0.36, 1) both;
+    }
+    @keyframes stage-in {
+      from { opacity: 0; transform: translateY(16px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    .logo-wrap {
+      position: relative;
+      margin-bottom: 22px;
+    }
+    .logo-wrap::before {
+      content: '';
+      position: absolute;
+      inset: -24px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(96,205,255,0.14) 0%, transparent 70%);
+      animation: halo 2.8s ease-in-out infinite alternate;
+      pointer-events: none;
+    }
+    @keyframes halo {
+      from { transform: scale(0.88); opacity: 0.5; }
+      to   { transform: scale(1.12); opacity: 1.0; }
+    }
+
+    .logo {
+      display: block;
+      animation: logo-float 3s ease-in-out infinite;
+      filter: drop-shadow(0 4px 20px rgba(96,205,255,0.32));
+    }
+    @keyframes logo-float {
+      0%,100% { transform: translateY(0);    filter: drop-shadow(0 4px 20px rgba(96,205,255,0.32)); }
+      50%      { transform: translateY(-6px); filter: drop-shadow(0 10px 28px rgba(96,205,255,0.55)); }
+    }
+
+    .wordmark {
+      font-size: 30px;
+      font-weight: 800;
+      letter-spacing: -0.4px;
+      margin-bottom: 5px;
+      background: linear-gradient(135deg, #ffffff 25%, #60CDFF 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .tagline {
+      font-size: 11.5px;
+      font-weight: 400;
+      color: rgba(255,255,255,0.32);
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      margin-bottom: 38px;
+    }
+
+    .progress-track {
+      width: 190px;
+      height: 2px;
+      background: rgba(255,255,255,0.07);
+      border-radius: 2px;
+      overflow: hidden;
+      margin-bottom: 14px;
+    }
+    .progress-fill {
+      height: 100%;
+      width: 0%;
+      border-radius: 2px;
+      background: linear-gradient(90deg, #60CDFF, #7C8CF8);
+      box-shadow: 0 0 8px rgba(96,205,255,0.55);
+      animation: load 2s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+    }
+    @keyframes load {
+      0%   { width: 0%; }
+      25%  { width: 40%; }
+      55%  { width: 68%; }
+      80%  { width: 86%; }
+      100% { width: 94%; }
+    }
+
+    .status {
+      font-size: 11px;
+      color: rgba(255,255,255,0.25);
+      letter-spacing: 0.3px;
+      height: 16px;
+      transition: opacity 0.2s;
+    }
+
+    .version {
+      position: absolute;
+      bottom: 15px;
+      right: 18px;
+      font-size: 10px;
+      color: rgba(255,255,255,0.16);
+      letter-spacing: 0.3px;
+    }
+  </style>
+</head>
+<body>
+  <div class="bg"></div>
+  <div class="accent-bar"></div>
+
+  <div class="stage">
+    <div class="logo-wrap">
+      <svg class="logo" width="74" height="74" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <rect x="0"  y="0"  width="28" height="28" rx="6" fill="#60CDFF"/>
+        <rect x="36" y="0"  width="28" height="28" rx="6" fill="url(#g1)"/>
+        <rect x="0"  y="36" width="28" height="28" rx="6" fill="url(#g2)"/>
+        <rect x="36" y="36" width="28" height="28" rx="6" fill="#60CDFF" opacity=".20"/>
+        <defs>
+          <linearGradient id="g1" x1="36" y1="0" x2="64" y2="28" gradientUnits="userSpaceOnUse">
+            <stop stop-color="#7C8CF8"/>
+            <stop offset="1" stop-color="#60CDFF" stop-opacity=".65"/>
+          </linearGradient>
+          <linearGradient id="g2" x1="0" y1="36" x2="28" y2="64" gradientUnits="userSpaceOnUse">
+            <stop stop-color="#60CDFF" stop-opacity=".75"/>
+            <stop offset="1" stop-color="#7C8CF8" stop-opacity=".45"/>
+          </linearGradient>
+        </defs>
+      </svg>
+    </div>
+
+    <div class="wordmark">NinoGames</div>
+    <div class="tagline">Game Launcher</div>
+
+    <div class="progress-track">
+      <div class="progress-fill"></div>
+    </div>
+    <div class="status" id="status-text">Loading…</div>
+  </div>
+
+  <div class="version" id="ver-label"></div>
+
+  <script>
+    // Only start animations after DOM is fully loaded
+    document.addEventListener('DOMContentLoaded', () => {
+      const msgs = ['Loading…', 'Preparing library…', 'Starting up…'];
+      let i = 0;
+      const el = document.getElementById('status-text');
+      setInterval(() => {
+        el.style.opacity = '0';
+        setTimeout(() => {
+          i = (i + 1) % msgs.length;
+          el.textContent = msgs[i];
+          el.style.opacity = '1';
+        }, 200);
+      }, 1500);
+    });
+  </script>
+</body>
+</html>

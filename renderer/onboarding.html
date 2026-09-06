@@ -1,0 +1,664 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta http-equiv="Content-Security-Policy"
+        content="default-src 'self'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com;"/>
+  <title>Welcome to NinoGames</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet"/>
+  <style>
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+    html, body {
+      width: 100%; height: 100%;
+      background: #111114;
+      font-family: 'Outfit', sans-serif;
+      color: #fff;
+      overflow: hidden;
+      -webkit-app-region: drag;
+      user-select: none;
+    }
+
+    .bg {
+      position: absolute;
+      inset: 0;
+      background:
+        radial-gradient(ellipse 70% 60% at 50% 30%, rgba(96, 205, 255, 0.08) 0%, transparent 70%),
+        radial-gradient(ellipse 40% 50% at 20% 80%, rgba(124, 140, 248, 0.06) 0%, transparent 60%),
+        #111114;
+    }
+
+    .accent-bar {
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 2px;
+      background: linear-gradient(90deg, transparent 0%, rgba(96,205,255,0.0) 15%, rgba(96,205,255,0.75) 40%, rgba(124,140,248,0.75) 60%, rgba(96,205,255,0.0) 85%, transparent 100%);
+      animation: bar-glow 3s ease-in-out infinite alternate;
+    }
+    @keyframes bar-glow {
+      from { opacity: 0.6; }
+      to   { opacity: 1.0; }
+    }
+
+    .container {
+      position: relative;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 40px 60px;
+      animation: fade-in 0.6s cubic-bezier(0.22, 1, 0.36, 1) both;
+    }
+    @keyframes fade-in {
+      from { opacity: 0; transform: translateY(20px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    .logo-section {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      margin-bottom: 12px;
+    }
+
+    .logo {
+      filter: drop-shadow(0 4px 16px rgba(96,205,255,0.28));
+    }
+
+    .title {
+      font-size: 36px;
+      font-weight: 800;
+      letter-spacing: -0.5px;
+      background: linear-gradient(135deg, #ffffff 25%, #60CDFF 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      margin-bottom: 8px;
+    }
+
+    .subtitle {
+      font-size: 15px;
+      color: rgba(255,255,255,0.45);
+      margin-bottom: 45px;
+      letter-spacing: 0.2px;
+    }
+
+    .steps-container {
+      width: 100%;
+      max-width: 640px;
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      overflow-y: auto;
+      overflow-x: hidden;
+      padding-right: 8px;
+      margin-bottom: 24px;
+    }
+
+    .steps-container::-webkit-scrollbar {
+      width: 6px;
+    }
+    .steps-container::-webkit-scrollbar-track {
+      background: rgba(255,255,255,0.03);
+      border-radius: 3px;
+    }
+    .steps-container::-webkit-scrollbar-thumb {
+      background: rgba(96,205,255,0.25);
+      border-radius: 3px;
+    }
+    .steps-container::-webkit-scrollbar-thumb:hover {
+      background: rgba(96,205,255,0.35);
+    }
+
+    .step {
+      background: rgba(255,255,255,0.03);
+      border: 1px solid rgba(255,255,255,0.06);
+      border-radius: 12px;
+      padding: 24px 28px;
+      margin-bottom: 16px;
+      transition: all 0.25s ease;
+    }
+
+    .step:hover {
+      background: rgba(255,255,255,0.045);
+      border-color: rgba(96,205,255,0.15);
+    }
+
+    .step-header {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      margin-bottom: 18px;
+    }
+
+    .step-number {
+      width: 32px;
+      height: 32px;
+      border-radius: 8px;
+      background: linear-gradient(135deg, rgba(96,205,255,0.15), rgba(124,140,248,0.15));
+      border: 1px solid rgba(96,205,255,0.25);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 15px;
+      font-weight: 700;
+      color: #60CDFF;
+      flex-shrink: 0;
+    }
+
+    .step-title {
+      font-size: 16px;
+      font-weight: 600;
+      color: #fff;
+      letter-spacing: -0.2px;
+    }
+
+    .step-description {
+      font-size: 13px;
+      color: rgba(255,255,255,0.5);
+      margin-bottom: 16px;
+      line-height: 1.5;
+    }
+
+    .input-group {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .input-row {
+      display: flex;
+      gap: 10px;
+      align-items: center;
+    }
+
+    .input-wrapper {
+      flex: 1;
+      position: relative;
+    }
+
+    .text-input {
+      -webkit-app-region: no-drag;
+      width: 100%;
+      padding: 10px 14px;
+      background: rgba(0,0,0,0.3);
+      border: 1px solid rgba(255,255,255,0.1);
+      border-radius: 8px;
+      color: #fff;
+      font-family: 'Outfit', sans-serif;
+      font-size: 13px;
+      transition: all 0.2s ease;
+    }
+
+    .text-input:focus {
+      outline: none;
+      border-color: rgba(96,205,255,0.4);
+      background: rgba(0,0,0,0.4);
+      box-shadow: 0 0 0 3px rgba(96,205,255,0.08);
+    }
+
+    .text-input::placeholder {
+      color: rgba(255,255,255,0.25);
+    }
+
+    .btn {
+      -webkit-app-region: no-drag;
+      padding: 10px 20px;
+      background: rgba(96,205,255,0.12);
+      border: 1px solid rgba(96,205,255,0.25);
+      border-radius: 8px;
+      color: #60CDFF;
+      font-family: 'Outfit', sans-serif;
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      white-space: nowrap;
+    }
+
+    .btn:hover {
+      background: rgba(96,205,255,0.18);
+      border-color: rgba(96,205,255,0.35);
+    }
+
+    .btn:active {
+      transform: scale(0.98);
+    }
+
+    .btn-secondary {
+      background: rgba(124,140,248,0.12);
+      border-color: rgba(124,140,248,0.25);
+      color: #7C8CF8;
+    }
+
+    .btn-secondary:hover {
+      background: rgba(124,140,248,0.18);
+      border-color: rgba(124,140,248,0.35);
+    }
+
+    .checkbox-group {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .checkbox-item {
+      -webkit-app-region: no-drag;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 12px 14px;
+      background: rgba(0,0,0,0.25);
+      border: 1px solid rgba(255,255,255,0.08);
+      border-radius: 8px;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+
+    .checkbox-item:hover {
+      background: rgba(0,0,0,0.35);
+      border-color: rgba(96,205,255,0.2);
+    }
+
+    .checkbox-item input[type="checkbox"] {
+      width: 18px;
+      height: 18px;
+      cursor: pointer;
+      accent-color: #60CDFF;
+    }
+
+    .checkbox-label {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      gap: 3px;
+    }
+
+    .checkbox-title {
+      font-size: 14px;
+      font-weight: 500;
+      color: #fff;
+    }
+
+    .checkbox-desc {
+      font-size: 12px;
+      color: rgba(255,255,255,0.4);
+    }
+
+    .radio-group {
+      display: flex;
+      gap: 12px;
+    }
+
+    .radio-item {
+      -webkit-app-region: no-drag;
+      flex: 1;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 12px 16px;
+      background: rgba(0,0,0,0.25);
+      border: 1px solid rgba(255,255,255,0.08);
+      border-radius: 8px;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+
+    .radio-item:hover {
+      background: rgba(0,0,0,0.35);
+      border-color: rgba(96,205,255,0.2);
+    }
+
+    .radio-item input[type="radio"] {
+      cursor: pointer;
+      accent-color: #60CDFF;
+    }
+
+    .radio-label {
+      font-size: 13px;
+      font-weight: 500;
+      color: #fff;
+    }
+
+    .footer {
+      width: 100%;
+      max-width: 640px;
+      display: flex;
+      justify-content: flex-end;
+      padding-top: 16px;
+      border-top: 1px solid rgba(255,255,255,0.06);
+    }
+
+    .btn-finish {
+      -webkit-app-region: no-drag;
+      padding: 14px 36px;
+      background: linear-gradient(135deg, #60CDFF, #7C8CF8);
+      border: none;
+      border-radius: 10px;
+      color: #fff;
+      font-family: 'Outfit', sans-serif;
+      font-size: 15px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      box-shadow: 0 4px 16px rgba(96,205,255,0.25);
+    }
+
+    .btn-finish:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(96,205,255,0.35);
+    }
+
+    .btn-finish:active {
+      transform: translateY(0);
+    }
+
+    .hint {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 6px 12px;
+      background: rgba(124,140,248,0.1);
+      border: 1px solid rgba(124,140,248,0.2);
+      border-radius: 6px;
+      font-size: 12px;
+      color: rgba(255,255,255,0.6);
+      margin-top: 8px;
+    }
+
+    .hint svg {
+      flex-shrink: 0;
+    }
+
+    .redistributables-note {
+      margin-top: 12px;
+      padding: 12px;
+      background: rgba(255,165,0,0.08);
+      border: 1px solid rgba(255,165,0,0.2);
+      border-radius: 8px;
+      font-size: 12px;
+      color: rgba(255,255,255,0.65);
+      line-height: 1.5;
+    }
+  </style>
+</head>
+<body>
+  <div class="bg"></div>
+  <div class="accent-bar"></div>
+
+  <div class="container">
+    <div class="logo-section">
+      <svg class="logo" width="52" height="52" viewBox="0 0 64 64" fill="none">
+        <rect x="0"  y="0"  width="28" height="28" rx="6" fill="#60CDFF"/>
+        <rect x="36" y="0"  width="28" height="28" rx="6" fill="url(#g1)"/>
+        <rect x="0"  y="36" width="28" height="28" rx="6" fill="url(#g2)"/>
+        <rect x="36" y="36" width="28" height="28" rx="6" fill="#60CDFF" opacity=".20"/>
+        <defs>
+          <linearGradient id="g1" x1="36" y1="0" x2="64" y2="28">
+            <stop stop-color="#7C8CF8"/>
+            <stop offset="1" stop-color="#60CDFF" stop-opacity=".65"/>
+          </linearGradient>
+          <linearGradient id="g2" x1="0" y1="36" x2="28" y2="64">
+            <stop stop-color="#60CDFF" stop-opacity=".75"/>
+            <stop offset="1" stop-color="#7C8CF8" stop-opacity=".45"/>
+          </linearGradient>
+        </defs>
+      </svg>
+    </div>
+
+    <div class="title">Welcome to NinoGames</div>
+    <div class="subtitle">Let's set up your gaming hub just the way you like it</div>
+
+    <div class="steps-container">
+      <!-- Step 1: Install Location -->
+      <div class="step">
+        <div class="step-header">
+          <div class="step-number">1</div>
+          <div class="step-title">Choose Install Location</div>
+        </div>
+        <div class="step-description">
+          Select where you'd like to download and install your games.
+        </div>
+        <div class="input-group">
+          <div class="input-row">
+            <div class="input-wrapper">
+              <input type="text" id="install-path" class="text-input" placeholder="C:\NinoGames" readonly/>
+            </div>
+            <button class="btn" id="btn-browse">Browse</button>
+          </div>
+          <div class="hint">
+            <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
+              <circle cx="7" cy="7" r="6" stroke="currentColor" stroke-width="1.2"/>
+              <path d="M7 4v4M7 10v0.5" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/>
+            </svg>
+            Make sure you have enough disk space for game downloads
+          </div>
+        </div>
+      </div>
+
+      <!-- Step 2: Download Options -->
+      <div class="step">
+        <div class="step-header">
+          <div class="step-number">2</div>
+          <div class="step-title">Download Options</div>
+        </div>
+        <div class="step-description">
+          Configure how NinoGames handles downloads and extraction.
+        </div>
+        <div class="checkbox-group">
+          <label class="checkbox-item">
+            <input type="checkbox" id="cb-aria2" checked/>
+            <div class="checkbox-label">
+              <div class="checkbox-title">Use aria2c for downloads</div>
+              <div class="checkbox-desc">Faster multi-connection downloads with resume support</div>
+            </div>
+          </label>
+          <label class="checkbox-item">
+            <input type="checkbox" id="cb-7zip" checked/>
+            <div class="checkbox-label">
+              <div class="checkbox-title">Use 7-Zip for extraction</div>
+              <div class="checkbox-desc">Faster decompression of game archives</div>
+            </div>
+          </label>
+        </div>
+      </div>
+
+      <!-- Step 3: Game Source -->
+      <div class="step">
+        <div class="step-header">
+          <div class="step-number">3</div>
+          <div class="step-title">Preferred Game Source</div>
+        </div>
+        <div class="step-description">
+          Choose your default source for browsing and downloading games.
+        </div>
+        <div class="radio-group">
+          <label class="radio-item">
+            <input type="radio" name="source" value="ankergames" id="radio-anker" checked/>
+            <div class="radio-label">AnkerGames</div>
+          </label>
+          <label class="radio-item">
+            <input type="radio" name="source" value="steamrip" id="radio-rip"/>
+            <div class="radio-label">SteamRIP</div>
+          </label>
+        </div>
+      </div>
+
+      <!-- Step 4: Redistributables -->
+      <div class="step">
+        <div class="step-header">
+          <div class="step-number">4</div>
+          <div class="step-title">Install Redistributables (Optional)</div>
+        </div>
+        <div class="step-description">
+          Install common game dependencies like DirectX, Visual C++, and .NET Framework.
+        </div>
+        <div class="input-row">
+          <button class="btn btn-secondary" id="btn-redist">Install Redistributables</button>
+        </div>
+        <div class="redistributables-note">
+          <strong>Note:</strong> This will use Windows Package Manager (winget) to install .NET Runtime (6 & 8), Visual C++ Redistributables (2005-2022), XNA Framework, and Java Runtime. This may take several minutes and requires administrator privileges. Make sure winget is available on your system (Windows 10 1709+ or Windows 11).
+        </div>
+      </div>
+
+      <!-- Step 5: Windows Defender Exclusion -->
+      <div class="step">
+        <div class="step-header">
+          <div class="step-number">5</div>
+          <div class="step-title">Windows Defender Exclusion (Recommended)</div>
+        </div>
+        <div class="step-description">
+          Add the NinoGames install folder to Windows Defender exclusions to prevent antivirus from interfering with game files and downloads.
+        </div>
+        <div class="input-row">
+          <button class="btn btn-secondary" id="btn-defender">Add Exclusion</button>
+        </div>
+        <div class="hint">
+          <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
+            <circle cx="7" cy="7" r="6" stroke="currentColor" stroke-width="1.2"/>
+            <path d="M7 4v4M7 10v0.5" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/>
+          </svg>
+          Requires administrator privileges. This helps avoid false positives with game executables.
+        </div>
+      </div>
+    </div>
+
+    <div class="footer">
+      <button class="btn-finish" id="btn-finish">Get Started</button>
+    </div>
+  </div>
+
+  <script>
+    // Load default install path on startup
+    (async () => {
+      const homePath = await window.api.getDefaultInstallPath();
+      document.getElementById('install-path').value = homePath;
+    })();
+
+    // Browse button
+    document.getElementById('btn-browse').addEventListener('click', async () => {
+      const result = await window.api.selectDirectory();
+      if (result) {
+        document.getElementById('install-path').value = result;
+      }
+    });
+
+    // Redistributables button
+    let redistInProgress = false;
+    document.getElementById('btn-redist').addEventListener('click', async () => {
+      if (redistInProgress) return;
+      
+      const btn = document.getElementById('btn-redist');
+      const originalText = btn.textContent;
+      redistInProgress = true;
+      btn.disabled = true;
+      
+      // Listen for progress updates
+      window.api.onRedistProgress((data) => {
+        if (data.done) {
+          btn.textContent = '✓ Installed Successfully';
+          btn.style.background = 'rgba(46, 213, 115, 0.15)';
+          btn.style.borderColor = 'rgba(46, 213, 115, 0.3)';
+          btn.style.color = '#2ed573';
+          redistInProgress = false;
+        } else {
+          const pct = data.pct || 0;
+          btn.textContent = `Installing ${data.package || ''}... (${pct}%)`;
+        }
+      });
+      
+      try {
+        const result = await window.api.installRedistributables();
+        if (!result || !result.ok) {
+          throw new Error('Installation failed');
+        }
+      } catch (err) {
+        console.error('Redistributables install error:', err);
+        btn.textContent = '✗ Failed - Click to Retry';
+        btn.style.background = 'rgba(255, 71, 87, 0.15)';
+        btn.style.borderColor = 'rgba(255, 71, 87, 0.3)';
+        btn.style.color = '#ff4757';
+        btn.disabled = false;
+        redistInProgress = false;
+        setTimeout(() => {
+          btn.textContent = originalText;
+          btn.style.background = '';
+          btn.style.borderColor = '';
+          btn.style.color = '';
+        }, 5000);
+      }
+    });
+
+    // Windows Defender exclusion button
+    let defenderInProgress = false;
+    document.getElementById('btn-defender').addEventListener('click', async () => {
+      if (defenderInProgress) return;
+      
+      const btn = document.getElementById('btn-defender');
+      const originalText = btn.textContent;
+      const installPath = document.getElementById('install-path').value;
+      
+      if (!installPath) {
+        btn.textContent = '⚠ Please set install path first';
+        btn.style.background = 'rgba(255, 165, 0, 0.15)';
+        btn.style.borderColor = 'rgba(255, 165, 0, 0.3)';
+        btn.style.color = '#ffa500';
+        setTimeout(() => {
+          btn.textContent = originalText;
+          btn.style.background = '';
+          btn.style.borderColor = '';
+          btn.style.color = '';
+        }, 3000);
+        return;
+      }
+      
+      defenderInProgress = true;
+      btn.disabled = true;
+      btn.textContent = 'Adding exclusion...';
+      
+      try {
+        const result = await window.api.addDefenderExclusion(installPath);
+        if (result && result.ok) {
+          btn.textContent = '✓ Exclusion Added';
+          btn.style.background = 'rgba(46, 213, 115, 0.15)';
+          btn.style.borderColor = 'rgba(46, 213, 115, 0.3)';
+          btn.style.color = '#2ed573';
+          // Mark as done so the download-time prompt is skipped
+          await window.api.saveSettings({ defenderExclusionAdded: true });
+        } else {
+          throw new Error(result?.error || 'Failed to add exclusion');
+        }
+      } catch (err) {
+        console.error('Defender exclusion error:', err);
+        btn.textContent = '✗ Failed - May need admin rights';
+        btn.style.background = 'rgba(255, 71, 87, 0.15)';
+        btn.style.borderColor = 'rgba(255, 71, 87, 0.3)';
+        btn.style.color = '#ff4757';
+        btn.disabled = false;
+        defenderInProgress = false;
+        setTimeout(() => {
+          btn.textContent = originalText;
+          btn.style.background = '';
+          btn.style.borderColor = '';
+          btn.style.color = '';
+        }, 5000);
+      }
+    });
+
+    // Finish button
+    document.getElementById('btn-finish').addEventListener('click', async () => {
+      const settings = {
+        installPath: document.getElementById('install-path').value,
+        aria2Enabled: document.getElementById('cb-aria2').checked,
+        sevenZipEnabled: document.getElementById('cb-7zip').checked,
+        source: document.querySelector('input[name="source"]:checked').value,
+        onboardingComplete: true,
+      };
+
+      await window.api.completeOnboarding(settings);
+    });
+  </script>
+</body>
+</html>

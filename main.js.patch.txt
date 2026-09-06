@@ -1,0 +1,80 @@
+FIND this exact block in main.js (inside the 'manifest' installType branch):
+
+      let manifest;
+      try { manifest = JSON.parse(manifestRaw); } catch (err) { throw new Error('Manifest was not valid JSON: ' + err.message); }
+      if (!Array.isArray(manifest)) throw new Error('Unexpected manifest format.');
+      // Each entry is [name, size, sha1hash]
+      const files = manifest.map(e => ({ name: e[0], size: e[1], hash: e[2] })).filter(f => f.name);
+
+      const sha1OfFile = filePath => new Promise(resolve => {
+        try {
+          const hash = crypto.createHash('sha1');
+          const stream = fs.createReadStream(filePath);
+          stream.on('data', d => hash.update(d));
+          stream.on('end', () => resolve(hash.digest('hex')));
+          stream.on('error', () => resolve(null));
+        } catch { resolve(null); }
+      });
+
+      sendProgress('downloading', { msg: `Checking ${files.length} files…` });
+      const outdated = [];
+      for (const f of files) {
+        const dest = path.join(gameDir, ...f.name.split('/'));
+        let needsDownload = true;
+        try {
+          if (fs.existsSync(dest)) {
+            const localHash = await sha1OfFile(dest);
+            needsDownload = !localHash || localHash.toLowerCase() !== (f.hash || '').toLowerCase();
+          }
+        } catch { needsDownload = true; }
+        if (needsDownload) outdated.push(f);
+      }
+
+REPLACE WITH:
+
+      let manifest;
+      try { manifest = JSON.parse(manifestRaw); } catch (err) { throw new Error('Manifest was not valid JSON: ' + err.message); }
+      // Support two manifest formats:
+      // 1. Plain array: [[name, size, hash], ...] (cod4x style)
+      // 2. CB Servers object: { ManifestHash, files: [[name, size, hash, component], ...], components: {...} }
+      let rawFiles;
+      if (Array.isArray(manifest)) {
+        rawFiles = manifest;
+      } else if (manifest && Array.isArray(manifest.files)) {
+        rawFiles = manifest.files;
+      } else {
+        throw new Error('Unexpected manifest format.');
+      }
+      const files = rawFiles.map(e => ({ name: e[0], size: e[1], hash: e[2] })).filter(f => f.name);
+
+      const sha1OfFile = filePath => new Promise(resolve => {
+        try {
+          const hash = crypto.createHash('sha1');
+          const stream = fs.createReadStream(filePath);
+          stream.on('data', d => hash.update(d));
+          stream.on('end', () => resolve(hash.digest('hex')));
+          stream.on('error', () => resolve(null));
+        } catch { resolve(null); }
+      });
+
+      // skipHashCheck: true means the manifest uses a non-SHA1 hash (e.g. xxhash64 from CB Servers CDN).
+      // In that case, check file size only — same as CB Launcher's --skip-hash mode.
+      const skipHash = !!mod.skipHashCheck;
+
+      sendProgress('downloading', { msg: `Checking ${files.length} files…` });
+      const outdated = [];
+      for (const f of files) {
+        const dest = path.join(gameDir, ...f.name.split('/'));
+        let needsDownload = true;
+        try {
+          if (fs.existsSync(dest)) {
+            if (skipHash) {
+              needsDownload = fs.statSync(dest).size !== f.size;
+            } else {
+              const localHash = await sha1OfFile(dest);
+              needsDownload = !localHash || localHash.toLowerCase() !== (f.hash || '').toLowerCase();
+            }
+          }
+        } catch { needsDownload = true; }
+        if (needsDownload) outdated.push(f);
+      }

@@ -1,0 +1,958 @@
+{
+  "mods": [
+    {
+      "id": "iw4x",
+      "name": "IW4x",
+      "tagline": "Modern Warfare 2 multiplayer — community servers, dedicated browser",
+      "gameTitle": "Call of Duty Modern Warfare 2",
+      "sgdbTitle": "Call of Duty: Modern Warfare 2",
+      "installType": "launcher",
+      "exeHints": [
+        "iw4x",
+        "iw4mp"
+      ],
+      "gameExeHints": [
+        "iw4mp",
+        "iw4sp"
+      ],
+      "launcherExeHints": [
+        "iw4x-launcher",
+        "launcher"
+      ],
+      "launcherUrl": "https://github.com/iw4x/launcher/releases/download/v1.1.8-b.18/launcher-1.1.8-b.18-x86_64-windows.zip",
+      "launchExe": "iw4x.exe",
+      "sourceUrl": "https://github.com/iw4x/launcher",
+      "party": {
+        "port": 28960,
+        "launchMode": "devmap",
+        "devmapArgs": [
+          "-nointro",
+          "+set",
+          "scr_war_timelimit",
+          "{timelimit}",
+          "+set",
+          "scr_war_scorelimit",
+          "{scorelimit}",
+          "+devmap",
+          "{map}"
+        ],
+        "defaultMap": "mp_rust",
+        "defaultTimelimit": 0,
+        "defaultScorelimit": 250,
+        "maps": [
+          {
+            "id": "mp_afghan",
+            "name": "Afghan",
+            "theme": "desert",
+            "image": "assets/maps/mp_afghan.jpg"
+          },
+          {
+            "id": "mp_derail",
+            "name": "Derail",
+            "theme": "snow",
+            "image": "assets/maps/mp_derail.jpg"
+          },
+          {
+            "id": "mp_estate",
+            "name": "Estate",
+            "theme": "forest",
+            "image": "assets/maps/mp_estate.jpg"
+          },
+          {
+            "id": "mp_favela",
+            "name": "Favela",
+            "theme": "urban-warm",
+            "image": "assets/maps/mp_favela.jpg"
+          },
+          {
+            "id": "mp_highrise",
+            "name": "Highrise",
+            "theme": "urban-night",
+            "image": "assets/maps/mp_highrise.jpg"
+          },
+          {
+            "id": "mp_invasion",
+            "name": "Invasion",
+            "theme": "desert-urban",
+            "image": "assets/maps/mp_invasion.jpg"
+          },
+          {
+            "id": "mp_checkpoint",
+            "name": "Karachi",
+            "theme": "desert-urban",
+            "image": "assets/maps/mp_checkpoint.jpg"
+          },
+          {
+            "id": "mp_quarry",
+            "name": "Quarry",
+            "theme": "industrial",
+            "image": "assets/maps/mp_quarry.jpg"
+          },
+          {
+            "id": "mp_rundown",
+            "name": "Rundown",
+            "theme": "urban-warm",
+            "image": "assets/maps/mp_rundown.jpg"
+          },
+          {
+            "id": "mp_rust",
+            "name": "Rust",
+            "theme": "desert",
+            "image": "assets/maps/mp_rust.jpg"
+          },
+          {
+            "id": "mp_boneyard",
+            "name": "Scrapyard",
+            "theme": "industrial",
+            "image": "assets/maps/mp_boneyard.jpg"
+          },
+          {
+            "id": "mp_nightshift",
+            "name": "Skidrow",
+            "theme": "urban-night",
+            "image": "assets/maps/mp_nightshift.jpg"
+          },
+          {
+            "id": "mp_subbase",
+            "name": "Sub Base",
+            "theme": "snow",
+            "image": "assets/maps/mp_subbase.jpg"
+          },
+          {
+            "id": "mp_terminal",
+            "name": "Terminal",
+            "theme": "urban",
+            "image": "assets/maps/mp_terminal.jpg"
+          },
+          {
+            "id": "mp_underpass",
+            "name": "Underpass",
+            "theme": "urban",
+            "image": "assets/maps/mp_underpass.jpg"
+          },
+          {
+            "id": "mp_brecourt",
+            "name": "Wasteland",
+            "theme": "snow",
+            "image": "assets/maps/mp_brecourt.jpg"
+          }
+        ],
+        "hostArgs": [
+          "-dedicated",
+          "+set",
+          "sv_lanonly",
+          "1",
+          "+set",
+          "net_port",
+          "{port}",
+          "+exec",
+          "partyserver.cfg",
+          "+map_rotate"
+        ],
+        "joinArgs": [
+          "-nointro",
+          "+connect",
+          "{ip}:{port}"
+        ]
+      },
+      "uninstallFiles": [
+        "iw4x-launcher.exe",
+        "iw4x.exe",
+        "iw4x.dll",
+        "zonebuilder.exe",
+        "update.json"
+      ],
+      "uninstallDirs": [
+        "iw4x",
+        "cache"
+      ],
+      "steps": [
+        "Download the IW4x launcher ZIP",
+        "Extract it into your MW2 game directory, next to iw4mp.exe/iw4sp.exe",
+        "Run iw4x-launcher.exe and wait for it to close",
+        "Once it closes, NinoGames marks IW4x as installed and uses iw4x.exe for future launches"
+      ]
+    },
+    {
+      "id": "h1-mod",
+      "name": "H1-Mod",
+      "tagline": "Modern Warfare Remastered — full game + mod via CB Servers CDN",
+      "gameTitle": "Call of Duty Modern Warfare Remastered",
+      "sgdbTitle": "Call of Duty: Modern Warfare Remastered",
+      "installType": "manifest",
+      "exeHints": [
+        "h1-mod",
+        "h1_mp64_ship"
+      ],
+      "gameExeHints": [
+        "h1_mp64_ship",
+        "h1_sp64_ship",
+        "h1_mp64",
+        "h1_sp64"
+      ],
+      "manifestUrl": "https://raw.githubusercontent.com/CBServers/updater/main/updater/cb-launcher/manifest/mwr.json",
+      "folderUrl": "https://cdn-na.cbservers.xyz/mwr_game_files/",
+      "manifestFormat": "cbservers",
+      "skipHashCheck": true,
+      "secondaryManifestUrl": "https://raw.githubusercontent.com/CBServers/updater/main/updater/h1-mod/files.json",
+      "secondaryFolderUrl": "https://raw.githubusercontent.com/CBServers/updater/main/updater/h1-mod/data/",
+      "launchExe": "h1-mod.exe",
+      "sourceUrl": "https://docs.cbservers.xyz/games/h1-mod",
+      "party": {
+        "port": 3074,
+        "launchMode": "devmap",
+        "devmapArgs": [
+          "-multiplayer",
+          "+set",
+          "net_port",
+          "{port}",
+          "+devmap",
+          "{map}"
+        ],
+        "defaultMap": "mp_crash",
+        "defaultTimelimit": 0,
+        "defaultScorelimit": 250,
+        "maps": [
+          {
+            "id": "mp_backlot",
+            "name": "Backlot",
+            "theme": "urban-warm",
+            "image": "assets/maps/mp_backlot.jpg"
+          },
+          {
+            "id": "mp_bloc",
+            "name": "Bloc",
+            "theme": "industrial",
+            "image": "assets/maps/mp_bloc.jpg"
+          },
+          {
+            "id": "mp_bog",
+            "name": "Bog",
+            "theme": "forest",
+            "image": "assets/maps/mp_bog.jpg"
+          },
+          {
+            "id": "mp_bog_summer",
+            "name": "Bog Summer",
+            "theme": "forest",
+            "image": "assets/maps/mp_bog_summer.jpg"
+          },
+          {
+            "id": "mp_broadcast",
+            "name": "Broadcast",
+            "theme": "urban-night",
+            "image": "assets/maps/mp_broadcast.jpg"
+          },
+          {
+            "id": "mp_carentan",
+            "name": "Carentan",
+            "theme": "urban-warm",
+            "image": "assets/maps/mp_carentan.jpg"
+          },
+          {
+            "id": "mp_cargoship",
+            "name": "Cargoship",
+            "theme": "industrial",
+            "image": "assets/maps/mp_cargoship.jpg"
+          },
+          {
+            "id": "mp_citystreets",
+            "name": "Chinatown",
+            "theme": "urban-night",
+            "image": "assets/maps/mp_citystreets.jpg"
+          },
+          {
+            "id": "mp_convoy",
+            "name": "Convoy",
+            "theme": "desert",
+            "image": "assets/maps/mp_convoy.jpg"
+          },
+          {
+            "id": "mp_countdown",
+            "name": "Countdown",
+            "theme": "desert",
+            "image": "assets/maps/mp_countdown.jpg"
+          },
+          {
+            "id": "mp_crash",
+            "name": "Crash",
+            "theme": "urban-warm",
+            "image": "assets/maps/mp_crash.jpg"
+          },
+          {
+            "id": "mp_crash_snow",
+            "name": "Crash Winter",
+            "theme": "snow",
+            "image": "assets/maps/mp_crash_snow.jpg"
+          },
+          {
+            "id": "mp_creek",
+            "name": "Creek",
+            "theme": "forest",
+            "image": "assets/maps/mp_creek.jpg"
+          },
+          {
+            "id": "mp_crossfire",
+            "name": "Crossfire",
+            "theme": "urban-warm",
+            "image": "assets/maps/mp_crossfire.jpg"
+          },
+          {
+            "id": "mp_farm",
+            "name": "Farm",
+            "theme": "forest",
+            "image": "assets/maps/mp_farm.jpg"
+          },
+          {
+            "id": "mp_farm_spring",
+            "name": "Farm Spring",
+            "theme": "forest",
+            "image": "assets/maps/mp_farm_spring.jpg"
+          },
+          {
+            "id": "mp_killhouse",
+            "name": "Killhouse",
+            "theme": "industrial",
+            "image": "assets/maps/mp_killhouse.jpg"
+          },
+          {
+            "id": "mp_overgrown",
+            "name": "Overgrown",
+            "theme": "forest",
+            "image": "assets/maps/mp_overgrown.jpg"
+          },
+          {
+            "id": "mp_pipeline",
+            "name": "Pipeline",
+            "theme": "industrial",
+            "image": "assets/maps/mp_pipeline.jpg"
+          },
+          {
+            "id": "mp_shipment",
+            "name": "Shipment",
+            "theme": "industrial",
+            "image": "assets/maps/mp_shipment.jpg"
+          },
+          {
+            "id": "mp_showdown",
+            "name": "Showdown",
+            "theme": "urban-night",
+            "image": "assets/maps/mp_showdown.jpg"
+          },
+          {
+            "id": "mp_strike",
+            "name": "Strike",
+            "theme": "desert-urban",
+            "image": "assets/maps/mp_strike.jpg"
+          },
+          {
+            "id": "mp_vacant",
+            "name": "Vacant",
+            "theme": "urban-warm",
+            "image": "assets/maps/mp_vacant.jpg"
+          }
+        ],
+        "hostArgs": [
+          "-dedicated",
+          "-nosteam",
+          "+set",
+          "net_port",
+          "{port}",
+          "+map_rotate"
+        ],
+        "hostClientArgs": [
+          "-multiplayer",
+          "+connect",
+          "127.0.0.1:{port}"
+        ],
+        "joinArgs": [
+          "-multiplayer",
+          "+connect",
+          "{ip}:{port}"
+        ]
+      },
+      "steps": [
+        "NinoGames fetches the full MWR game manifest from CB Servers (7,400+ files)",
+        "All game files are downloaded from the CB Servers CDN into your install folder",
+        "Files already the correct size are skipped automatically",
+        "H1-Mod client files (h1-mod.exe etc.) are then layered on top from GitHub",
+        "Once complete, launch h1-mod.exe to play on community servers"
+      ]
+    },
+    {
+      "id": "cod4x",
+      "name": "CoD4x",
+      "tagline": "Call of Duty 4: Modern Warfare multiplayer — community servers, bug fixes",
+      "gameTitle": "Call of Duty 4 Modern Warfare",
+      "sgdbTitle": "Call of Duty 4: Modern Warfare",
+      "installType": "manifest",
+      "exeHints": [
+        "iw3mp",
+        "iw3sp_mod"
+      ],
+      "gameExeHints": [
+        "iw3mp",
+        "iw3sp"
+      ],
+      "manifestUrl": "https://github.com/CBServers/updater/raw/main/updater/cod4x.json",
+      "folderUrl": "https://github.com/CBServers/updater/raw/main/updater/cod4x/",
+      "launchExe": "iw3mp.exe",
+      "sourceUrl": "https://docs.cbservers.xyz/games/cod4x",
+      "party": {
+        "port": 28960,
+        "launchMode": "devmap",
+        "devmapArgs": [
+          "+set",
+          "net_port",
+          "{port}",
+          "+set",
+          "scr_war_timelimit",
+          "{timelimit}",
+          "+set",
+          "scr_war_scorelimit",
+          "{scorelimit}",
+          "+set",
+          "sv_authorizemode",
+          "0",
+          "+devmap",
+          "{map}"
+        ],
+        "defaultMap": "mp_crash",
+        "defaultTimelimit": 0,
+        "defaultScorelimit": 250,
+        "maps": [
+          {
+            "id": "mp_backlot",
+            "name": "Backlot",
+            "theme": "urban-warm",
+            "image": "assets/maps/mp_backlot.jpg"
+          },
+          {
+            "id": "mp_bloc",
+            "name": "Bloc",
+            "theme": "industrial",
+            "image": "assets/maps/mp_bloc.jpg"
+          },
+          {
+            "id": "mp_bog",
+            "name": "Bog",
+            "theme": "forest",
+            "image": "assets/maps/mp_bog.jpg"
+          },
+          {
+            "id": "mp_broadcast",
+            "name": "Broadcast",
+            "theme": "urban-night",
+            "image": "assets/maps/mp_broadcast.jpg"
+          },
+          {
+            "id": "mp_carentan",
+            "name": "Carentan",
+            "theme": "urban-warm",
+            "image": "assets/maps/mp_carentan.jpg"
+          },
+          {
+            "id": "mp_cargoship",
+            "name": "Cargoship",
+            "theme": "industrial",
+            "image": "assets/maps/mp_cargoship.jpg"
+          },
+          {
+            "id": "mp_citystreets",
+            "name": "Chinatown",
+            "theme": "urban-night",
+            "image": "assets/maps/mp_citystreets.jpg"
+          },
+          {
+            "id": "mp_convoy",
+            "name": "Convoy",
+            "theme": "desert",
+            "image": "assets/maps/mp_convoy.jpg"
+          },
+          {
+            "id": "mp_countdown",
+            "name": "Countdown",
+            "theme": "desert",
+            "image": "assets/maps/mp_countdown.jpg"
+          },
+          {
+            "id": "mp_crash",
+            "name": "Crash",
+            "theme": "urban-warm",
+            "image": "assets/maps/mp_crash.jpg"
+          },
+          {
+            "id": "mp_crash_snow",
+            "name": "Crash Winter",
+            "theme": "snow",
+            "image": "assets/maps/mp_crash_snow.jpg"
+          },
+          {
+            "id": "mp_creek",
+            "name": "Creek",
+            "theme": "forest",
+            "image": "assets/maps/mp_creek.jpg"
+          },
+          {
+            "id": "mp_crossfire",
+            "name": "Crossfire",
+            "theme": "urban-warm",
+            "image": "assets/maps/mp_crossfire.jpg"
+          },
+          {
+            "id": "mp_farm",
+            "name": "Farm",
+            "theme": "forest",
+            "image": "assets/maps/mp_farm.jpg"
+          },
+          {
+            "id": "mp_killhouse",
+            "name": "Killhouse",
+            "theme": "industrial",
+            "image": "assets/maps/mp_killhouse.jpg"
+          },
+          {
+            "id": "mp_overgrown",
+            "name": "Overgrown",
+            "theme": "forest",
+            "image": "assets/maps/mp_overgrown.jpg"
+          },
+          {
+            "id": "mp_pipeline",
+            "name": "Pipeline",
+            "theme": "industrial",
+            "image": "assets/maps/mp_pipeline.jpg"
+          },
+          {
+            "id": "mp_shipment",
+            "name": "Shipment",
+            "theme": "industrial",
+            "image": "assets/maps/mp_shipment.jpg"
+          },
+          {
+            "id": "mp_showdown",
+            "name": "Showdown",
+            "theme": "urban-night",
+            "image": "assets/maps/mp_showdown.jpg"
+          },
+          {
+            "id": "mp_strike",
+            "name": "Strike",
+            "theme": "desert-urban",
+            "image": "assets/maps/mp_strike.jpg"
+          },
+          {
+            "id": "mp_vacant",
+            "name": "Vacant",
+            "theme": "urban-warm",
+            "image": "assets/maps/mp_vacant.jpg"
+          }
+        ],
+        "hostArgs": [
+          "+set",
+          "dedicated",
+          "1",
+          "+set",
+          "net_port",
+          "{port}",
+          "+set",
+          "sv_authorizemode",
+          "0",
+          "+map_rotate"
+        ],
+        "hostClientArgs": [
+          "+connect",
+          "127.0.0.1:{port}"
+        ],
+        "joinArgs": [
+          "+connect",
+          "{ip}:{port}"
+        ]
+      },
+      "steps": [
+        "NinoGames fetches the CoD4x file manifest from the CB Servers CDN",
+        "Any missing or outdated files are downloaded straight into your CoD4 game folder",
+        "No installer to run — once the sync finishes, NinoGames uses iw3mp.exe to launch Multiplayer"
+      ]
+    },
+    {
+      "id": "cod2x",
+      "name": "CoD2x",
+      "tagline": "Call of Duty 2 multiplayer — community servers, bug fixes",
+      "gameTitle": "Call of Duty 2",
+      "sgdbTitle": "Call of Duty 2",
+      "installType": "manifest",
+      "exeHints": [
+        "cod2mp_s",
+        "cod2mp"
+      ],
+      "gameExeHints": [
+        "cod2mp_s",
+        "cod2mp"
+      ],
+      "manifestUrl": "https://github.com/CBServers/updater/raw/main/updater/cod2x.json",
+      "folderUrl": "https://github.com/CBServers/updater/raw/main/updater/cod2x/",
+      "launchExe": "CoD2MP_s.exe",
+      "sourceUrl": "https://docs.cbservers.xyz/games/cod2x",
+      "party": {
+        "port": 28960,
+        "launchMode": "devmap",
+        "devmapArgs": [
+          "+set",
+          "net_port",
+          "{port}",
+          "+set",
+          "scr_war_timelimit",
+          "{timelimit}",
+          "+set",
+          "scr_war_scorelimit",
+          "{scorelimit}",
+          "+set",
+          "sv_cracked",
+          "1",
+          "+devmap",
+          "{map}"
+        ],
+        "defaultMap": "mp_carentan",
+        "defaultTimelimit": 0,
+        "defaultScorelimit": 250,
+        "maps": [
+          {
+            "id": "mp_breakout",
+            "name": "Breakout",
+            "theme": "urban-night",
+            "image": "assets/maps/mp_breakout.jpg"
+          },
+          {
+            "id": "mp_brecourt",
+            "name": "Brecourt",
+            "theme": "forest",
+            "image": "assets/maps/mp_brecourt_co2.jpg"
+          },
+          {
+            "id": "mp_burgundy",
+            "name": "Burgundy",
+            "theme": "urban-warm",
+            "image": "assets/maps/mp_burgundy.jpg"
+          },
+          {
+            "id": "mp_carentan",
+            "name": "Carentan",
+            "theme": "urban-warm",
+            "image": "assets/maps/mp_carentan.jpg"
+          },
+          {
+            "id": "mp_dawnville",
+            "name": "Dawnville",
+            "theme": "urban",
+            "image": "assets/maps/mp_dawnville.jpg"
+          },
+          {
+            "id": "mp_decoy",
+            "name": "Decoy",
+            "theme": "snow",
+            "image": "assets/maps/mp_decoy.jpg"
+          },
+          {
+            "id": "mp_downtown",
+            "name": "Downtown",
+            "theme": "urban-night",
+            "image": "assets/maps/mp_downtown.jpg"
+          },
+          {
+            "id": "mp_farmhouse",
+            "name": "Farmhouse",
+            "theme": "forest",
+            "image": "assets/maps/mp_farmhouse.jpg"
+          },
+          {
+            "id": "mp_harbor",
+            "name": "Harbor",
+            "theme": "water",
+            "image": "assets/maps/mp_harbor.jpg"
+          },
+          {
+            "id": "mp_leningrad",
+            "name": "Leningrad",
+            "theme": "snow",
+            "image": "assets/maps/mp_leningrad.jpg"
+          },
+          {
+            "id": "mp_matmata",
+            "name": "Matmata",
+            "theme": "desert",
+            "image": "assets/maps/mp_matmata.jpg"
+          },
+          {
+            "id": "mp_railyard",
+            "name": "Railyard",
+            "theme": "industrial",
+            "image": "assets/maps/mp_railyard.jpg"
+          },
+          {
+            "id": "mp_rhine",
+            "name": "Rhine",
+            "theme": "forest",
+            "image": "assets/maps/mp_rhine.jpg"
+          },
+          {
+            "id": "mp_toujane",
+            "name": "Toujane",
+            "theme": "desert-urban",
+            "image": "assets/maps/mp_toujane.jpg"
+          },
+          {
+            "id": "mp_trainstation",
+            "name": "Train Station",
+            "theme": "industrial",
+            "image": "assets/maps/mp_trainstation.jpg"
+          }
+        ],
+        "hostArgs": [
+          "+set",
+          "dedicated",
+          "1",
+          "+set",
+          "net_port",
+          "{port}",
+          "+set",
+          "sv_cracked",
+          "1",
+          "+map_rotate"
+        ],
+        "hostClientArgs": [
+          "+connect",
+          "127.0.0.1:{port}"
+        ],
+        "joinArgs": [
+          "+connect",
+          "{ip}:{port}"
+        ]
+      },
+      "steps": [
+        "NinoGames fetches the CoD2x file manifest from CB Servers (just 2 DLL files)",
+        "mss32.dll and mss32_original.dll are dropped into your game folder",
+        "No installer needed — launch CoD2MP_s.exe to play on community servers"
+      ],
+      "registryKeys": [
+        "SOFTWARE\\Activision\\Call of Duty 2"
+      ]
+    },
+    {
+      "id": "ragecoop",
+      "name": "RageCoop",
+      "tagline": "GTA V co-op — play story missions and free roam with friends",
+      "gameTitle": "Grand Theft Auto V",
+      "sgdbTitle": "Grand Theft Auto V",
+      "installType": "steps",
+      "exeHints": [
+        "ragecoop"
+      ],
+      "gameExeHints": [
+        "PlayGTAV",
+        "GTA5",
+        "GTAV"
+      ],
+      "detectKeys": [
+        "ragecoop"
+      ],
+      "launchGameExe": true,
+      "launchExe": "GTAV.exe",
+      "sourceUrl": "https://ragecoop.com/",
+      "steps": [
+        "Downloads ScriptHookV and drops its three DLLs next to GTA5.exe",
+        "Adds ScriptHookVDotNet (nightly 110 — the build RageCoop targets)",
+        "Unpacks RageCoop+ and runs its installer",
+        "Swaps in the working Lidgren.Network build"
+      ],
+      "installSteps": [
+        {
+          "label": "ScriptHookV",
+          "type": "zip",
+          "url": "https://www.dev-c.com/files/ScriptHookV_3889.0_1158.13.zip",
+          "headers": {
+            "Referer": "https://www.dev-c.com/gtav/scripthookv/"
+          },
+          "files": {
+            "bin/dinput8.dll": "dinput8.dll",
+            "bin/ScriptHookV.dll": "ScriptHookV.dll",
+            "bin/xinput1_4.dll": "xinput1_4.dll"
+          }
+        },
+        {
+          "label": "ScriptHookVDotNet",
+          "type": "zip",
+          "url": "https://github.com/scripthookvdotnet/scripthookvdotnet-nightly/releases/download/v3.7.0-nightly.110/ScriptHookVDotNet-v3.7.0-nightly.110.zip",
+          "files": {
+            "ScriptHookVDotNet.asi": "ScriptHookVDotNet.asi",
+            "ScriptHookVDotNet.ini": "ScriptHookVDotNet.ini",
+            "ScriptHookVDotNet.pdb": "ScriptHookVDotNet.pdb",
+            "ScriptHookVDotNet2.dll": "ScriptHookVDotNet2.dll",
+            "ScriptHookVDotNet2.pdb": "ScriptHookVDotNet2.pdb",
+            "ScriptHookVDotNet3.dll": "ScriptHookVDotNet3.dll",
+            "ScriptHookVDotNet3.pdb": "ScriptHookVDotNet3.pdb"
+          }
+        },
+        {
+          "label": "RageCoop+",
+          "type": "zip",
+          "url": "https://files.gta5-mods.com/uploads/ragecoop/99e178-RageCoOp.Plus.zip",
+          "files": {
+            "Client/RageCoop.Client.dll": "RageCoop.Client.dll",
+            "Client/RageCoop.Core.dll": "RageCoop.Core.dll",
+            "Client/RageCoop.Client.Installer.exe": "RageCoop.Client.Installer.exe"
+          },
+          "dirs": {
+            "Server": "RageCoop.Server"
+          }
+        },
+        {
+          "label": "RageCoop installer",
+          "type": "run",
+          "exe": "RageCoop.Client.Installer.exe",
+          "wait": true,
+          "msg": "Follow the RageCoop installer window — pick GTA5.exe in this folder when it asks."
+        },
+        {
+          "label": "Lidgren.Network fix",
+          "type": "zip",
+          "url": "https://www.nuget.org/api/v2/package/Lidgren.Network/1.0.2",
+          "files": {
+            "lib/net451/Lidgren.Network.dll": "scripts/Lidgren.Network.dll"
+          }
+        }
+      ],
+      "uninstallFiles": [
+        "dinput8.dll",
+        "ScriptHookV.dll",
+        "xinput1_4.dll",
+        "ScriptHookVDotNet.asi",
+        "ScriptHookVDotNet.ini",
+        "ScriptHookVDotNet.pdb",
+        "ScriptHookVDotNet2.dll",
+        "ScriptHookVDotNet2.pdb",
+        "ScriptHookVDotNet3.dll",
+        "ScriptHookVDotNet3.pdb",
+        "RageCoop.Client.dll",
+        "RageCoop.Core.dll",
+        "RageCoop.Client.Installer.exe",
+        "scripts/RageCoop.Client.dll",
+        "scripts/RageCoop.Core.dll",
+        "scripts/Lidgren.Network.dll"
+      ],
+      "party": {
+        "port": 4499,
+        "mode": "preset",
+        "presetFile": "Scripts/RageCoop/Data/RageCoop.Client.Settings.xml",
+        "presetRoot": "Settings",
+        "presetField": "LastServerAddress",
+        "presetValue": "{ip}:{port}",
+        "joinHint": "Press F9 in game, then Connect — the host address is already filled in.",
+        "serverDir": "RageCoop.Server",
+        "serverExe": "RageCoop.Server.exe",
+        "serverSettingsFile": "Settings.xml",
+        "serverWarmupMs": 6000,
+        "serverSettings": {
+          "Port": "{port}",
+          "KickSpamming": "false",
+          "KickGodMode": "false",
+          "AnnounceSelf": "false",
+          "UseZeroTier": "false",
+          "AutoUpdate": "false"
+        },
+        "hostHint": "Server is up. Press F9 in game and hit Connect — the address is already filled in.",
+        "serverFields": [
+          {
+            "key": "MaxPlayers",
+            "label": "Max players",
+            "type": "number",
+            "default": 8,
+            "min": 1,
+            "max": 50
+          },
+          {
+            "key": "NpcStreamingDistance",
+            "label": "NPC sync distance",
+            "type": "number",
+            "default": 300,
+            "min": 0,
+            "max": 1000,
+            "step": 50,
+            "hint": "Lower is smoother. 0 turns off NPC syncing entirely."
+          },
+          {
+            "key": "UseVoice",
+            "label": "Voice chat",
+            "type": "bool",
+            "default": true
+          }
+        ]
+      },
+      "uninstallDirs": [
+        "RageCoop.Server"
+      ]
+    },
+    {
+      "id": "gtac",
+      "name": "GTA Connected",
+      "tagline": "GTA IV multiplayer — server browser, scripting and free roam",
+      "gameTitle": "Grand Theft Auto IV",
+      "sgdbTitle": "Grand Theft Auto IV",
+      "installType": "gta-connected",
+      "exeHints": [
+        "Grand Theft Auto Connected",
+        "gtac",
+        "Launcher"
+      ],
+      "gameExeHints": [
+        "GTAIV",
+        "EFLC"
+      ],
+      "detectKeys": [
+        "gtac",
+        "Grand Theft Auto Connected"
+      ],
+      "installerHints": [
+        "setup",
+        "installer",
+        "install"
+      ],
+      "externalDirs": [
+        "%LOCALAPPDATA%/Jack's Mini Network/Grand Theft Auto Connected"
+      ],
+      "launchExe": "Launcher.exe",
+      "sourceUrl": "https://gtaconnected.com/",
+      "clientUrl": "https://gtaconnected.com/downloads/client/GTAC-1.8.2.zip",
+      "retailUrl": "https://wiki.gtaconnected.com/downloads/Retail-1080.zip",
+      "binkw32Url": "https://www.sts-tutorial.com/assets/images/content/download/binkw32/download/binkw32.dll%20(32-Bit).zip",
+      "downgraderUrl": "https://github.com/ClonkAndre/GTAIVDowngrader/releases/download/v2.2/IVDowngrader.v2.2.zip",
+      "downgraderExeHints": [
+        "IVDowngrader"
+      ],
+      "serverUrl": "https://gtaconnected.com/downloads/server/GTAC-Server-Win32-1.7.3.zip",
+      "serverDir": "%APPDATA%/NinoGames/gtac-server",
+      "serverExeHints": [
+        "Multi Theft Auto Server",
+        "mta-server",
+        "GTAC Server",
+        "Server"
+      ],
+      "party": {
+        "mode": "gtac",
+        "port": 22000,
+        "connectTpl": "gtac://connect/{ip}:{port}/gta:iv",
+        "serverTpl": "<!--\r\n\r\n\tPlease see https://wiki.gtaconnected.com/ServerConfiguration for a list of options and information\r\n\r\n-->\r\n\r\n<server>\r\n\t<!-- General Information -->\r\n\t<servername>Default Server</servername>\r\n\t<game>gta:iv</game>\r\n\t<gamemode>Free Roam</gamemode>\r\n\t<serverbrowser>true</serverbrowser>\r\n\t<maxplayers>{maxplayers}</maxplayers>\r\n\t<password></password>\r\n\t<minclientversion>1.7.0</minclientversion>\r\n\t<duplicatenames>false</duplicatenames>\r\n\r\n\r\n\t<!-- Networking -->\r\n\t<port>{port}</port>\r\n\t<httpport>{port}</httpport>\r\n\t<httpserver>true</httpserver>\r\n\t<streaminterval>1000</streaminterval>\r\n\t<syncinterval>30</syncinterval>\r\n\t<syncmethod>interval</syncmethod>\r\n\t<synclocalentities>true</synclocalentities>\r\n\r\n\r\n\t<!-- Element Streaming -->\r\n\t<streamindistance>200</streamindistance>\r\n\t<streamoutdistance>250</streamoutdistance>\r\n\t<pickupstreamindistance>30</pickupstreamindistance>\r\n\t<pickupstreamoutdistance>50</pickupstreamoutdistance>\r\n\r\n\r\n\t<!-- Logging -->\r\n\t<logpath>logs</logpath>\r\n\t<logtimestamp>[%d/%m/%Y - %X]</logtimestamp>\r\n\r\n\r\n\t<!-- GTA IV -->\r\n\t<!-- https://wiki.gtaconnected.com/Resources/GTAIV/GameModes -->\r\n\t<!-- https://wiki.gtaconnected.com/Resources/GTAIV/Episodes -->\r\n\t<iv_gamemode>16</iv_gamemode>\r\n\t<iv_episode>-1</iv_episode>\r\n\r\n\r\n\t<!-- Modules -->\r\n\t<!-- https://wiki.gtaconnected.com/Modules -->\r\n\t<modules>\r\n\t</modules>\r\n\r\n\r\n\t<!-- Global CVars -->\r\n\t<!-- https://wiki.gtaconnected.com/CVars -->\r\n\t<cvar name=\"traffic\" value=\"1\" />\r\n\t<cvar name=\"civilians\" value=\"1\" />\r\n\r\n\r\n\t<!-- Rules -->\r\n\t<!-- https://wiki.gtaconnected.com/ServerRules -->\r\n\t<rule name=\"Owner\" value=\"Nobody\" />\r\n\t<rule name=\"Website\" value=\"https://gtaconnected.com/\" />\r\n\r\n\r\n\t<!-- Resources -->\r\n\t<!-- https://wiki.gtaconnected.com/Resources -->\r\n\t<resources>\r\n\t\t<resource src=\"freeroam\" />\r\n\t</resources>\r\n</server>",
+        "serverFields": [
+          "maxplayers"
+        ]
+      },
+      "steps": [
+        "NinoGames downloads the GTA Connected client installer and runs it — finish the setup wizard",
+        "The GTA IV Downgrader tool runs (as administrator) — select your GTAIV.exe and downgrade to 1.0.8.0, then wait for it to finish (needed for Steam / Complete Edition installations)",
+        "Retail-1080 + binkw32.dll (32-bit) are then dropped into your GTA IV folder to finish the 1.0.8.0 setup",
+        "GTA Connected's Game EXE Path is set automatically to the retail GTAIV.exe in the new Retail folder (no need to set it manually)",
+        "Host a party: NinoGames downloads the GTAC dedicated server, lets you edit server.xml with a GUI, and everyone joins over the party LAN"
+      ]
+    }
+  ]
+}
