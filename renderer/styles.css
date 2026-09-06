@@ -5387,3 +5387,39 @@ body.theme-light-nordic .settings-select option { background: #fff; }
 .steam-card-sgdb-wrap.cover-wide img {
   object-fit: contain;
 }
+
+
+/* ── Startup update notice ──────────────────────────────────── */
+#update-toast {
+  position: fixed; right: 18px; bottom: 18px; z-index: 9000;
+  display: flex; align-items: center; gap: 11px;
+  max-width: 380px; padding: 11px 12px 11px 14px;
+  background: var(--bg-panel); color: var(--text-primary);
+  border: 1px solid var(--border); border-left: 3px solid var(--accent);
+  border-radius: 10px; box-shadow: 0 8px 28px rgba(0,0,0,.45);
+  animation: update-toast-in .28s cubic-bezier(.2,.8,.2,1);
+}
+#update-toast.hidden { display: none; }
+@keyframes update-toast-in {
+  from { opacity: 0; transform: translateY(10px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+.update-toast-icon { color: var(--accent); display: flex; flex-shrink: 0; }
+.update-toast-text { min-width: 0; flex: 1; }
+.update-toast-title { font-size: 12.5px; font-weight: 600; }
+.update-toast-sub {
+  font-size: 11px; color: var(--text-dim); margin-top: 1px;
+  overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+}
+.update-toast-btn {
+  flex-shrink: 0; padding: 5px 12px; font-family: var(--font);
+  font-size: 11.5px; font-weight: 600;
+  background: var(--accent); color: #000;
+  border: none; border-radius: 6px; cursor: pointer;
+}
+.update-toast-btn:hover { filter: brightness(1.1); }
+.update-toast-close {
+  flex-shrink: 0; background: none; border: none; cursor: pointer;
+  color: var(--text-dim); padding: 3px; border-radius: 4px; display: flex;
+}
+.update-toast-close:hover { color: var(--text-primary); }

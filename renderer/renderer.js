@@ -4391,6 +4391,55 @@ document.getElementById('sevenzip-toggle-input')?.addEventListener('change', asy
 })();
 
 
+// ── Startup update check ──────────────────────────────────────
+// The Settings page has its own banner, but nobody goes looking there, so
+// check once shortly after launch and surface it where it'll actually be
+// seen. A version the user has already dismissed stays dismissed until a
+// newer one ships.
+(function initStartupUpdateCheck() {
+  const toast = document.getElementById('update-toast');
+  if (!toast || !window.api.checkForUpdate) return;
+
+  const DISMISS_KEY = 'update-dismissed-version';
+
+  function show(latest) {
+    const titleEl = document.getElementById('update-toast-title');
+    const subEl   = document.getElementById('update-toast-sub');
+    if (titleEl) titleEl.textContent = `NinoGames v${latest.version} available`;
+    if (subEl)   subEl.textContent = latest.notes || 'Bug fixes and improvements.';
+    toast.classList.remove('hidden');
+
+    document.getElementById('update-toast-view')?.addEventListener('click', () => {
+      toast.classList.add('hidden');
+      // Settings owns the actual install button, so hand off to it.
+      navigateTo('settings');
+      setTimeout(() => {
+        document.getElementById('btn-check-update')?.click();
+        document.getElementById('update-available-banner')
+          ?.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      }, 300);
+    }, { once: true });
+
+    document.getElementById('update-toast-dismiss')?.addEventListener('click', () => {
+      toast.classList.add('hidden');
+      try { localStorage.setItem(DISMISS_KEY, latest.version); } catch {}
+    }, { once: true });
+  }
+
+  // Delayed so the check never competes with first paint or the onboarding flow.
+  setTimeout(async () => {
+    if (!document.getElementById('onboarding-overlay')?.classList.contains('hidden')) return;
+    try {
+      const res = await window.api.checkForUpdate();
+      if (!res || res.error || res.upToDate || !res.latest) return;
+      let dismissed = null;
+      try { dismissed = localStorage.getItem(DISMISS_KEY); } catch {}
+      if (dismissed === res.latest.version) return;
+      show(res.latest);
+    } catch { /* offline — silent, this is a background check */ }
+  }, 4000);
+})();
+
 // ── Game Tracking ─────────────────────────────────────────────
 (function initGameTracking() {
   // ── State ──────────────────────────────────────────────────
@@ -5188,7 +5237,7 @@ document.getElementById('sevenzip-toggle-input')?.addEventListener('change', asy
     
     // State
     let currentStep = 0;
-    const TOTAL_STEPS = 6;
+    const TOTAL_STEPS = 7;
 
     // Pending settings collected through the flow
     const pending = {
@@ -5197,6 +5246,7 @@ document.getElementById('sevenzip-toggle-input')?.addEventListener('change', asy
       theme:       localStorage.getItem('ninogames-theme') || 'dark',
       aria2:       true,
       sevenZip:    true,
+      tracking:    true,
     };
 
     // ── Show overlay ──────────────────────────────────────────────
@@ -5276,7 +5326,15 @@ document.getElementById('sevenzip-toggle-input')?.addEventListener('change', asy
   overlay.querySelector('#ob-back-4').addEventListener('click', () => gotoStep(3, true));
   overlay.querySelector('#ob-next-4').addEventListener('click', () => gotoStep(5));
 
-  // ── Step 5: Redistributables ──────────────────────────────────
+  // ── Step 5: Game Tracking ─────────────────────────────────────
+  const trackingToggle = overlay.querySelector('#ob-tracking-toggle');
+  if (trackingToggle) {
+    trackingToggle.addEventListener('change', () => { pending.tracking = trackingToggle.checked; });
+  }
+  overlay.querySelector('#ob-back-5').addEventListener('click', () => gotoStep(4, true));
+  overlay.querySelector('#ob-next-5').addEventListener('click', () => gotoStep(6));
+
+  // ── Step 6: Redistributables ──────────────────────────────────
   const redistIdleEl   = overlay.querySelector('#ob-redist-idle');
   const redistRunEl    = overlay.querySelector('#ob-redist-running');
   const redistDoneEl   = overlay.querySelector('#ob-redist-done');
@@ -5315,8 +5373,8 @@ document.getElementById('sevenzip-toggle-input')?.addEventListener('change', asy
     }
   });
 
-  overlay.querySelector('#ob-back-5').addEventListener('click', () => {
-    gotoStep(4, true);
+  overlay.querySelector('#ob-back-6').addEventListener('click', () => {
+    gotoStep(5, true);
     // Reset redist state so they can restart if they want
     redistStarted = false;
     redistBtn.disabled = false;
@@ -5332,6 +5390,7 @@ document.getElementById('sevenzip-toggle-input')?.addEventListener('change', asy
       source:          pending.source,
       aria2Enabled:    pending.aria2,
       sevenZipEnabled: pending.sevenZip,
+      gameTrackingEnabled: pending.tracking,
       onboardingComplete: true,
     };
     if (pending.installPath) settingsToSave.installPath = pending.installPath;

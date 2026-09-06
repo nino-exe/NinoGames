@@ -1531,6 +1531,21 @@
 <!-- ══════════════════════════════════════════════════════════════
      ONBOARDING OVERLAY
      ══════════════════════════════════════════════════════════════ -->
+<!-- Startup update notice -->
+<div id="update-toast" class="hidden">
+  <div class="update-toast-icon">
+    <svg width="16" height="16" viewBox="0 0 14 14" fill="none"><path d="M7 1v8M3.5 5.5L7 2l3.5 3.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><path d="M1 10v1.5A1.5 1.5 0 002.5 13h9a1.5 1.5 0 001.5-1.5V10" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+  </div>
+  <div class="update-toast-text">
+    <div class="update-toast-title" id="update-toast-title">Update available</div>
+    <div class="update-toast-sub" id="update-toast-sub"></div>
+  </div>
+  <button class="update-toast-btn" id="update-toast-view">View</button>
+  <button class="update-toast-close" id="update-toast-dismiss" aria-label="Dismiss">
+    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+  </button>
+</div>
+
 <div id="onboarding-overlay" class="hidden">
   <div id="onboarding-card">
 
@@ -1542,6 +1557,7 @@
       <span class="ob-dot" data-step="3"></span>
       <span class="ob-dot" data-step="4"></span>
       <span class="ob-dot" data-step="5"></span>
+      <span class="ob-dot" data-step="6"></span>
     </div>
 
     <!-- ── Step 0: Welcome ─────────────────────────────────── -->
@@ -1657,8 +1673,31 @@
       </div>
     </div>
 
-    <!-- ── Step 5: Redistributables ───────────────────────── -->
+    <!-- ── Step 5: Game Tracking ───────────────────────────── -->
     <div class="ob-step" id="ob-step-5">
+      <div class="ob-icon"><svg width="44" height="44" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg></div>
+      <h2 class="ob-title">Track your playtime</h2>
+      <p class="ob-body">NinoGames can record how long you play each game and when you last played it.</p>
+      <div class="ob-toggle-list">
+        <div class="ob-toggle-row">
+          <div class="ob-toggle-info">
+            <div class="ob-toggle-label">Enable Game Tracking</div>
+            <div class="ob-toggle-desc">The launcher has to stay open while you play — closing it ends the game. Turn this off if you'd rather close NinoGames after launching.</div>
+          </div>
+          <label class="toggle-switch">
+            <input type="checkbox" id="ob-tracking-toggle" checked/>
+            <span class="toggle-track"><span class="toggle-thumb"></span></span>
+          </label>
+        </div>
+      </div>
+      <div class="ob-actions ob-actions-split">
+        <button class="ob-btn-ghost" id="ob-back-5">Back</button>
+        <button class="ob-btn-primary" id="ob-next-5">Next</button>
+      </div>
+    </div>
+
+    <!-- ── Step 6: Redistributables ───────────────────────── -->
+    <div class="ob-step" id="ob-step-6">
       <div class="ob-icon"><svg width="44" height="44" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/></svg></div>
       <h2 class="ob-title">Install Redistributables</h2>
       <p class="ob-body">Many games need Visual C++ runtimes, .NET, DirectX, and more. Install them all now via <code>winget</code> — or skip and do it later in Settings.</p>
@@ -1683,7 +1722,7 @@
       </div>
 
       <div class="ob-actions ob-actions-split">
-        <button class="ob-btn-ghost" id="ob-back-5">Back</button>
+        <button class="ob-btn-ghost" id="ob-back-6">Back</button>
         <button class="ob-btn-primary" id="ob-finish">Finish Setup</button>
       </div>
       <button class="ob-skip-link" id="ob-skip-redist">Skip this step</button>
