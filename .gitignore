@@ -6,12 +6,15 @@ release/
 dist/
 out/
 
-# Bundled third-party binaries (aria2, 7-Zip, EasyTier, updater).
-# These are large and belong in a release artifact, not in git history.
+# Bundled third-party binaries. These are large (~225 MB together), are not
+# ours to redistribute, and belong in a release artifact rather than in git
+# history. See the README for where to get each one.
 resources/aria2/
 resources/7zip/
 resources/easytier/
 resources/updater/
+resources/goldberg/
+resources/yt-dlp/
 
 # Local runtime state and anything with credentials in it
 discord-rpc.json
