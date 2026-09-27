@@ -1,5 +1,5 @@
 {
-  "version": "1.1.6",
-  "notes": "Game Tracking added to onboarding, startup update notifications, library size indicator, and multiplayer fixes for CoD2x and RageCoop.",
-  "url": "https://github.com/nino-exe/NinoGames/releases/download/v1.1.6/NinoGames-update.zip"
+  "version": "1.1.7",
+  "notes": "New Big Picture mode (console-style, controller-first) and DS4 mode (DualShock 4 / DualSense as an Xbox controller, like DS4Windows).",
+  "url": "https://github.com/nino-exe/NinoGames/releases/download/v1.1.7/NinoGames-update.zip"
 }
