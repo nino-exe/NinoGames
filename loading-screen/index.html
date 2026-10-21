@@ -1,0 +1,164 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>Loading</title>
+<style>
+	html, body { margin: 0; height: 100%; background: #000; color: #ccc; font: 12px monospace; overflow: hidden; }
+	#canvas { display: block; position: absolute; left: 0; top: 0; width: 100vw; height: 100vh; background: #000; }
+	/* title screen: the game's loading screen (LOADINGSCREEN_STARTUP) on its 1280x720 stage, scaled to the window; see the script below */
+	@font-face { font-family: 'Chalet'; src: url('assets/chalet.woff') format('woff'); }
+	#loading { position: fixed; inset: 0; background: #000; overflow: hidden; transition: opacity .8s; z-index: 5; }
+	#loading.done { opacity: 0; pointer-events: none; }
+		#ls-stage { position: absolute; left: 0; top: 0; width: 1280px; height: 720px; transform-origin: 0 0; overflow: hidden; font: 12px Chalet, sans-serif; color: #fff; }
+	#ls-screens { position: absolute; inset: 0; }
+	.ls-screen { position: absolute; inset: 0; }
+	/* one camera per layer, so layers composite in display-list order like Scaleform (no depth test): 640 / tan(55 deg / 2) = 1229, Scaleform's default 3D camera
+	   at the stage centre (moved against the screen's slide, see the script) */
+	.ls-cam { position: absolute; inset: 0; perspective: 1229px; perspective-origin: 640px 360px; }
+	.ls-layer { position: absolute; left: 0; top: 0; transform-origin: 0 0; background-size: 100% 100%; }
+	#ls-logo { position: absolute; left: 95px; top: 492.5px; width: 186px; height: 186px; }
+	#ls-bars { position: absolute; right: 96px; top: 642px; display: flex; gap: 3px; }
+	.ls-bar { height: 24px; padding: 0 6px; display: flex; align-items: center; background: rgba(0, 0, 0, .706); border-radius: 2.4px; white-space: nowrap; }
+	#modes { gap: 8px; }
+	#modes button { display: flex; align-items: center; height: 24px; padding: 0; border: 0; background: none; color: #fff; font: 12px Chalet, sans-serif; cursor: pointer; }
+	#modes button:disabled { cursor: default; }
+	#modes button[hidden] { display: none; }
+	#modes.ask button:not(:disabled) .ls-key { animation: ls-ask 1.2s ease-in-out infinite; }
+	@keyframes ls-ask { 50% { opacity: .35; } }
+	.ls-key { margin-left: 4px; min-width: 12px; height: 15px; padding: 0 4px; line-height: 16px; border-radius: 2px; background: #fff; color: #000; font-size: 10px; text-transform: uppercase; }
+	.ls-spin { flex: none; width: 22px; height: 22px; margin-left: 2px; background: url('assets/spinner.png') center / 24px 24px no-repeat; animation: ls-spin 2s steps(60) infinite; }
+	@keyframes ls-spin { from { transform: rotate(0deg) scaleX(-1); } to { transform: rotate(-360deg) scaleX(-1); } }
+	#label { text-shadow: .85px .85px 1px rgba(0, 0, 0, .45); }
+	#pct { margin-left: 15px; font-variant-numeric: tabular-nums; }
+	/* kept for now: the port's progress bar along the bottom edge, the newest log line centred above it and the data downloaded above that */
+	#ls-log { position: absolute; left: 8px; right: 8px; bottom: 6px; flex-direction: column; align-items: center; font: 10px/1.35 Consolas, monospace; color: rgba(190, 190, 190, .75); text-shadow: 0 0 2px #000, 1px 1px 1px #000; white-space: pre; pointer-events: none; }
+	#ls-log.show { display: flex; }
+	#bar.show { display: block; }
+	#console { max-width: 100%; overflow: hidden; text-overflow: ellipsis; }
+	#data { color: #6a9; }
+	#bar { position: absolute; left: 0; right: 0; bottom: 0; height: 3px; background: rgba(255, 255, 255, .08); }
+	#fill { height: 100%; width: 0; background: #7cc576; }
+	#hud { position: fixed; left: 8px; bottom: 8px; max-width: 60vw; white-space: pre-wrap; opacity: .8; pointer-events: none; }
+	#fps { position: fixed; left: 8px; top: 6px; display: none; color: #0f0; font: bold 18px/1.2 Consolas, monospace; font-variant-numeric: tabular-nums; text-shadow: 1px 1px 2px #000, 0 0 3px #000; pointer-events: none; z-index: 10; }
+
+	#loading { transition: none; }
+</style>
+</head>
+<body>
+<div id="loading"><div id="ls-stage"><div id="ls-screens"></div><img id="ls-logo" src="assets/logo.png" alt=""><div id="ls-bars"><div class="ls-bar"><span id="label">Loading Story Mode</span><i class="ls-spin"></i></div></div></div></div>
+<script>
+let stopTitle = () => {};
+{
+	const stage = document.getElementById('ls-stage'), holder = document.getElementById('ls-screens');
+	const fit = () => {
+		const s = Math.min(innerWidth / 1280, innerHeight / 720);
+		stage.style.transform = 'translate(' + (innerWidth - 1280 * s) / 2 + 'px,' + (innerHeight - 720 * s) / 2 + 'px) scale(' + s + ')';
+	};
+	fit();
+	addEventListener('resize', fit);
+	const L = (tex, w, h, x, y, yr, to) => ({ tex, w, h, x, y, yr, to });
+	const BG = (n, yr, to, x = 98) => L('ls' + n + '_background', 1024, 512, x, 95, yr, to);
+	const FG = (n, name, w, h, x, y, toX, yr = 0) => L('ls' + n + '_' + name, w, h, x, y, yr, { x: toX });
+	const SCREENS = [		// the movie's loadingScreens array: setup (size, position, _yrotation) and tweenTo of every layer, bottom to top
+		[L('beach_bg', 1024, 512, 98, 95, 20, { yr: -6, xr: 5 }), L('beach_fg', 390, 629, 456, 95, 0, { x: 696 })],
+		null,		// loadingscreen_builtin1 (Frisk): its symbols are not in this build's movie, and no order uses it
+		[BG(0, 7, { yr: -7 }), FG(0, 'foreground', 299, 599, 360, 140, 560, 7)],
+		[BG(1, 6, { yr: -12 }), FG(1, 'foreground', 503, 206, 300, 465, 480), FG(1, 'foreground_franklin', 368, 588, 440, 140, 745)],
+		[BG(2, 7, { yr: -5, xr: 5 }), FG(2, 'foreground', 311, 558, 745, 200, 450), FG(2, 'foreground_chop', 320, 512, 640, 260, 310)],
+		[BG(3, 12, { yr: -4 }, 110), FG(3, 'foreground', 412, 609, 440, 120, 730)],		// its foreground_car is an "isInFla" layer missing from the movie: the game shows no car
+		[BG(4, 7, { yr: -4, xr: 5 }), FG(4, 'foreground', 251, 643, 400, 85, 250)],
+		[BG(5, 7, { yr: -6 }), FG(5, 'foreground', 389, 640, 450, 95, 700)],
+		[BG(6, 7, { yr: 0, xr: 5 }), FG(6, 'foreground', 367, 603, 410, 115, 800)],
+		[BG(7, 6, { yr: -6, xr: 5 }), FG(7, 'foreground', 311, 625, 860, 95, 520)],
+		[BG(8, 7, { yr: -5, xr: 5 }), FG(8, 'foreground', 492, 497, 400, 190, 660)],
+		[BG(9, 7, { yr: -3, xr: 5 }), FG(9, 'foreground', 331, 675, 220, 50, 140)],
+		[BG(10, 6, { yr: -5, xr: 5 }), FG(10, 'foreground', 352, 682, 545, 65, 485)],
+		[BG(11, 7, { yr: -3, xr: 5 }), FG(11, 'foreground', 344, 669, 309, 51, 424)],
+		[BG(12, 6, { yr: -4 }), FG(12, 'foreground_michael', 462, 677, 345, 42, 220)],
+		[BG(13, 5, { yr: -6, xr: 5 }), FG(13, 'foreground', 399, 681, 430, 39, 250)],
+		[BG(14, 6, { yr: -2, xr: 5 }), FG(14, 'foreground', 392, 631, 650, 95, 850)],
+		[BG(15, 6, { yr: -3, xr: 5 }), FG(15, 'foreground', 385, 642, 404, 78, 261)],
+		[BG(16, 6, { yr: -3, xr: 5 }), FG(16, 'foreground', 300, 600, 300, 150, 400)],
+	];
+	const ORDERS = [[0, 16, 18, 3, 12, 2, 17, 10, 9, 8, 15, 6, 11, 14, 4, 7, 13], [0, 4, 6, 17, 11, 16, 18, 7, 9, 15, 3, 14, 10, 13, 2, 8, 12],
+		[0, 7, 16, 14, 13, 3, 10, 2, 15, 18, 8, 9, 4, 17, 12, 6, 11], [0, 8, 18, 9, 13, 4, 11, 14, 7, 17, 6, 12, 3, 16, 2, 15, 10],
+		[0, 11, 12, 7, 18, 14, 9, 13, 4, 2, 15, 11, 8, 16, 6, 3, 17], [0, 10, 16, 2, 13, 17, 8, 9, 18, 3, 12, 6, 7, 4, 14, 15, 10]];
+	const order = ORDERS[Math.floor(Math.random() * ORDERS.length)];
+	const cubicInOut = (t) => (t < 0.5 ? 4 * t * t * t : 1 - Math.pow(2 - 2 * t, 3) / 2);		// TweenStar Cubic.easeInOut
+	// the screen's horizontal position; its layers' cameras stay at the stage centre (Scaleform's camera does not move with the clip)
+	const slide = (s, x) => {
+		s.el.style.transform = 'translateX(' + x + 'px)';
+		for (const c of s.cams) c.style.perspectiveOrigin = (640 - x) + 'px 360px';
+	};
+	const place = (l, x, yr, xr) => { l.el.style.transform = 'translate3d(' + x + 'px,' + l.y + 'px,0) rotateY(' + -yr + 'deg) rotateX(' + -xr + 'deg)'; };
+	// a screen's images, decoded before it may show (the movie waits for its texture dictionary the same way)
+	const prepare = (i) => {
+		const layers = SCREENS[order[i]].map((d) => ({ ...d, img: Object.assign(new Image(), { src: 'assets/art/' + d.tex + '.webp' }) }));
+		return Promise.all(layers.map((l) => l.img.decode().catch(() => {}))).then(() => layers);
+	};
+	let active = null, leaving = null, index = 0, alt = -1, timer = 0, raf = 0, stopped = false;
+	const show = (defs) => {
+		const now = performance.now();
+		alt = alt <= 0 ? 1 : -1;		// updateScreenIndex: the side alternates
+		const el = document.createElement('div');
+		el.className = 'ls-screen';
+		const cams = [];
+		const s = { el, slideFrom: alt * 1280, start: now, settled: 0, cams, layers: defs.map((d) => {
+			const cam = document.createElement('div'), e = document.createElement('div');
+			cam.className = 'ls-cam';
+			e.className = 'ls-layer';
+			e.style.width = d.w + 'px'; e.style.height = d.h + 'px';
+			e.style.backgroundImage = 'url(' + d.img.src + ')';
+			cam.appendChild(e);
+			el.appendChild(cam);
+			cams.push(cam);
+			return { el: e, y: d.y, x0: d.x, yr0: d.yr, xr0: 0, x1: d.to.x ?? d.x, yr1: d.to.yr ?? d.yr, xr1: d.to.xr ?? 0 };
+		}) };
+		for (const l of s.layers) place(l, l.x0, l.yr0, l.xr0);
+		slide(s, s.slideFrom);
+		holder.appendChild(el);		// above the screen that leaves
+		if (leaving) leaving.el.remove();
+		leaving = active;
+		if (leaving) { leaving.slideFrom = 0; leaving.slideTo = -alt * 1280; leaving.start = now; }
+		active = s;
+		s.slideTo = 0;
+	};
+	const tick = (now) => {
+		for (const s of [leaving, active]) {
+			if (!s) continue;
+			const p = Math.min(1, (now - s.start) / 850);
+			if (p < 1 || !s.slid) { slide(s, s.slideFrom + (s.slideTo - s.slideFrom) * cubicInOut(p)); s.slid = p === 1; }
+			if (s === active && p === 1 && !s.settled) s.settled = now;		// loadscreenIsSettled: the layers start their 42 s tweens
+			if (s.settled) {
+				const q = Math.min(1, (now - s.settled) / 42000);
+				for (const l of s.layers) place(l, l.x0 + (l.x1 - l.x0) * q, l.yr0 + (l.yr1 - l.yr0) * q, l.xr0 + (l.xr1 - l.xr0) * q);
+			}
+			if (s === leaving && p === 1) { s.el.remove(); leaving = null; }
+		}
+		if (!stopped) raf = requestAnimationFrame(tick);
+	};
+	let next = prepare(0);
+	const cycle = () => next.then((defs) => {
+		if (stopped) return;
+		show(defs);
+		index = (index + 1) % order.length;
+		next = prepare(index);
+		timer = setTimeout(cycle, 14000);		// timerDuration
+	});
+	timer = setTimeout(cycle, 500);
+	raf = requestAnimationFrame(tick);
+	stopTitle = () => { stopped = true; clearTimeout(timer); cancelAnimationFrame(raf); };
+}
+
+// the loading song: starts at once if the browser allows it, otherwise with the first click or key
+{
+	const music = new Audio('assets/loading_music.m4a');
+	music.loop = true;
+	const start = () => music.play().then(() => { removeEventListener('pointerdown', start); removeEventListener('keydown', start); }, () => {});
+	addEventListener('pointerdown', start); addEventListener('keydown', start);
+	start();
+}
+</script>
+</body>
+</html>
