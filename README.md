@@ -57,7 +57,7 @@ game usually means editing that file rather than touching `main.js`.
 Requires **Node.js 18+** and Windows.
 
 ```bash
-git clone https://github.com/YOUR_USERNAME/NinoGames.git
+git clone https://github.com/nino-exe/NinoGames.git
 cd NinoGames
 npm install
 npm start
